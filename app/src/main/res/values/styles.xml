@@ -1,0 +1,73 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Base application theme. -->
+    <style name="Theme.ExRates" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <item name="android:textColorPrimary">@color/textColorPrimary</item>
+    </style>
+    <style name="Theme.ExRates.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Widget.ExRates.Button" parent="Widget.MaterialComponents.Button">
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+        <item name="backgroundTint">?attr/colorPrimaryDark</item>
+        <item name="android:stateListAnimator" >
+            @animator/er_next_button_state_list_anim
+        </item>
+    </style>
+
+    <style name="Widget.ExRates.Button.TextButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+    </style>
+
+    <style name="Widget.ExRates.Toolbar" parent="Widget.AppCompat.Toolbar">
+        <item name="android:background">?attr/colorAccent</item>
+        <item name="android:theme">@style/Theme.ExRates</item>
+        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+        <item name="titleTextAppearance">@style/TextAppearance.ExRates.Toolbar</item>
+    </style>
+
+    <style name="TextAppearance.ExRates.Toolbar" parent="TextAppearance.MaterialComponents.Button">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="Widget.ExRates.Backdrop" parent="">
+        <item name="android:background">?attr/colorAccent</item>
+    </style>
+
+    <style name="Widget.ExRates.DatePicker" parent="BetterPickersRadialTimePickerDialog.Light">
+        <item name="bpPreHeaderBackgroundColor">@color/colorPrimaryDark</item>
+        <item name="bpHeaderBackgroundColor">@color/colorPrimary</item>
+        <item name="bpHeaderSelectedTextColor">@android:color/white</item>
+        <item name="bpHeaderUnselectedTextColor">@android:color/white</item>
+
+        <item name="bpBodyBackgroundColor">@color/scrollViewBackgroundColor</item>
+        <item name="bpBodySelectedTextColor">@color/colorPrimary</item>
+        <item name="bpBodyUnselectedTextColor">@color/textDarkGrey</item>
+
+        <item name="bpRadialBackgroundColor">@color/colorPrimary</item>
+        <item name="bpRadialTextColor">@android:color/white</item>
+        <item name="bpRadialPointerColor">@color/textDarkGrey</item>
+
+        <item name="bpButtonsBackgroundColor">@color/scrollViewBackgroundColor</item>
+        <item name="bpButtonsTextColor">@android:color/white</item>
+    </style>
+
+    <style name="Widget.ExRates.HideHint" parent="TextAppearance.Design.Hint">
+        <item name="android:textSize">0sp</item>
+    </style>
+
+    <style name="Widget.ExRates.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:textColor">@color/textDarkGrey</item>
+        <item name="boxStrokeColor">@color/text_layout_border_color</item>
+        <item name="colorControlNormal">@color/textColorPrimary</item>
+        <item name="colorControlActivated">@color/textColorPrimary</item>
+        <item name="colorControlHighlight">@color/textColorPrimary</item>
+    </style>
+</resources>

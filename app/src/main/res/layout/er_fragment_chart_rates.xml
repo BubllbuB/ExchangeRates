@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View"/>
+        <variable
+                name="chartViewModel"
+                type="com.bubllbub.exchangerates.viewmodels.ChartsViewModel"
+                />
+    </data>
+
+    <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            tools:context=".views.fragments.CurrentRatesFragment">
+
+        <LinearLayout
+                style="@style/Widget.ExRates.Backdrop"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingTop="88dp">
+
+            <include layout="@layout/er_backdrop"/>
+        </LinearLayout>
+
+        <com.google.android.material.appbar.AppBarLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:elevation="0dp">
+
+            <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/app_bar_chart"
+                    style="@style/Widget.ExRates.Toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:paddingStart="12dp"
+                    android:paddingLeft="12dp"
+                    android:paddingEnd="12dp"
+                    android:paddingRight="12dp"
+                    app:contentInsetStart="0dp"
+                    app:navigationIcon="@drawable/er_branded_menu"
+                    app:title="@string/er_app_name"/>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
+                android:id="@+id/scroll_view_fragment_second"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="56dp"
+                android:background="@color/scrollViewBackgroundColor"
+                android:elevation="8dp"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center|center"
+                    android:orientation="vertical"
+            >
+                <com.jaredrummler.materialspinner.MaterialSpinner
+                        android:id="@+id/chartSpinner"
+                        android:layout_width="300dp"
+                        android:layout_height="48dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:drawableStart="@mipmap/currency_symbol_usd"
+                        android:drawablePadding="8dp"
+                        app:ms_padding_left="8dp"
+                        app:ms_padding_right="8dp"
+                        app:ms_arrow_tint="@color/colorAccent"
+                        app:ms_text_color="@color/colorAccent"
+                        android:textSize="14sp"/>
+                <com.google.android.material.button.MaterialButtonToggleGroup
+                        android:id="@+id/toggle_button_group"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/chartSpinner"
+                        app:singleSelection="true">
+
+                    <com.google.android.material.button.MaterialButton
+                            android:id="@+id/button3Months"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:strokeColor="@color/colorAccent"
+                            android:textColor="@color/colorAccent"
+                            android:text="3 months" />
+
+                    <com.google.android.material.button.MaterialButton
+                            android:id="@+id/button6Months"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:strokeColor="@color/colorAccent"
+                            android:textColor="@color/colorAccent"
+                            android:text="6 months" />
+
+                    <com.google.android.material.button.MaterialButton
+                            android:id="@+id/button12Months"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:strokeColor="@color/colorAccent"
+                            android:textColor="@color/colorAccent"
+                            android:text="12 months" />
+                </com.google.android.material.button.MaterialButtonToggleGroup>
+
+                <com.github.mikephil.charting.charts.LineChart
+                        android:id="@+id/chartLines"
+                        android:layout_width="match_parent"
+                        android:layout_height="400dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/toggle_button_group"
+                        android:setLinesData="@{chartViewModel.currencies}"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </FrameLayout>
+</layout>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <com.google.android.material.button.MaterialButton
+            style="@style/Widget.ExRates.Button.TextButton"
+            android:id="@+id/menuFragmentCurrentRates"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Current rates" />
+
+    <com.google.android.material.button.MaterialButton
+            style="@style/Widget.ExRates.Button.TextButton"
+            android:id="@+id/menuFragmentChartRates"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chart" />
+
+    <com.google.android.material.button.MaterialButton
+            style="@style/Widget.ExRates.Button.TextButton"
+            android:id="@+id/menuFragmentRateOnDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rate on date" />
+
+    <com.google.android.material.button.MaterialButton
+            style="@style/Widget.ExRates.Button.TextButton"
+            android:id="@+id/menuFragmentIngots"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ingots" />
+
+    <View
+            android:layout_width="56dp"
+            android:layout_height="1dp"
+            android:layout_margin="16dp"
+            android:background="?android:attr/textColorPrimary" />
+
+    <com.google.android.material.button.MaterialButton
+            style="@style/Widget.ExRates.Button.TextButton"
+            android:id="@+id/menuFragmentCalculator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Converter" />
+
+    <com.google.android.material.button.MaterialButton
+            style="@style/Widget.ExRates.Button.TextButton"
+            android:id="@+id/menuFragmentAbout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="About" />
+</merge>

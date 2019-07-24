@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="currencies">
+        <item>USD (Доллар США)</item>
+        <item>EUR (Евро)</item>
+        <item>RUB (Российский рубль)</item>
+        <item>UAH (Гривна)</item>
+    </string-array>
+</resources>

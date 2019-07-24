@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <color name="colorPrimary">#009688</color>
+    <color name="colorPrimaryDark">#00695c</color>
+    <color name="colorAccent">#009688</color>
+    <color name="textColorPrimary">#ffffff</color>
+    <color name="toolbarIconColor">@color/textColorPrimary</color>
+    <color name="scrollViewBackgroundColor">#FFFBFA</color>
+    <color name="textDarkGrey">#333333</color>
+    <color name="deleteItemColor">#fa315b</color>
+    //Calendar
+    <color tools:override="true" name="date_picker_text_normal">#ffffff</color>
+    <color tools:override="true" name="bpDarker_blue">#ffffff</color>
+</resources>

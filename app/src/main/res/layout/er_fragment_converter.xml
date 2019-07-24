@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View"/>
+        <variable
+                name="converterViewModel"
+                type="com.bubllbub.exchangerates.viewmodels.ConverterViewModel"
+                />
+    </data>
+
+    <FrameLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent"
+                 android:clipChildren="false"
+                 android:clipToPadding="false"
+                 tools:context=".views.fragments.CurrentRatesFragment">
+
+        <LinearLayout
+                style="@style/Widget.ExRates.Backdrop"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingTop="88dp">
+
+            <include layout="@layout/er_backdrop"/>
+        </LinearLayout>
+
+        <com.google.android.material.appbar.AppBarLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:elevation="0dp">
+
+            <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/app_bar_converter"
+                    style="@style/Widget.ExRates.Toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:paddingStart="12dp"
+                    android:paddingLeft="12dp"
+                    android:paddingEnd="12dp"
+                    android:paddingRight="12dp"
+                    app:contentInsetStart="0dp"
+                    app:navigationIcon="@drawable/er_branded_menu"
+                    app:title="@string/er_app_name"/>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
+                android:id="@+id/scroll_view_fragment_converter"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="56dp"
+                android:background="@color/scrollViewBackgroundColor"
+                android:elevation="8dp"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingTop="42dp"
+                    >
+
+                <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_converter"
+                        android:layout_width="match_parent"
+                        android:layout_height="500dp"
+                        android:visibility="@{converterViewModel.isLoading ? View.GONE : View.VISIBLE}"
+                        tools:listitem="@layout/rv_item_converter"/>
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </FrameLayout>
+</layout>
