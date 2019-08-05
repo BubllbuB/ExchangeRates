@@ -13,7 +13,6 @@ import com.bubllbub.exchangerates.databinding.ErFragmentCurrentRatesBinding
 import com.bubllbub.exchangerates.dialogs.AddCurrencyDialog
 import com.bubllbub.exchangerates.dialogs.TAG_FAVORITES
 import com.bubllbub.exchangerates.objects.Currency
-import com.bubllbub.exchangerates.objects.CurrencyFavorite
 import com.bubllbub.exchangerates.recyclerview.SwipeDeleteHelper
 import com.bubllbub.exchangerates.viewmodels.CurrentRatesViewModel
 import kotlinx.android.synthetic.main.er_fragment_current_rates.view.*
@@ -49,11 +48,11 @@ class CurrentRatesFragment : BackDropFragment() {
                 binding.scrollViewFragmentFirst,
                 object: SwipeDeleteHelper.SwipeDeleteCallback {
                     override fun onDeleteFromSwipe(currency: Currency) {
-                        binding.currentRatesViewModel?.deleteFavCurrency(CurrencyFavorite(currency = currency), requireContext())
+                        binding.currentRatesViewModel?.deleteFavCurrency(currency)
                     }
 
                     override fun onRestoreFromSwipe(currency: Currency) {
-                        binding.currentRatesViewModel?.insertFavCurrency(CurrencyFavorite(currency = currency), requireContext())
+                        binding.currentRatesViewModel?.insertFavCurrency(currency)
                     }
                 }
             )
@@ -65,7 +64,6 @@ class CurrentRatesFragment : BackDropFragment() {
                 it?.let { adapter.replaceData(it) } }
         )
 
-
         val view = binding.root
         setBackDrop(view.app_bar, view.scroll_view_fragment_first)
         return view
@@ -73,8 +71,7 @@ class CurrentRatesFragment : BackDropFragment() {
 
     override fun onStart() {
         super.onStart()
-
-        binding.currentRatesViewModel?.getFavorites(requireContext())
+        binding.currentRatesViewModel?.getFavorites()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

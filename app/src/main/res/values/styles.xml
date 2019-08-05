@@ -18,7 +18,7 @@
         <item name="android:textColor">?android:attr/textColorPrimary</item>
         <item name="backgroundTint">?attr/colorPrimaryDark</item>
         <item name="android:stateListAnimator" >
-            @animator/er_next_button_state_list_anim
+            @anim/er_next_button_state_list_anim
         </item>
     </style>
 

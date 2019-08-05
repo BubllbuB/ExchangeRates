@@ -1,7 +1,10 @@
-package com.bubllbub.exchangerates.models.room
+package com.bubllbub.exchangerates.models.room.roomDatas
 
 import com.bubllbub.exchangerates.models.DataSource
+import com.bubllbub.exchangerates.models.Repository
+import com.bubllbub.exchangerates.models.room.RoomData.sqlNotIn
 import com.bubllbub.exchangerates.models.room.RoomData.sqlWhere
+import com.bubllbub.exchangerates.models.room.daos.CurrencyDao
 import com.bubllbub.exchangerates.objects.Currency
 import io.reactivex.Completable
 import io.reactivex.Flowable
@@ -15,11 +18,16 @@ class CurrencyRoomData(private val dao: CurrencyDao) : DataSource<Currency> {
     }
 
     override fun getAll(query: DataSource.Query<Currency>): Flowable<List<Currency>> {
-        return dao.rawQuery(sqlWhere(tableName, query.params))
+        return when {
+            (query.has(Repository.DIALOG_CUR) && query.has(Repository.CUR_ID)) -> {
+                dao.rawQuery(sqlNotIn(tableName, query.params))
+            }
+            else -> dao.rawQuery(sqlWhere(tableName, query.params))
+        }
     }
 
     override fun get(query: DataSource.Query<Currency>): Observable<Currency> {
-        return dao.getWithQuery(sqlWhere(tableName, query.params))
+        return dao.getWithQuery(sqlWhere(tableName, query.params)).toObservable()
     }
 
     override fun save(item: Currency): Completable {

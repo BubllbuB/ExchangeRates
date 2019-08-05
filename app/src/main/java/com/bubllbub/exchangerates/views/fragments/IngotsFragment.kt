@@ -29,13 +29,12 @@ class IngotsFragment : BackDropFragment() {
         binding.rvIngots.layoutManager = LinearLayoutManager(requireContext())
         val adapter = IngotsRecyclerAdapter(arrayListOf(), object: IngotsRecyclerAdapter.OnItemClickListener{
             override fun onItemClick(position: Int) {
-
             }
         })
         binding.rvIngots.adapter = adapter
 
         viewModel.ingots.observe(this,
-            Observer<ArrayList<Ingot>> { it?.let{ adapter.replaceData(it)} })
+            Observer<List<Ingot>> { it?.let{ adapter.replaceData(it)} })
 
 
         val view = binding.root

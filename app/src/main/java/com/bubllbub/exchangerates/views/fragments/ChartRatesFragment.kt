@@ -8,11 +8,14 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.bubllbub.exchangerates.R
 import com.bubllbub.exchangerates.adapters.SpinnerImageAdapter
 import com.bubllbub.exchangerates.databinding.ErFragmentChartRatesBinding
+import com.bubllbub.exchangerates.enums.CurrencyRes
 import com.bubllbub.exchangerates.extensions.setCurrencyLeftIcon
+import com.bubllbub.exchangerates.objects.Currency
 import com.bubllbub.exchangerates.viewmodels.ChartsViewModel
 import com.google.android.material.button.MaterialButton
 import kotlinx.android.synthetic.main.er_fragment_chart_rates.view.*
@@ -23,6 +26,8 @@ class ChartRatesFragment : BackDropFragment() {
     private lateinit var binding: ErFragmentChartRatesBinding
     private val finishDate = Date()
     private val startDate = Date()
+    private var currentId = 145
+    private var currentAbbreviation = "USD"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -43,9 +48,7 @@ class ChartRatesFragment : BackDropFragment() {
     }
 
     private fun refreshChartDate() {
-        val currencyName =
-            binding.chartSpinner.text.toString().substringAfterLast("(").substringBefore(')')
-        binding.chartViewModel?.refresh(currencyName, startDate, finishDate)
+        binding.chartViewModel?.refresh(currentId, currentAbbreviation, startDate, finishDate)
     }
 
     private fun setupForDates(amountMonths: Int) {
@@ -87,13 +90,21 @@ class ChartRatesFragment : BackDropFragment() {
     }
 
     private fun initSpinner() {
-        val items = arrayListOf<String>()
-        items.addAll(resources.getStringArray(R.array.currencies))
+        binding.chartViewModel?.getActualList()
 
-        val adapter = SpinnerImageAdapter(requireContext(), items)
+        binding.chartViewModel?.currencies?.observe(this,
+            Observer<List<Currency>> { currencies ->
+                currencies?.let { list ->
+                    val sortedList = list.sortedBy { CurrencyRes.valueOf(it.curAbbreviation).ordinal }
 
-        binding.chartSpinner.setAdapter(adapter)
-        binding.chartSpinner.setCurrencyLeftIcon(items[0])
+                    val adapter = SpinnerImageAdapter(requireContext(), sortedList)
+                    binding.chartSpinner.setAdapter(adapter)
+                    binding.chartSpinner.setCurrencyLeftIcon(sortedList[0].curAbbreviation)
+                    currentId = sortedList[0].curId
+                    currentAbbreviation = sortedList[0].curAbbreviation
+                    refreshChartDate()
+                }
+            })
         binding.chartSpinner.background =
             ResourcesCompat.getDrawable(resources, R.drawable.spinner_bg, null)
         binding.chartSpinner.elevation = 0f
@@ -115,7 +126,9 @@ class ChartRatesFragment : BackDropFragment() {
         }
         binding.chartSpinner.setOnItemSelectedListener { view, position, id, item ->
             view.background = ResourcesCompat.getDrawable(resources, R.drawable.spinner_bg, null)
-            view.setCurrencyLeftIcon(item.toString())
+            view.setCurrencyLeftIcon((item as Currency).curAbbreviation)
+            currentId = item.curId
+            currentAbbreviation = item.curAbbreviation
             refreshChartDate()
         }
     }

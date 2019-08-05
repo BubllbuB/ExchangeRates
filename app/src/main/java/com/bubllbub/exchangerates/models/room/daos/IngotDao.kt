@@ -1,4 +1,4 @@
-package com.bubllbub.exchangerates.models.room
+package com.bubllbub.exchangerates.models.room.daos
 
 import androidx.room.*
 import androidx.sqlite.db.SupportSQLiteQuery

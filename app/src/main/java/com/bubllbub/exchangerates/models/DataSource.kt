@@ -18,6 +18,10 @@ interface DataSource<T : Any> {
 
     fun delete(item: T): Completable
 
+    fun query(): Query<T> {
+        return Query(this)
+    }
+
     class Query<T : Any> constructor(private val dataSource: DataSource<T>) {
 
         val params: MutableMap<String, String> = mutableMapOf()
@@ -39,10 +43,8 @@ interface DataSource<T : Any> {
             return dataSource.getAll(this)
         }
 
-        fun findFirst(): Flowable<T> {
-            return dataSource.getAll(this)
-                .filter { it.isNotEmpty() }
-                .map { it.first() }
+        fun findOne(): Observable<T> {
+            return dataSource.get(this)
         }
     }
 }

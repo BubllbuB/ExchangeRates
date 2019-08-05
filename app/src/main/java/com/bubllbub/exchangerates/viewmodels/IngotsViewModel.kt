@@ -5,26 +5,25 @@ import android.util.Log
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.bubllbub.exchangerates.models.retrofit.APIIngotModel
+import com.bubllbub.exchangerates.models.Repository
 import com.bubllbub.exchangerates.objects.Ingot
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.observers.DisposableObserver
 import io.reactivex.schedulers.Schedulers
+import io.reactivex.subscribers.DisposableSubscriber
 
 class IngotsViewModel : ViewModel() {
-    var ingotModel: APIIngotModel =
-        APIIngotModel()
-    var ingots = MutableLiveData<ArrayList<Ingot>>()
+    var ingots = MutableLiveData<List<Ingot>>()
     var isLoading = ObservableField(true)
     private val compositeDisposable = CompositeDisposable()
+    private val ingotRepo = Repository.of<Ingot>()
 
     fun refresh() {
         compositeDisposable.add(
-            ingotModel.getIngotsList()
+            ingotRepo.getAll()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(object : DisposableObserver<ArrayList<Ingot>>() {
+                .subscribeWith(object : DisposableSubscriber<List<Ingot>>() {
                     override fun onComplete() {
                         Log.d(ContentValues.TAG, "[onCompleted] ")
                     }
@@ -34,7 +33,7 @@ class IngotsViewModel : ViewModel() {
                         t.printStackTrace()
                     }
 
-                    override fun onNext(m: ArrayList<Ingot>) {
+                    override fun onNext(m: List<Ingot>) {
                         ingots.value = m
                         isLoading.set(false)
                         Log.d(ContentValues.TAG, "[onNext] " + m.toString())

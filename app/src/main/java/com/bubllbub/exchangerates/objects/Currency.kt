@@ -49,8 +49,15 @@ data class Currency(
     @SerializedName("Cur_Scale")
     @Expose
     var scale: Int = 0,
-    @Ignore
     var symbol: Int = 0,
     @Ignore
-    var calcAmount: Double = 0.0
-)
+    var calcAmount: Double = 0.0,
+    var isConverter: Boolean = false,
+    var isFavorite: Boolean = false,
+    var converterPos: Int = 0,
+    var favoritePos: Int = 0
+) {
+    override fun toString(): String {
+        return "$curAbbreviation ($curName)"
+    }
+}

@@ -1,9 +1,6 @@
 package com.bubllbub.exchangerates.objects
 
-import androidx.room.Entity
-import androidx.room.Ignore
-import androidx.room.PrimaryKey
-import androidx.room.TypeConverters
+import androidx.room.*
 import com.bubllbub.exchangerates.models.room.RoomDateConverter
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
@@ -12,9 +9,11 @@ import java.util.*
 @Entity(tableName = "ingots")
 @TypeConverters(RoomDateConverter::class)
 data class Ingot(
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "idIngot")
+    var id: Int = 0,
     @SerializedName("Id")
     @Expose
-    @PrimaryKey
     var ingotId: Int = 0,
     @SerializedName("Name")
     @Expose
@@ -40,6 +39,7 @@ data class Ingot(
     @SerializedName("Nominal")
     @Expose
     var nominal: Int = 0,
+    var symbol: Int = 0,
     @Ignore
-    var symbol: Int = 0
+    var rates: List<Ingot> = listOf()
 )

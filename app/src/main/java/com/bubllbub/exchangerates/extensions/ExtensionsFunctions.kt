@@ -4,7 +4,7 @@ import android.widget.TextView
 import com.bubllbub.exchangerates.enums.CurrencyRes
 
 fun TextView.setCurrencyLeftIcon(abbreviation: String) {
-    val icon = CurrencyRes.valueOf(abbreviation.substring(0, 3)).getSymbolRes()
+    val icon = CurrencyRes.valueOf(abbreviation).getSymbolRes()
     val drawables = this.compoundDrawables
     drawables[0] = resources.getDrawable(icon, null)
     this.setCompoundDrawablesWithIntrinsicBounds(

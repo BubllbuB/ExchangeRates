@@ -4,11 +4,12 @@
         xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="android.view.View"/>
+
+        <import type="android.view.View" />
+
         <variable
                 name="ingotsViewModel"
-                type="com.bubllbub.exchangerates.viewmodels.IngotsViewModel"
-        />
+                type="com.bubllbub.exchangerates.viewmodels.IngotsViewModel" />
     </data>
 
     <FrameLayout
@@ -26,7 +27,7 @@
                 android:orientation="vertical"
                 android:paddingTop="88dp">
 
-            <include layout="@layout/er_backdrop"/>
+            <include layout="@layout/er_backdrop" />
         </LinearLayout>
 
         <com.google.android.material.appbar.AppBarLayout
@@ -45,7 +46,7 @@
                     android:paddingRight="12dp"
                     app:contentInsetStart="0dp"
                     app:navigationIcon="@drawable/er_branded_menu"
-                    app:title="@string/er_app_name"/>
+                    app:title="@string/er_app_name" />
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.core.widget.NestedScrollView
@@ -60,17 +61,15 @@
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_gravity="center|center"
                     android:orientation="vertical"
-            >
+                    android:paddingTop="42dp">
 
                 <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv_ingots"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="500dp"
                         android:indeterminate="true"
-                        android:visibility="@{ingotsViewModel.isLoading ? View.GONE : View.VISIBLE}"
-                        tools:listitem="@layout/rv_item_ingot"/>
+                        tools:listitem="@layout/rv_item_ingot" />
             </LinearLayout>
 
         </androidx.core.widget.NestedScrollView>

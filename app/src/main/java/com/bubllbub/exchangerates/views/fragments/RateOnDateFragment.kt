@@ -18,6 +18,7 @@ import com.bubllbub.exchangerates.viewmodels.RateOnDateViewModel
 import com.codetroopers.betterpickers.calendardatepicker.CalendarDatePickerDialogFragment
 import com.codetroopers.betterpickers.calendardatepicker.MonthAdapter
 import kotlinx.android.synthetic.main.er_fragment_rate_on_date.view.*
+import org.joda.time.DateTime
 import java.util.*
 
 
@@ -105,8 +106,7 @@ class RateOnDateFragment : BackDropFragment() {
         datepicker.setOnDateSetListener { _, year, monthOfYear, dayOfMonth ->
             val cal = Calendar.getInstance()
             cal.set(year, monthOfYear, dayOfMonth)
-            val date = Date()
-            date.time = cal.timeInMillis
+            val date = DateTime().withMillis(cal.timeInMillis).withTimeAtStartOfDay()
             binding.rateOnDateViewModel?.date?.set(date)
             refreshDate()
         }
@@ -122,14 +122,11 @@ class RateOnDateFragment : BackDropFragment() {
         binding.rateOnDateViewModel?.currencies?.observe(this,
             Observer<List<Currency>> { currencies ->
                 currencies?.let { list ->
-                    val items = arrayListOf<String>()
-                    list.mapTo(items, { curr -> curr.curAbbreviation + " (" + curr.curName + ")" })
+                    val sortedList = list.sortedBy { CurrencyRes.valueOf(it.curAbbreviation).ordinal }
 
-                    items.sortBy { CurrencyRes.valueOf(it.substring(0, 3)).ordinal }
-
-                    val adapter = SpinnerImageAdapter(requireContext(), items)
+                    val adapter = SpinnerImageAdapter(requireContext(), sortedList)
                     binding.rateOnDateSpinner.setAdapter(adapter)
-                    binding.rateOnDateSpinner.setCurrencyLeftIcon(items[0])
+                    binding.rateOnDateSpinner.setCurrencyLeftIcon(sortedList[0].curAbbreviation)
                     refreshDateRange()
                     refreshDate()
                 }
@@ -156,7 +153,7 @@ class RateOnDateFragment : BackDropFragment() {
         }
         binding.rateOnDateSpinner.setOnItemSelectedListener { view, position, id, item ->
             view.background = ResourcesCompat.getDrawable(resources, R.drawable.spinner_bg, null)
-            view.setCurrencyLeftIcon(item.toString())
+            view.setCurrencyLeftIcon(item.toString().substring(0,3))
             refreshDateRange()
             refreshDate()
         }

@@ -7,12 +7,15 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.bubllbub.exchangerates.charts.DateAxisValueFormatter
 import com.bubllbub.exchangerates.objects.Currency
+import com.bubllbub.exchangerates.objects.Rate
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
+import org.joda.time.DateTime
+import org.joda.time.format.DateTimeFormat
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -24,9 +27,9 @@ fun setImageViewResource(imageView: ImageView, resource: Int) {
 }
 
 @BindingAdapter("android:text")
-fun setTextFromDate(textView: TextView, date: Date) {
-    val dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
-    val dateString = dateFormat.format(date)
+fun setTextFromDate(textView: TextView, date: DateTime) {
+    val dateFormat = DateTimeFormat.forPattern("dd.MM.yyyy")
+    val dateString = dateFormat.print(date)
     textView.text = dateString
 }
 
@@ -34,22 +37,24 @@ fun setTextFromDate(textView: TextView, date: Date) {
 fun setTextFromDouble(view: EditText, value: Double?) {
     if (view.text.toString() != value.toString()) {
         view.clearFocus()
+        view.tag = "Binding"
         view.setText(DecimalFormat("#.####").format(value))
         view.setSelection(view.text.length)
+        view.tag = null
     }
 }
 
 @BindingAdapter("android:setLinesData")
-fun setLinesData(chart: LineChart, data: List<Currency>?) {
+fun setLinesData(chart: LineChart, data: List<Rate>?) {
     if (data == null) return
 
-    val startTimestamp = data[0].date.time
+    val startTimestamp = data[0].date.millis
 
     val entries = mutableListOf<Entry>()
     data.forEach { currency ->
         entries.add(
             Entry(
-                (currency.date.time - startTimestamp).toFloat(),
+                (currency.date.millis - startTimestamp).toFloat(),
                 currency.curOfficialRate.toFloat()
             )
         )

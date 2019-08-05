@@ -5,12 +5,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bubllbub.exchangerates.R
 import com.bubllbub.exchangerates.adapters.DialogRecyclerAdapter
 import com.bubllbub.exchangerates.databinding.DialogAddCurrencyBinding
 import com.bubllbub.exchangerates.objects.Currency
@@ -29,7 +29,7 @@ class AddCurrencyDialog : DialogFragment() {
     ): View? {
         binding = DataBindingUtil.inflate(
             LayoutInflater.from(context),
-            com.bubllbub.exchangerates.R.layout.dialog_add_currency,
+            R.layout.dialog_add_currency,
             null,
             false
         )
@@ -53,10 +53,10 @@ class AddCurrencyDialog : DialogFragment() {
         binding.rvDialogAdd.layoutParams = params
 
         binding.dialogAddConfirm.setOnClickListener {
-            adapter.getSelectedCurrency()?.let {curr ->
-                when(this.tag) {
-                    TAG_FAVORITES -> binding.dialogAddViewModel?.addFavoriteCurrency(requireContext(), curr)
-                    else -> binding.dialogAddViewModel?.addConverterCurrency(requireContext(), curr)
+            adapter.getSelectedCurrency()?.let { curr ->
+                when (this.tag) {
+                    TAG_FAVORITES -> binding.dialogAddViewModel?.addFavoriteCurrency(curr)
+                    else -> binding.dialogAddViewModel?.addConverterCurrency(curr)
                 }
             }
             dismiss()
@@ -71,6 +71,6 @@ class AddCurrencyDialog : DialogFragment() {
 
     override fun onStart() {
         super.onStart()
-        binding.dialogAddViewModel?.refresh(requireContext())
+        binding.dialogAddViewModel?.refresh(this.tag)
     }
 }

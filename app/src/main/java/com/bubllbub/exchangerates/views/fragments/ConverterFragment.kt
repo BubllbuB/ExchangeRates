@@ -1,7 +1,6 @@
 package com.bubllbub.exchangerates.views.fragments
 
 import android.os.Bundle
-import android.text.Editable
 import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -14,7 +13,6 @@ import com.bubllbub.exchangerates.databinding.ErFragmentConverterBinding
 import com.bubllbub.exchangerates.dialogs.AddCurrencyDialog
 import com.bubllbub.exchangerates.dialogs.TAG_CONVERT
 import com.bubllbub.exchangerates.objects.Currency
-import com.bubllbub.exchangerates.objects.CurrencyFavorite
 import com.bubllbub.exchangerates.recyclerview.SwipeDeleteHelper
 import com.bubllbub.exchangerates.viewmodels.ConverterViewModel
 import kotlinx.android.synthetic.main.er_fragment_converter.view.*
@@ -45,13 +43,13 @@ class ConverterFragment : BackDropFragment() {
                 adapter,
                 requireContext(),
                 binding.scrollViewFragmentConverter,
-                object: SwipeDeleteHelper.SwipeDeleteCallback {
+                object : SwipeDeleteHelper.SwipeDeleteCallback {
                     override fun onDeleteFromSwipe(currency: Currency) {
-                        //binding.converterViewModel?.deleteFavCurrency(CurrencyFavorite(currency = currency), requireContext())
+                        binding.converterViewModel?.deleteConverterCurrency(currency)
                     }
 
                     override fun onRestoreFromSwipe(currency: Currency) {
-                        //binding.converterViewModel?.insertFavCurrency(CurrencyFavorite(currency = currency), requireContext())
+                        binding.converterViewModel?.insertConverterCurrency(currency)
                     }
                 }
             )
@@ -63,7 +61,6 @@ class ConverterFragment : BackDropFragment() {
                 it?.let { adapter.replaceData(it) }
             }
         )
-
 
 
         val view = binding.root
