@@ -49,18 +49,20 @@ dependencies {
     //Databinding
     kapt "com.android.databinding:compiler:3.2.0-alpha10"
     //MVVM
-    implementation "android.arch.lifecycle:runtime:1.1.1"
-    implementation "android.arch.lifecycle:extensions:1.1.1"
-    implementation "android.arch.lifecycle:common-java8:1.1.1"
+    def lifecycle_version = "1.1.1"
+    implementation "android.arch.lifecycle:runtime:$lifecycle_version"
+    implementation "android.arch.lifecycle:extensions:$lifecycle_version"
+    implementation "android.arch.lifecycle:common-java8:$lifecycle_version"
     //RxJava
     implementation "io.reactivex.rxjava2:rxandroid:2.1.1"
     implementation "io.reactivex.rxjava2:rxjava:2.2.10"
     implementation "com.jakewharton.rxbinding3:rxbinding:3.0.0"
     implementation 'com.jakewharton.rxbinding3:rxbinding-core:3.0.0'
     //Retrofit
-    implementation "com.squareup.retrofit2:retrofit:2.6.0"
-    implementation "com.squareup.retrofit2:adapter-rxjava2:2.6.0"
-    implementation "com.squareup.retrofit2:converter-gson:2.6.0"
+    def retrofit_version = "2.6.0"
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
     //MPAndroidChart
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
     //Material spinner
@@ -68,18 +70,25 @@ dependencies {
     //Betterpickers
     implementation 'com.code-troopers.betterpickers:library:3.1.0'
     //Room
-    implementation "androidx.room:room-runtime:2.1.0"
-    implementation "androidx.room:room-ktx:2.1.0"
-    implementation "androidx.room:room-rxjava2:2.1.0"
-    kapt "androidx.room:room-compiler:2.1.0"
+    def room_version = "2.1.0"
+    implementation "androidx.room:room-runtime:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
+    implementation "androidx.room:room-rxjava2:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
     //Dagger
-    implementation "com.google.dagger:dagger:2.24"
-    implementation "com.google.dagger:dagger-android:2.24"
-    implementation "com.google.dagger:dagger-android-support:2.24"
-    kapt "com.google.dagger:dagger-compiler:2.24"
-    kapt "com.google.dagger:dagger-android-processor:2.24"
+    def dagger_version = "2.24"
+    implementation "com.google.dagger:dagger:$dagger_version"
+    implementation "com.google.dagger:dagger-android:$dagger_version"
+    implementation "com.google.dagger:dagger-android-support:$dagger_version"
+    kapt "com.google.dagger:dagger-compiler:$dagger_version"
+    kapt "com.google.dagger:dagger-android-processor:$dagger_version"
     //JodaTime
     implementation 'joda-time:joda-time:2.10.3'
     //Expandable layout
     implementation 'net.cachapa.expandablelayout:expandablelayout:2.9.2'
+    //Work manager
+    def workmanager_version = "2.1.0"
+    implementation "androidx.work:work-runtime-ktx:$workmanager_version"
+    implementation "androidx.work:work-rxjava2:$workmanager_version"
+
 }
