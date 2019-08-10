@@ -2,6 +2,7 @@ package com.bubllbub.exchangerates.views.fragments
 
 import android.os.Bundle
 import android.view.*
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -12,6 +13,7 @@ import com.bubllbub.exchangerates.adapters.CurrencyRecyclerAdapter
 import com.bubllbub.exchangerates.databinding.ErFragmentCurrentRatesBinding
 import com.bubllbub.exchangerates.dialogs.AddCurrencyDialog
 import com.bubllbub.exchangerates.dialogs.TAG_FAVORITES
+import com.bubllbub.exchangerates.elements.SmartDividerItemDecoration
 import com.bubllbub.exchangerates.objects.Currency
 import com.bubllbub.exchangerates.recyclerview.SwipeDeleteHelper
 import com.bubllbub.exchangerates.viewmodels.CurrentRatesViewModel
@@ -40,13 +42,21 @@ class CurrentRatesFragment : BackDropFragment() {
                 }
             })
         binding.rvCurrentRates.adapter = adapter
+        binding.rvCurrentRates.addItemDecoration(
+            SmartDividerItemDecoration(
+                ContextCompat.getDrawable(
+                    requireContext(),
+                    R.drawable.er_recycler_devider
+                )
+            )
+        )
 
         val itemTouchHelper = ItemTouchHelper(
             SwipeDeleteHelper(
                 adapter,
                 requireContext(),
                 binding.scrollViewFragmentFirst,
-                object: SwipeDeleteHelper.SwipeDeleteCallback {
+                object : SwipeDeleteHelper.SwipeDeleteCallback {
                     override fun onDeleteFromSwipe(currency: Currency) {
                         binding.currentRatesViewModel?.deleteFavCurrency(currency)
                     }
@@ -61,7 +71,8 @@ class CurrentRatesFragment : BackDropFragment() {
 
         viewModel.currencies.observe(this,
             Observer<List<Currency>> {
-                it?.let { adapter.replaceData(it) } }
+                it?.let { adapter.replaceData(it) }
+            }
         )
 
         val view = binding.root

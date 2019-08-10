@@ -23,10 +23,6 @@ class CurrencyRecyclerAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(items[position], listener)
-        if (holder.adapterPosition % 2 == 0)
-            holder.itemView.setBackgroundColor(Color.parseColor("#009688"))
-        else
-            holder.itemView.setBackgroundColor(Color.parseColor("#00695c"))
     }
 
     override fun getItemCount(): Int = items.size

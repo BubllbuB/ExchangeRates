@@ -14,6 +14,7 @@ import com.bubllbub.exchangerates.objects.Currency
 import com.bubllbub.exchangerates.objects.Rate
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subscribers.DisposableSubscriber
 import java.text.SimpleDateFormat
@@ -39,22 +40,19 @@ class ChartsViewModel : ViewModel() {
                 .where(START_DATE, dateFormat.format(startDate))
                 .where(END_DATE, dateFormat.format(finishDate))
                 .findAll()
+                .firstOrError()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(object : DisposableSubscriber<List<Rate>>() {
-                    override fun onComplete() {
-                        Log.d(ContentValues.TAG, "[onCompleted] ")
+                .subscribeWith(object : DisposableSingleObserver<List<Rate>>() {
+                    override fun onSuccess(t: List<Rate>) {
+                        rates.value = t
+                        isLoading.set(false)
+                        Log.d(ContentValues.TAG, "[onNext] " + t.toString())
                     }
 
                     override fun onError(t: Throwable) {
                         Log.d(ContentValues.TAG, "[onError] ")
                         t.printStackTrace()
-                    }
-
-                    override fun onNext(m: List<Rate>) {
-                        rates.value = m
-                        isLoading.set(false)
-                        Log.d(ContentValues.TAG, "[onNext] " + m.toString())
                     }
                 })
         )

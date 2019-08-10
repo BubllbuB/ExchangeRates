@@ -4,11 +4,12 @@
         xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="android.view.View"/>
+
+        <import type="android.view.View" />
+
         <variable
                 name="currentRatesViewModel"
-                type="com.bubllbub.exchangerates.viewmodels.CurrentRatesViewModel"
-        />
+                type="com.bubllbub.exchangerates.viewmodels.CurrentRatesViewModel" />
     </data>
 
     <FrameLayout
@@ -18,20 +19,24 @@
             android:clipToPadding="false"
             tools:context=".views.fragments.CurrentRatesFragment">
 
+
         <LinearLayout
                 style="@style/Widget.ExRates.Backdrop"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@drawable/er_backdrop_bg"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
                 android:paddingTop="88dp">
 
-            <include layout="@layout/er_backdrop"/>
+            <include layout="@layout/er_backdrop" />
         </LinearLayout>
+
 
         <com.google.android.material.appbar.AppBarLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
                 app:elevation="0dp">
 
             <androidx.appcompat.widget.Toolbar
@@ -39,13 +44,8 @@
                     style="@style/Widget.ExRates.Toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    android:paddingStart="12dp"
-                    android:paddingLeft="12dp"
-                    android:paddingEnd="12dp"
-                    android:paddingRight="12dp"
-                    app:contentInsetStart="0dp"
-                    app:navigationIcon="@drawable/er_branded_menu"
-                    app:title="@string/er_app_name"/>
+                    app:navigationIcon="@drawable/er_backdrop_menu"
+                    app:title="@string/er_app_name" />
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.core.widget.NestedScrollView
@@ -55,24 +55,49 @@
                 android:layout_marginTop="56dp"
                 android:background="@color/scrollViewBackgroundColor"
                 android:elevation="8dp"
+                android:fillViewport="true"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraintContainer"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingTop="42dp"
-            >
+                    android:layout_height="match_parent">
 
-                <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_current_rates"
+                <include
+                        android:id="@+id/include"
+                        layout="@layout/er_main_buttons"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                        android:id="@+id/linearLayout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:indeterminate="true"
-                        android:visibility="@{currentRatesViewModel.isLoading ? View.GONE : View.VISIBLE}"
-                        tools:listitem="@layout/rv_item_currency"/>
-            </LinearLayout>
-        </androidx.core.widget.NestedScrollView>
+                        android:layout_height="0dp"
+                        android:layout_margin="28dp"
+                        android:orientation="vertical"
+                        android:background="@color/elementsBackground"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/include">
 
+                    <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rv_current_rates"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="16dp"
+                            android:visibility="@{currentRatesViewModel.isLoading ? View.GONE : View.VISIBLE}"
+                            tools:listitem="@layout/rv_item_currency" />
+
+                    <com.google.android.material.button.MaterialButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="56dp"
+                            android:text="Добавить валюту"
+                            android:layout_gravity="center|bottom"/>
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
     </FrameLayout>
 </layout>

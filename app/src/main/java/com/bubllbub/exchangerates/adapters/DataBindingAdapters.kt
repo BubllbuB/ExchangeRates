@@ -4,12 +4,14 @@ import android.graphics.Color
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
+import com.bubllbub.exchangerates.R
 import com.bubllbub.exchangerates.charts.DateAxisValueFormatter
+import com.bubllbub.exchangerates.charts.LineChatGradient
 import com.bubllbub.exchangerates.objects.Currency
 import com.bubllbub.exchangerates.objects.Rate
 import com.github.mikephil.charting.animation.Easing
-import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
@@ -17,7 +19,6 @@ import com.github.mikephil.charting.data.LineDataSet
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
 import java.text.DecimalFormat
-import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -44,13 +45,23 @@ fun setTextFromDouble(view: EditText, value: Double?) {
     }
 }
 
+@BindingAdapter("android:textLocale")
+fun setTextFromLocale(view: TextView, value: Currency?) {
+    when {
+        Locale.getDefault().toString() == "ru_RU" -> view.text = value?.curQuotName
+        Locale.getDefault().toString() == "be_BY" -> view.text = value?.curQuotNameBel
+        else -> view.text = value?.curQuotNameEng
+    }
+}
+
 @BindingAdapter("android:setLinesData")
-fun setLinesData(chart: LineChart, data: List<Rate>?) {
-    if (data == null) return
+fun setLinesData(chart: LineChatGradient, data: List<Rate>?) {
+    if (data == null || data.isEmpty()) return
 
     val startTimestamp = data[0].date.millis
 
     val entries = mutableListOf<Entry>()
+
     data.forEach { currency ->
         entries.add(
             Entry(
@@ -61,13 +72,15 @@ fun setLinesData(chart: LineChart, data: List<Rate>?) {
     }
 
     val dataSet = LineDataSet(entries, "Label")
+
+    dataSet.lineWidth = 5.0f
     dataSet.setDrawValues(false)
     dataSet.mode = LineDataSet.Mode.CUBIC_BEZIER
     dataSet.setDrawCircles(false)
-    dataSet.setDrawFilled(true)
-    dataSet.color = Color.parseColor("#009688")
-    dataSet.fillAlpha = 255
-    dataSet.fillColor = Color.parseColor("#009688")
+    //dataSet.setDrawFilled(true)
+    dataSet.color = Color.parseColor("#ffffff")
+    //dataSet.fillAlpha = 255
+    //dataSet.fillColor = Color.parseColor("#009688")
 
     val xAxisFormatter = DateAxisValueFormatter(startTimestamp)
     val xAxis = chart.xAxis
@@ -77,17 +90,29 @@ fun setLinesData(chart: LineChart, data: List<Rate>?) {
     xAxis.position = XAxis.XAxisPosition.BOTTOM
 
     chart.axisRight.isEnabled = false
-    chart.setDrawGridBackground(false)
+    chart.setDrawGridBackground(true)
+    chart.setGridGradientColor(
+        ContextCompat.getColor(
+            chart.context,
+            R.color.gradientToolbarStartColor
+        ), ContextCompat.getColor(chart.context, R.color.gradientToolbarEndColor)
+    )
+    chart.setGridCornerRadius(30f)
     chart.axisLeft.setDrawGridLines(false)
-    chart.xAxis.setDrawGridLines(false)
-    chart.xAxis.textSize = 12f
-    chart.axisLeft.textSize = 14f
+    chart.xAxis.setDrawAxisLine(false)
+    chart.axisLeft.setDrawAxisLine(false)
+    chart.axisLeft.setLabelCount(5,true)
+    chart.xAxis.textSize = 10f
+    chart.axisLeft.textSize = 12f
     chart.xAxis.labelRotationAngle = -15f
-    chart.setExtraOffsets(0f, 0f, 25f, 12f)
+    chart.setExtraOffsets(0f, 0f, 20f, 12f)
     chart.legend.isEnabled = false
     chart.description.isEnabled = false
-    chart.animateX(700, Easing.Linear)
-
+    if (data.size < 14) {
+        chart.animateX(400, Easing.EaseInOutBack)
+    } else {
+        chart.animateX(700, Easing.Linear)
+    }
     chart.data = LineData(dataSet)
     chart.invalidate()
 }

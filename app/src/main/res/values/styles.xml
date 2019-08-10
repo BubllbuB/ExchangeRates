@@ -26,8 +26,14 @@
         <item name="android:textColor">?android:attr/textColorPrimary</item>
     </style>
 
+    <style name="Widget.ExRates.ToggleButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="strokeColor">@android:color/transparent</item>
+        <item name="android:textColor">@color/toggleButtonColor</item>
+        <item name="backgroundTint">@color/er_toggle_button_bg</item>
+    </style>
+
     <style name="Widget.ExRates.Toolbar" parent="Widget.AppCompat.Toolbar">
-        <item name="android:background">?attr/colorAccent</item>
+        <item name="android:background">@android:color/transparent</item>
         <item name="android:theme">@style/Theme.ExRates</item>
         <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
         <item name="titleTextAppearance">@style/TextAppearance.ExRates.Toolbar</item>
@@ -38,7 +44,7 @@
     </style>
 
     <style name="Widget.ExRates.Backdrop" parent="">
-        <item name="android:background">?attr/colorAccent</item>
+        <item name="android:background">@android:color/transparent</item>
     </style>
 
     <style name="Widget.ExRates.DatePicker" parent="BetterPickersRadialTimePickerDialog.Light">

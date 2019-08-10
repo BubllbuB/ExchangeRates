@@ -28,6 +28,15 @@ data class Currency(
     @SerializedName("Cur_Name_Eng")
     @Expose
     var curNameEng: String = "",
+    @SerializedName("Cur_QuotName")
+    @Expose
+    var curQuotName: String = "",
+    @SerializedName("Cur_QuotName_Bel")
+    @Expose
+    var curQuotNameBel: String = "",
+    @SerializedName("Cur_QuotName_Eng")
+    @Expose
+    var curQuotNameEng: String = "",
     @SerializedName("Date")
     @Expose
     var date: Date = Date(),

@@ -28,16 +28,24 @@ class MainActivity : AppCompatActivity(), NavigationHost {
     override fun navigateTo(fragment: Fragment, addToBackstack: Boolean, menuNavigate: Boolean) {
         val transaction = supportFragmentManager
             .beginTransaction()
-            .replace(R.id.container, fragment)
 
-        if (addToBackstack) {
-            transaction.addToBackStack(null)
-        }
-
-        if(menuNavigate) {
+        if (menuNavigate) {
             val bundle = Bundle()
             bundle.putBoolean(FRAGMENT_FROM_NAVIGATE, true)
             fragment.arguments = bundle
+        } else {
+            transaction.setCustomAnimations(
+                R.anim.er_enter_from_right,
+                R.anim.er_exit_to_left,
+                R.anim.er_enter_from_left,
+                R.anim.er_exit_to_right
+            )
+        }
+
+        transaction.replace(R.id.container, fragment)
+
+        if (addToBackstack) {
+            transaction.addToBackStack(null)
         }
 
         transaction.commit()

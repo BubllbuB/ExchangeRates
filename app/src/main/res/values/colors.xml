@@ -3,11 +3,16 @@
     <color name="colorPrimary">#009688</color>
     <color name="colorPrimaryDark">#00695c</color>
     <color name="colorAccent">#009688</color>
+    <color name="elementsBackground">#ffffff</color>
     <color name="textColorPrimary">#ffffff</color>
     <color name="toolbarIconColor">@color/textColorPrimary</color>
-    <color name="scrollViewBackgroundColor">#FFFBFA</color>
-    <color name="textDarkGrey">#333333</color>
+    <color name="scrollViewBackgroundColor">#f6f5fa</color>
+    <color name="textDarkGrey">#4d4d4d</color>
+    <color name="textLightGrey">#b8b8b8</color>
     <color name="deleteItemColor">#fa315b</color>
+    <color name="gradientToolbarStartColor">#5a61e7</color>
+    <color name="gradientToolbarEndColor">#b785f8</color>
+    <color name="toggleButtonColor">#c3c97f</color>
     //Calendar
     <color tools:override="true" name="date_picker_text_normal">#ffffff</color>
     <color tools:override="true" name="bpDarker_blue">#ffffff</color>

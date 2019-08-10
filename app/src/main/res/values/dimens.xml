@@ -1,6 +1,6 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <dimen name="fab_margin">16dp</dimen>
-    <dimen name="er_backdrop_reveal_height">200dp</dimen>
+    <dimen name="er_backdrop_reveal_height">300dp</dimen>
     <dimen name="date_picker_min_width_major" type="dimen">95%</dimen>
     <dimen name="date_picker_min_width_minor" type="dimen">95%</dimen>
 </resources>

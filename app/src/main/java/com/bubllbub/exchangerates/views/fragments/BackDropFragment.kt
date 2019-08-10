@@ -2,7 +2,6 @@ package com.bubllbub.exchangerates.views.fragments
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
-import android.os.Build
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.View
@@ -16,6 +15,7 @@ import com.bubllbub.exchangerates.views.MainActivity
 import com.bubllbub.exchangerates.R
 import com.bubllbub.exchangerates.backdrop.NavigationIconClickListener
 import kotlinx.android.synthetic.main.er_backdrop.*
+import kotlinx.android.synthetic.main.er_main_buttons.*
 
 const val FRAGMENT_FROM_NAVIGATE = "openFromNavigate"
 
@@ -34,17 +34,12 @@ open class BackDropFragment : Fragment() {
                 activity!!,
                 scrollView,
                 AccelerateDecelerateInterpolator(),
-                ContextCompat.getDrawable(context!!, R.drawable.er_branded_menu), // Menu open icon
+                ContextCompat.getDrawable(context!!, R.drawable.er_backdrop_menu), // Menu open icon
                 ContextCompat.getDrawable(context!!, R.drawable.er_close_menu) // Menu close icon
             )
         )
 
         openFromNavigate = arguments?.getBoolean(FRAGMENT_FROM_NAVIGATE, false) ?: false
-
-        // Set cut corner background for API 23+
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            scrollView.background = context?.getDrawable(R.drawable.er_grid_background_shape)
-        }
 
         if (openFromNavigate) {
             animateBackDrop(R.drawable.er_close_menu, 0)
@@ -54,9 +49,10 @@ open class BackDropFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         goToMenu()
+        goToMainButtons()
 
         if (openFromNavigate) {
-            animateBackDrop(R.drawable.er_branded_menu, 500)
+            animateBackDrop(R.drawable.er_backdrop_menu, 500)
         }
     }
 
@@ -86,11 +82,29 @@ open class BackDropFragment : Fragment() {
         }
     }
 
+    private fun goToMainButtons() {
+        mainButtonFirst?.let { button ->
+            button.setOnClickListener {
+                (requireActivity() as MainActivity).navigateTo(button.getNavigateFragment(), menuNavigate = false)
+            }
+        }
+        mainButtonSecond?.let { button ->
+            button.setOnClickListener {
+                (requireActivity() as MainActivity).navigateTo(button.getNavigateFragment(), menuNavigate = false)
+            }
+        }
+        mainButtonThird?.let { button ->
+            button.setOnClickListener {
+                (requireActivity() as MainActivity).navigateTo(button.getNavigateFragment(), menuNavigate = false)
+            }
+        }
+    }
+
     private fun animateBackDrop(icon: Int, duration: Long) {
         toolbarAnimate.setNavigationIcon(icon)
 
         val translateY = when (icon) {
-            R.drawable.er_branded_menu -> 0F
+            R.drawable.er_backdrop_menu -> 0F
             else -> {
                 val displayMetrics = DisplayMetrics()
                 requireActivity().windowManager.defaultDisplay.getMetrics(displayMetrics)

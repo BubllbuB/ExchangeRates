@@ -8,6 +8,7 @@ import com.bubllbub.exchangerates.models.Repository.DATE_IN_MILLI
 import com.bubllbub.exchangerates.models.Repository.DIALOG_CUR
 import com.bubllbub.exchangerates.models.Repository.END_DATE
 import com.bubllbub.exchangerates.models.Repository.START_DATE
+import com.bubllbub.exchangerates.models.Repository.UPDATE_DATAS
 import com.bubllbub.exchangerates.models.retrofit.NbrbApiData
 import com.bubllbub.exchangerates.models.room.RoomData
 import com.bubllbub.exchangerates.objects.Currency
@@ -34,6 +35,7 @@ object Repository {
     const val CUR_FAVORITE = "isFavorite"
     const val CUR_QUERY_TRUE = "1"
     const val CUR_QUERY_FALSE = "0"
+    const val UPDATE_DATAS = "updateDatas"
 
     inline fun <reified Entity : Any> of(): Repo<Entity> {
         return Repo(NbrbApiData.of(Entity::class), RoomData.of(Entity::class))
@@ -100,6 +102,13 @@ class Repo<Entity : Any>(val api: DataSource<Entity>, val db: DataSource<Entity>
             }
             (query.has(DIALOG_CUR)) -> {
                 db.getAll(query)
+            }
+            (query.has(UPDATE_DATAS)) -> {
+                api.getAll()
+                    .flatMap { apiList ->
+                        db.saveAll(apiList).subscribe()
+                        Flowable.just(apiList)
+                    }
             }
             else -> {
                 db.getAll(query)

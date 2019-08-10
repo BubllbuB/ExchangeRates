@@ -24,13 +24,17 @@ interface JSONNbrbAPI {
     fun getRatesOnDate(@Query("onDate") date: String, @Query("Periodicity") periodicity: Int): Flowable<ArrayList<Rate>>
 
     @GET("/API/ExRates/Rates")
-    fun getActualRatesDaily(@Query("Periodicity") periodicity: Int = 0): Flowable<ArrayList<Currency>>
+    fun getActualRatesDaily(@Query("Periodicity") periodicity: Int = 0): Flowable<ArrayList<Rate>>
 
     @GET("/API/ExRates/Rates")
-    fun getActualRatesMonthly(@Query("Periodicity") periodicity: Int = 1): Flowable<ArrayList<Currency>>
+    fun getActualRatesMonthly(@Query("Periodicity") periodicity: Int = 1): Flowable<ArrayList<Rate>>
 
     @GET("/API/ExRates/Rates/{Cur_Abbreviation}")
     fun getRatesOnDateWithName(@Path("Cur_Abbreviation") abbreviation: String, @Query("onDate") date: String, @Query("ParamMode") mode: Int = 2): Observable<Currency>
+
+    @GET("/API/ExRates/Rates/{Cur_Id}")
+    fun getRatesOnDateWithId(@Path("Cur_Id") id: Int, @Query("onDate") date: String): Observable<Rate>
+
 
     @GET("/API/ExRates/Rates/Dynamics/{Cur_ID}")
     fun getDynamicsRate(@Path("Cur_ID") id: Int, @Query("startDate") startDate: String, @Query("endDate") endDate: String): Flowable<ArrayList<Rate>>

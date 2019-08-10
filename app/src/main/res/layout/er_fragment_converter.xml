@@ -22,6 +22,7 @@
                 style="@style/Widget.ExRates.Backdrop"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@drawable/er_backdrop_bg"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
                 android:paddingTop="88dp">
@@ -32,6 +33,7 @@
         <com.google.android.material.appbar.AppBarLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
                 app:elevation="0dp">
 
             <androidx.appcompat.widget.Toolbar
@@ -39,12 +41,7 @@
                     style="@style/Widget.ExRates.Toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    android:paddingStart="12dp"
-                    android:paddingLeft="12dp"
-                    android:paddingEnd="12dp"
-                    android:paddingRight="12dp"
-                    app:contentInsetStart="0dp"
-                    app:navigationIcon="@drawable/er_branded_menu"
+                    app:navigationIcon="@drawable/er_backdrop_menu"
                     app:title="@string/er_app_name"/>
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -63,6 +60,8 @@
                     android:orientation="vertical"
                     android:paddingTop="42dp"
                     >
+
+                <include layout="@layout/er_main_buttons" />
 
                 <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv_converter"

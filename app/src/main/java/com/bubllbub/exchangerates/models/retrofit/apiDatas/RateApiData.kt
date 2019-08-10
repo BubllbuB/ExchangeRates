@@ -6,10 +6,12 @@ import com.bubllbub.exchangerates.models.retrofit.APIService
 import com.bubllbub.exchangerates.models.retrofit.NbrbApiData
 import com.bubllbub.exchangerates.objects.Currency
 import com.bubllbub.exchangerates.objects.Rate
+import io.reactivex.BackpressureStrategy
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.functions.BiFunction
+import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -19,7 +21,42 @@ class RateApiData : DataSource<Rate> {
     private val jSONApi = APIService.instance.getJSONApi()
 
     override fun getAll(): Flowable<List<Rate>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
+        val apiCurrency =
+            NbrbApiData.of<Currency>(Currency::class)
+
+        val allCurrencies = arrayListOf<Currency>()
+
+        return apiCurrency.getAll()
+            .flatMap {
+                allCurrencies.addAll(it)
+
+                if (LocalDate() == LocalDate().withDayOfMonth(1)) {
+                    val dailyRates = jSONApi.getActualRatesDaily()
+                    val monthlyRates = jSONApi.getActualRatesMonthly()
+
+                    dailyRates.zipWith(
+                        monthlyRates,
+                        BiFunction { listDaily: ArrayList<Rate>, listMonthly: ArrayList<Rate> ->
+                            listDaily.addAll(listMonthly)
+                            listDaily
+                        })
+                } else {
+                    jSONApi.getActualRatesDaily()
+                }
+            }.flatMap {
+                it.forEach { rate ->
+                    allCurrencies.find { curr -> curr.curId == rate.curId }?.let { needCurrency ->
+                        rate.scale = needCurrency.scale
+                        rate.curAbbreviation = needCurrency.curAbbreviation
+                        rate.rateId =
+                            needCurrency.curAbbreviation + "_" + DateTimeFormat.forPattern("yyyy-MM-dd").print(
+                                rate.date
+                            )
+                    }
+                }
+                Flowable.just(it)
+            }
     }
 
     override fun getAll(query: DataSource.Query<Rate>): Flowable<List<Rate>> {
@@ -55,22 +92,63 @@ class RateApiData : DataSource<Rate> {
                         val needCurrency = allCurrencies.find { it.curId == needRate!!.curId }
 
                         if (needCurrency!!.curDateEnd >= dateEnd) {
-                            jSONApi.getDynamicsRate(
-                                needCurrency.curId,
-                                dateStartString,
-                                dateEndString
-                            )
-                                .flatMap { list ->
+
+                            if (needCurrency.curPeriodicity == 0) {
+                                jSONApi.getDynamicsRate(
+                                    needCurrency.curId,
+                                    dateStartString,
+                                    dateEndString
+                                )
+                                    .flatMap { list ->
+                                        list.forEach { rate ->
+                                            rate.scale = needCurrency.scale
+                                            rate.curAbbreviation = needCurrency.curAbbreviation
+                                            rate.rateId =
+                                                needCurrency.curAbbreviation + "_" + DateTimeFormat.forPattern(
+                                                    "yyyy-MM-dd"
+                                                ).print(
+                                                    rate.date
+                                                )
+                                        }
+                                        Flowable.just(list)
+                                    }
+                            } else {
+                                val dateFormatDateTime = DateTimeFormat.forPattern("yyyy-MM-dd")
+
+                                var startMonth =
+                                    dateFormatDateTime.parseDateTime(dateStartString)
+                                        .withDayOfMonth(1)
+                                val finishMonth =
+                                    dateFormatDateTime.parseDateTime(dateEndString)
+                                        .withDayOfMonth(1)
+
+                                val requests = mutableListOf<Observable<Rate>>()
+
+                                while (startMonth <= finishMonth) {
+                                    requests.add(
+                                        jSONApi.getRatesOnDateWithId(
+                                            needCurrency.curId,
+                                            dateFormatDateTime.print(startMonth)
+                                        )
+                                    )
+                                    startMonth = startMonth.plusMonths(1)
+                                }
+
+                                Observable.zip(requests) {
+                                    val list = it.map { obj -> obj as Rate }
                                     list.forEach { rate ->
                                         rate.scale = needCurrency.scale
                                         rate.curAbbreviation = needCurrency.curAbbreviation
                                         rate.rateId =
-                                            needCurrency.curAbbreviation + "_" + DateTimeFormat.forPattern("yyyy-MM-dd").print(
+                                            needCurrency.curAbbreviation + "_" + DateTimeFormat.forPattern(
+                                                "yyyy-MM-dd"
+                                            ).print(
                                                 rate.date
                                             )
                                     }
-                                    Flowable.just(list)
-                                }
+                                    list
+                                }.toFlowable(BackpressureStrategy.LATEST)
+                            }
                         } else {
                             val nextCurrency =
                                 allCurrencies.find { nextCurr -> nextCurr.parentId == needCurrency.curId && nextCurr.curDateStart >= needCurrency.curDateEnd }
@@ -90,7 +168,9 @@ class RateApiData : DataSource<Rate> {
                                     startRatesList.map { startRateCurrency ->
                                         startRateCurrency.scale = needCurrency.scale
                                         startRateCurrency.rateId =
-                                            needCurrency.curAbbreviation + "_" + DateTimeFormat.forPattern("yyyy-MM-dd").print(
+                                            needCurrency.curAbbreviation + "_" + DateTimeFormat.forPattern(
+                                                "yyyy-MM-dd"
+                                            ).print(
                                                 startRateCurrency.date
                                             )
                                         startRateCurrency.curAbbreviation =
@@ -99,7 +179,9 @@ class RateApiData : DataSource<Rate> {
                                     endRatesList.map { endRateCurrency ->
                                         endRateCurrency.scale = nextCurrency.scale
                                         endRateCurrency.rateId =
-                                            nextCurrency.curAbbreviation + "_" + DateTimeFormat.forPattern("yyyy-MM-dd").print(
+                                            nextCurrency.curAbbreviation + "_" + DateTimeFormat.forPattern(
+                                                "yyyy-MM-dd"
+                                            ).print(
                                                 endRateCurrency.date
                                             )
                                         endRateCurrency.curAbbreviation =

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:background="@color/scrollViewBackgroundColor"
+        >
+
+    <com.bubllbub.exchangerates.elements.LinearLayoutNavigate
+            android:id="@+id/mainButtonFirst"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:orientation="vertical"
+            android:background="@drawable/er_main_button_bg"
+            android:gravity="bottom|center"
+            android:padding="12dp"
+            android:layout_marginLeft="28dp"
+            android:layout_marginRight="28dp"
+            android:layout_weight="4"
+            app:navigateTo="Rates">
+        <ImageView
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:scaleType="fitCenter"
+                android:layout_marginBottom="10dp"
+                android:src="@mipmap/er_rates_ic"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/textDarkGrey"
+                android:textSize="12sp"
+            android:text="Курсы валют" />
+    </com.bubllbub.exchangerates.elements.LinearLayoutNavigate>
+
+
+    <com.bubllbub.exchangerates.elements.LinearLayoutNavigate
+            android:id="@+id/mainButtonSecond"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:orientation="vertical"
+            android:background="@drawable/er_main_button_bg"
+            android:gravity="bottom|center"
+            android:padding="12dp"
+            android:layout_weight="4"
+            app:navigateTo="Chart">
+        <ImageView
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:scaleType="fitCenter"
+                android:layout_marginBottom="10dp"
+                android:src="@mipmap/er_charts_ic"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/textDarkGrey"
+                android:textSize="12sp"
+                android:text="График" />
+    </com.bubllbub.exchangerates.elements.LinearLayoutNavigate>
+
+    <com.bubllbub.exchangerates.elements.LinearLayoutNavigate
+            android:id="@+id/mainButtonThird"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:orientation="vertical"
+            android:background="@drawable/er_main_button_bg"
+            android:gravity="bottom|center"
+            android:padding="12dp"
+            android:layout_marginLeft="28dp"
+            android:layout_marginRight="28dp"
+            android:layout_weight="4"
+            app:navigateTo="Converter">
+        <ImageView
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:scaleType="fitCenter"
+                android:layout_marginBottom="10dp"
+                android:src="@mipmap/er_converter_ic"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/textDarkGrey"
+                android:textSize="12sp"
+                android:text="Конвертер" />
+    </com.bubllbub.exchangerates.elements.LinearLayoutNavigate>
+
+</LinearLayout>
