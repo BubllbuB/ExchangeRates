@@ -3,8 +3,14 @@ package com.bubllbub.exchangerates
 import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
-import androidx.work.*
+import androidx.work.OneTimeWorkRequest
+import androidx.work.PeriodicWorkRequest
+import androidx.work.WorkManager
+import com.bubllbub.exchangerates.di.AppComponent
+import com.bubllbub.exchangerates.di.DaggerAppComponent
 import com.bubllbub.exchangerates.workers.UpdateDatabasesWorker
+import dagger.android.AndroidInjector
+import dagger.android.DaggerApplication
 import org.joda.time.DateTime
 import org.joda.time.Duration
 import java.util.concurrent.TimeUnit
@@ -18,7 +24,7 @@ class App : Application() {
     private lateinit var workManager: WorkManager
 
     companion object {
-
+        lateinit var applicationComponent: AppComponent
         lateinit var instance: App
 
         fun appContext(): Context = instance.applicationContext
@@ -33,6 +39,7 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         instance = this
+        applicationComponent = DaggerAppComponent.builder().build()
         runWorker()
     }
 
@@ -50,7 +57,8 @@ class App : Application() {
         }
         workManager = WorkManager.getInstance(applicationContext)
 
-        val updateWorkerOneTime = OneTimeWorkRequest.Builder(UpdateDatabasesWorker::class.java).build()
+        val updateWorkerOneTime =
+            OneTimeWorkRequest.Builder(UpdateDatabasesWorker::class.java).build()
         workManager.enqueue(updateWorkerOneTime)
 
         val updateWorker = PeriodicWorkRequest.Builder(
@@ -63,7 +71,6 @@ class App : Application() {
             .setInitialDelay(delay, TimeUnit.MINUTES)
             .addTag(UPDATE_WORKER_TAG)
             .build()
-
 
 
         /*workManager.enqueueUniquePeriodicWork(

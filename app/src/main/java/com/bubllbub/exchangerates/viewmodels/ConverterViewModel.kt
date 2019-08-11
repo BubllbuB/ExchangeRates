@@ -27,6 +27,9 @@ class ConverterViewModel : ViewModel() {
         curName = "Белорусский рубль",
         curNameBel = "Беларускі рубель",
         curNameEng = "Belarusian ruble",
+        curQuotName = "1 Белорусский рубль",
+        curQuotNameEng = "1 Belarusian Ruble",
+        curQuotNameBel = "1 Беларускі рубель",
         symbol = CurrencyRes.valueOf("BYN").getSymbolRes(),
         isConverter = true,
         converterPos = 0

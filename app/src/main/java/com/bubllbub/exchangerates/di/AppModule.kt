@@ -1,15 +1,16 @@
 package com.bubllbub.exchangerates.di
 
+import android.app.Application
 import android.content.Context
 import com.bubllbub.exchangerates.App
 import dagger.Module
 import dagger.Provides
+import javax.inject.Singleton
 
 @Module
-class AppModule {
+class AppModule(private val application: Application) {
 
     @Provides
-    fun providesContext(application: App): Context {
-        return application.applicationContext
-    }
+    @Singleton
+    fun providesContext(): Context = application
 }

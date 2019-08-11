@@ -17,9 +17,7 @@ import com.bubllbub.exchangerates.elements.SmartDividerItemDecoration
 import com.bubllbub.exchangerates.objects.Currency
 import com.bubllbub.exchangerates.recyclerview.SwipeDeleteHelper
 import com.bubllbub.exchangerates.viewmodels.ConverterViewModel
-import kotlinx.android.synthetic.main.er_fragment_converter.*
 import kotlinx.android.synthetic.main.er_fragment_converter.view.*
-import kotlinx.android.synthetic.main.er_fragment_converter.view.additionalConverterBtn
 
 class ConverterFragment : BackDropFragment() {
     private lateinit var binding: ErFragmentConverterBinding
@@ -68,7 +66,7 @@ class ConverterFragment : BackDropFragment() {
         )
         itemTouchHelper.attachToRecyclerView(binding.rvConverter)
 
-        additionalConverterBtn?.setOnClickListener {
+        binding.additionalConverterBtn?.setOnClickListener {
             AddCurrencyDialog().show(childFragmentManager, TAG_CONVERT)
         }
 

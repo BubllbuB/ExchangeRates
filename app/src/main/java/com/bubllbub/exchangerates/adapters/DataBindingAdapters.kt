@@ -45,12 +45,21 @@ fun setTextFromDouble(view: EditText, value: Double?) {
     }
 }
 
-@BindingAdapter("android:textLocale")
-fun setTextFromLocale(view: TextView, value: Currency?) {
+@BindingAdapter("android:textQuotLocale")
+fun setTextQuotFromLocale(view: TextView, value: Currency?) {
     when {
         Locale.getDefault().toString() == "ru_RU" -> view.text = value?.curQuotName
         Locale.getDefault().toString() == "be_BY" -> view.text = value?.curQuotNameBel
         else -> view.text = value?.curQuotNameEng
+    }
+}
+
+@BindingAdapter("android:textNameLocale")
+fun setTextNameFromLocale(view: TextView, value: Currency?) {
+    when {
+        Locale.getDefault().toString() == "ru_RU" -> view.text = value?.curName
+        Locale.getDefault().toString() == "be_BY" -> view.text = value?.curNameBel
+        else -> view.text = value?.curNameEng
     }
 }
 

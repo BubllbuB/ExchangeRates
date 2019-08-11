@@ -40,8 +40,17 @@
                     style="@style/Widget.ExRates.Toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    app:navigationIcon="@drawable/er_backdrop_menu"
-                    app:title="@string/er_app_name" />
+                    app:navigationIcon="@drawable/er_backdrop_menu">
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/menuIngots"
+                        android:layout_gravity="center"
+                        android:textColor="@color/elementsBackground"
+                        android:fontFamily="@font/open_sans_semibold"
+                        android:textSize="18sp"
+                        android:id="@+id/toolbar_title" />
+            </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.core.widget.NestedScrollView
@@ -51,18 +60,66 @@
                 android:layout_marginTop="?attr/actionBarSize"
                 android:background="@color/scrollViewBackgroundColor"
                 android:elevation="8dp"
+                android:fillViewport="true"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:background="@color/elementsBackground"
                     android:orientation="vertical"
+                    android:padding="@dimen/itemMarginDefault"
                     android:paddingTop="42dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp">
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="74dp"
+                            android:fontFamily="@font/open_sans_bold"
+                            android:text="@string/stringNominalLabel"
+                            android:textColor="@color/ingotItemBackground"
+                            android:textSize="16sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="Номинал" />
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="150dp"
+                            android:fontFamily="@font/open_sans_bold"
+                            android:text="@string/stringBuyLabel"
+                            android:textColor="@color/ingotItemBackground"
+                            android:textSize="16sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="Buy" />
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="60dp"
+                            android:fontFamily="@font/open_sans_bold"
+                            android:text="@string/stringSellLabel"
+                            android:textColor="@color/ingotItemBackground"
+                            android:textSize="16sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="Sell" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv_ingots"
                         android:layout_width="match_parent"
-                        android:layout_height="500dp"
+                        android:layout_height="wrap_content"
                         android:indeterminate="true"
                         tools:listitem="@layout/rv_item_ingot" />
             </LinearLayout>

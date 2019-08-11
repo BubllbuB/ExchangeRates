@@ -40,8 +40,17 @@
                     style="@style/Widget.ExRates.Toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    app:navigationIcon="@drawable/er_backdrop_menu"
-                    app:title="@string/er_app_name" />
+                    app:navigationIcon="@drawable/er_backdrop_menu">
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/menuRateOnDate"
+                        android:layout_gravity="center"
+                        android:textColor="@color/elementsBackground"
+                        android:fontFamily="@font/open_sans_semibold"
+                        android:textSize="18sp"
+                        android:id="@+id/toolbar_title" />
+            </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.core.widget.NestedScrollView
@@ -63,8 +72,8 @@
                         layout="@layout/er_main_buttons"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="28dp"
-                        android:layout_marginBottom="28dp"
+                        android:layout_marginTop="@dimen/containerMarginDefault"
+                        android:layout_marginBottom="@dimen/containerMarginDefault"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -72,9 +81,9 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="28dp"
+                        android:layout_margin="@dimen/containerMarginDefault"
                         android:background="@color/elementsBackground"
-                        android:padding="16dp"
+                        android:padding="@dimen/itemMarginDefault"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/include">
@@ -99,7 +108,7 @@
                             android:id="@+id/selectDateContainer"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="14dp"
+                            android:layout_marginTop="@dimen/itemMarginDefault"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/rateOnDateSpinner">
@@ -119,8 +128,7 @@
                                 android:id="@+id/selectDateButton"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="16dp"
-                                android:layout_marginTop="16dp"
+                                android:layout_marginTop="@dimen/itemMarginDefault"
                                 android:layout_alignParentEnd="true"
                                 android:layout_centerInParent="true"
                                 android:textAllCaps="false"
@@ -170,9 +178,9 @@
                                     android:id="@+id/currency_name"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginStart="16dp"
+                                    android:layout_marginStart="@dimen/itemMarginDefault"
                                     android:fontFamily="@font/open_sans_bold"
-                                    android:text="@{rateOnDateViewModel.currency.curName}"
+                                    android:textNameLocale="@{rateOnDateViewModel.currency}"
                                     android:textColor="@color/textDarkGrey"
                                     android:textSize="14sp"
                                     app:layout_constraintStart_toEndOf="@+id/rateOnDateImg"
@@ -184,7 +192,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/open_sans_semibold"
                                     android:textColor="@color/textLightGrey"
-                                    android:textLocale="@{rateOnDateViewModel.currency}"
+                                    android:textQuotLocale="@{rateOnDateViewModel.currency}"
                                     android:textSize="14sp"
                                     app:layout_constraintStart_toStartOf="@+id/currency_name"
                                     app:layout_constraintTop_toBottomOf="@+id/currency_name"

@@ -4,17 +4,18 @@
         xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="android.view.View"/>
+
+        <import type="android.view.View" />
+
         <variable
                 name="converterViewModel"
-                type="com.bubllbub.exchangerates.viewmodels.ConverterViewModel"
-                />
+                type="com.bubllbub.exchangerates.viewmodels.ConverterViewModel" />
     </data>
 
     <FrameLayout
-                 android:layout_width="match_parent"
-                 android:layout_height="match_parent"
-                 tools:context=".views.fragments.ConverterFragment">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".views.fragments.ConverterFragment">
 
         <LinearLayout
                 style="@style/Widget.ExRates.Backdrop"
@@ -25,7 +26,7 @@
                 android:orientation="vertical"
                 android:paddingTop="88dp">
 
-            <include layout="@layout/er_backdrop"/>
+            <include layout="@layout/er_backdrop" />
         </LinearLayout>
 
         <com.google.android.material.appbar.AppBarLayout
@@ -39,8 +40,17 @@
                     style="@style/Widget.ExRates.Toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    app:navigationIcon="@drawable/er_backdrop_menu"
-                    app:title="@string/er_app_name"/>
+                    app:navigationIcon="@drawable/er_backdrop_menu">
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/menuConverter"
+                        android:layout_gravity="center"
+                        android:textColor="@color/elementsBackground"
+                        android:fontFamily="@font/open_sans_semibold"
+                        android:textSize="18sp"
+                        android:id="@+id/toolbar_title" />
+            </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.core.widget.NestedScrollView
@@ -55,27 +65,26 @@
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    >
+                    android:orientation="vertical">
 
-                <include layout="@layout/er_main_buttons"
+                <include
+                        layout="@layout/er_main_buttons"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="28dp"/>
+                        android:layout_marginTop="28dp" />
 
                 <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="28dp"
-                        android:orientation="vertical"
-                        android:background="@color/elementsBackground">
+                        android:background="@color/elementsBackground"
+                        android:orientation="vertical">
 
                     <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/rv_converter"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:padding="16dp"
-                            android:paddingTop="0dp"
+                            android:paddingBottom="16dp"
                             android:visibility="@{converterViewModel.isLoading ? View.GONE : View.VISIBLE}"
                             tools:listitem="@layout/rv_item_converter" />
 
@@ -83,17 +92,17 @@
                             android:id="@+id/additionalConverterBtn"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="14sp"
-                            android:textAllCaps="false"
-                            app:cornerRadius="40dp"
+                            android:layout_gravity="center|bottom"
+                            android:layout_marginBottom="26dp"
+                            android:backgroundTint="@color/dialogButtonColor"
+                            android:fontFamily="@font/open_sans_semibold"
                             android:padding="16dp"
                             android:paddingStart="40dp"
                             android:paddingEnd="40dp"
-                            android:backgroundTint="@color/dialogButtonColor"
-                            android:layout_marginBottom="26dp"
-                            android:fontFamily="@font/open_sans_semibold"
                             android:text="Добавить валюту"
-                            android:layout_gravity="center|bottom"/>
+                            android:textAllCaps="false"
+                            android:textSize="14sp"
+                            app:cornerRadius="40dp" />
                 </LinearLayout>
             </LinearLayout>
 

@@ -16,6 +16,8 @@
     <color name="gradientUpdateStartColor">#c9cd89</color>
     <color name="gradientUpdateEndColor">#b5bc5e</color>
     <color name="dialogButtonColor">#7966fe</color>
+    <color name="ingotItemBackground">#5e63e7</color>
+    <color name="ingotMainNominal">#d0d0d0</color>
     //Calendar
     <color tools:override="true" name="date_picker_text_normal">#ffffff</color>
     <color tools:override="true" name="bpDarker_blue">#ffffff</color>

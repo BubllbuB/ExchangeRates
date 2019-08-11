@@ -2,6 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools">
+
     <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -18,7 +19,7 @@
                 android:orientation="vertical"
                 android:paddingTop="88dp">
 
-            <include layout="@layout/er_backdrop"/>
+            <include layout="@layout/er_backdrop" />
         </LinearLayout>
 
         <com.google.android.material.appbar.AppBarLayout
@@ -32,8 +33,17 @@
                     style="@style/Widget.ExRates.Toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    app:navigationIcon="@drawable/er_backdrop_menu"
-                    app:title="@string/er_app_name"/>
+                    app:navigationIcon="@drawable/er_backdrop_menu">
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/menuAbout"
+                        android:layout_gravity="center"
+                        android:textColor="@color/elementsBackground"
+                        android:fontFamily="@font/open_sans_semibold"
+                        android:textSize="18sp"
+                        android:id="@+id/toolbar_title" />
+            </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.core.widget.NestedScrollView
@@ -45,10 +55,11 @@
                 android:elevation="8dp"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <TextView android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:layout_gravity="center"
-                      android:text="Fragment 7"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Fragment 7" />
 
         </androidx.core.widget.NestedScrollView>
 

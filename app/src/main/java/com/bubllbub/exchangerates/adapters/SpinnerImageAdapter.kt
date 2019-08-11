@@ -6,9 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import com.bubllbub.exchangerates.App
 import com.bubllbub.exchangerates.R
 import com.bubllbub.exchangerates.extensions.setCurrencyLeftIcon
 import com.bubllbub.exchangerates.extensions.setCustomFont
+import com.bubllbub.exchangerates.extensions.toDp
 import com.bubllbub.exchangerates.objects.Currency
 import com.jaredrummler.materialspinner.MaterialSpinnerAdapter
 
@@ -27,7 +29,6 @@ class SpinnerImageAdapter(private val context: Context, items: List<Currency>) :
     private fun getTextViewWithIcon(position: Int): View {
         val item = getItem(position)
         val textView = TextView(context)
-        val dpSize = context.resources.displayMetrics.density
 
         textView.textSize = 15f
         textView.text = "${item.curAbbreviation} (${item.curName})"
@@ -35,10 +36,15 @@ class SpinnerImageAdapter(private val context: Context, items: List<Currency>) :
         textView.setCustomFont(R.font.open_sans_bold)
         textView.setTextColor(ContextCompat.getColor(context, R.color.textDarkGrey))
 
-        textView.setPadding((24 * dpSize).toInt(), (8 * dpSize).toInt(), 0, (8 * dpSize).toInt())
+        textView.setPadding(
+            context.resources.getDimension(R.dimen.spinnerPaddingDefault).toInt(),
+            context.resources.getDimension(R.dimen.spinnerPaddingHeightDefault).toInt(),
+            0,
+            context.resources.getDimension(R.dimen.spinnerPaddingHeightDefault).toInt()
+        )
 
         textView.setCurrencyLeftIcon(item.curAbbreviation)
-        textView.compoundDrawablePadding = (8 * dpSize).toInt()
+        textView.compoundDrawablePadding = 8.toDp()
         return textView
     }
 }

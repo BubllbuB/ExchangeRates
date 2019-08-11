@@ -27,7 +27,8 @@ open class BackDropFragment : Fragment() {
     protected fun setBackDrop(toolbar: Toolbar, scrollView: NestedScrollView) {
         viewAnimate = scrollView
         toolbarAnimate = toolbar
-        (activity as AppCompatActivity).setSupportActionBar(toolbar)
+        toolbar.title = ""
+        (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
         toolbar.setNavigationOnClickListener(
             NavigationIconClickListener(
                 activity!!,

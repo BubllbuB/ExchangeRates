@@ -8,6 +8,16 @@
     <string name="chart_label_months_3">3 months</string>
     <string name="chart_label_months_6">6 months</string>
     <string name="chart_label_months_12">12 months</string>
-    <string name="dialogButtonOk">Ok</string>
+    <string name="dialogButtonOk">OK</string>
     <string name="dialogButtonCancel">Cancel</string>
+    <string name="ingotNominalCapacity">%d gram</string>
+    <string name="stringNominalLabel">Face value</string>
+    <string name="stringBuyLabel">Buy</string>
+    <string name="stringSellLabel">Sell</string>
+    <string name="menuCurrentRates">Current rates</string>
+    <string name="menuChart">Chart</string>
+    <string name="menuRateOnDate">Rate on date</string>
+    <string name="menuIngots">Ingots</string>
+    <string name="menuConverter">Converter</string>
+    <string name="menuAbout">About</string>
 </resources>

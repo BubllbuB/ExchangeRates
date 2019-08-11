@@ -3,4 +3,8 @@
     <dimen name="er_backdrop_reveal_height">300dp</dimen>
     <dimen name="date_picker_min_width_major" type="dimen">95%</dimen>
     <dimen name="date_picker_min_width_minor" type="dimen">95%</dimen>
+    <dimen name="itemMarginDefault">16dp</dimen>
+    <dimen name="containerMarginDefault">28dp</dimen>
+    <dimen name="spinnerPaddingDefault">24dp</dimen>
+    <dimen name="spinnerPaddingHeightDefault">8dp</dimen>
 </resources>

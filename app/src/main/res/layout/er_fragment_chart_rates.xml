@@ -42,8 +42,17 @@
                     style="@style/Widget.ExRates.Toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    app:navigationIcon="@drawable/er_backdrop_menu"
-                    app:title="@string/er_app_name" />
+                    app:navigationIcon="@drawable/er_backdrop_menu">
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/menuChart"
+                        android:layout_gravity="center"
+                        android:textColor="@color/elementsBackground"
+                        android:fontFamily="@font/open_sans_semibold"
+                        android:textSize="18sp"
+                        android:id="@+id/toolbar_title" />
+            </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.core.widget.NestedScrollView
@@ -61,8 +70,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center|center"
-                    android:padding="16dp"
-                    android:layout_margin="28dp"
+                    android:padding="@dimen/itemMarginDefault"
+                    android:layout_margin="@dimen/containerMarginDefault"
                     android:background="@color/elementsBackground"
                     android:orientation="vertical">
 
@@ -73,7 +82,7 @@
                         android:drawableStart="@mipmap/currency_symbol_usd"
                         android:drawablePadding="8dp"
                         android:textSize="15sp"
-                        android:layout_marginTop="26dp"
+                        android:layout_marginTop="@dimen/itemMarginDefault"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -86,7 +95,7 @@
                         android:id="@+id/toggle_button_group"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="26dp"
+                        android:layout_marginTop="@dimen/containerMarginDefault"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/chartSpinner"
@@ -123,7 +132,7 @@
                         android:layout_height="0dp"
                         android:setLinesData="@{chartViewModel.rates}"
                         android:layout_marginTop="8dp"
-                        android:layout_marginBottom="26dp"
+                        android:layout_marginBottom="@dimen/itemMarginDefault"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"

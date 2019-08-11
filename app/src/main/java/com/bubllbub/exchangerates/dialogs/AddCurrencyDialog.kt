@@ -59,7 +59,8 @@ class AddCurrencyDialog : DialogFragment() {
         val size = Point()
         display.getSize(size)
         val params = binding.rvDialogAdd.layoutParams
-        params.width = (size.x - requireContext().resources.displayMetrics.density * 64).toInt()
+        params.width =
+            size.x - requireContext().resources.getDimension(R.dimen.itemMarginDefault).toInt() * 4
         binding.rvDialogAdd.layoutParams = params
 
         binding.dialogAddConfirm.setOnClickListener {

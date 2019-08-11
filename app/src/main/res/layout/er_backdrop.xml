@@ -6,28 +6,35 @@
             android:id="@+id/menuFragmentCurrentRates"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Current rates" />
+            android:text="@string/menuCurrentRates" />
 
     <com.google.android.material.button.MaterialButton
             style="@style/Widget.ExRates.Button.TextButton"
             android:id="@+id/menuFragmentChartRates"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Chart" />
+            android:text="@string/menuChart" />
 
     <com.google.android.material.button.MaterialButton
             style="@style/Widget.ExRates.Button.TextButton"
             android:id="@+id/menuFragmentRateOnDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Rate on date" />
+            android:text="@string/menuRateOnDate" />
 
     <com.google.android.material.button.MaterialButton
             style="@style/Widget.ExRates.Button.TextButton"
             android:id="@+id/menuFragmentIngots"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ingots" />
+            android:text="@string/menuIngots" />
+
+    <com.google.android.material.button.MaterialButton
+            style="@style/Widget.ExRates.Button.TextButton"
+            android:id="@+id/menuFragmentCalculator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/menuConverter" />
 
     <View
             android:layout_width="56dp"
@@ -37,15 +44,8 @@
 
     <com.google.android.material.button.MaterialButton
             style="@style/Widget.ExRates.Button.TextButton"
-            android:id="@+id/menuFragmentCalculator"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Converter" />
-
-    <com.google.android.material.button.MaterialButton
-            style="@style/Widget.ExRates.Button.TextButton"
             android:id="@+id/menuFragmentAbout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="About" />
+            android:text="@string/menuAbout" />
 </merge>

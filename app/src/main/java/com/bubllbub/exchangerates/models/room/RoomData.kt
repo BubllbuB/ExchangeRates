@@ -37,7 +37,7 @@ object RoomData {
         var query: String
         if (params.containsKey(CUR_ABBREVIATION) && params.containsKey(CUR_DATE) && table == "currency") {
             query =
-                "SELECT $table.curId, $table.curAbbreviation, $table.curName, $table.curNameBel, $table.curNameEng, $table.date, rates.curOfficialRate, $table.curPeriodicity, $table.curDateStart, $table.curDateEnd, $table.parentId, $table.scale, $table.symbol FROM $table join rates on currency.curId = rates.curId WHERE rates.curAbbreviation='${params[CUR_ABBREVIATION]}' AND rates.date='${params[DATE_IN_MILLI]}'"
+                "SELECT $table.curId, $table.curAbbreviation, $table.curName, $table.curNameBel, $table.curNameEng, $table.curQuotName, $table.curQuotNameBel, $table.curQuotNameEng, $table.date, rates.curOfficialRate, $table.curPeriodicity, $table.curDateStart, $table.curDateEnd, $table.parentId, $table.scale, $table.symbol FROM $table join rates on currency.curId = rates.curId WHERE rates.curAbbreviation='${params[CUR_ABBREVIATION]}' AND rates.date='${params[DATE_IN_MILLI]}'"
         } else {
             query = "SELECT * FROM $table"
             val cleanParams = cleanParams(params)

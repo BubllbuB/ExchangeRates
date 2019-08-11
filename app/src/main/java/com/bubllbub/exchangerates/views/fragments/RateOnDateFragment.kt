@@ -21,6 +21,7 @@ import kotlinx.android.synthetic.main.er_fragment_rate_on_date.view.*
 import org.joda.time.DateTime
 import java.util.*
 
+const val LENGTH_ABBREVIATION = 3
 
 class RateOnDateFragment : BackDropFragment() {
     private lateinit var binding: ErFragmentRateOnDateBinding
@@ -46,13 +47,13 @@ class RateOnDateFragment : BackDropFragment() {
 
     private fun refreshDate() {
         val currencyName =
-            binding.rateOnDateSpinner.text.toString().substring(0, 3)
+            binding.rateOnDateSpinner.text.toString().substring(0, LENGTH_ABBREVIATION)
         binding.rateOnDateViewModel?.refresh(currencyName)
     }
 
     private fun refreshDateRange() {
         val currencyName =
-            binding.rateOnDateSpinner.text.toString().substring(0, 3)
+            binding.rateOnDateSpinner.text.toString().substring(0, LENGTH_ABBREVIATION)
         val currency =
             binding.rateOnDateViewModel?.currencies?.value?.find { it.curAbbreviation == currencyName }
         currency?.let {
@@ -97,7 +98,7 @@ class RateOnDateFragment : BackDropFragment() {
 
         binding.rateOnDateSpinner.setOnItemSelectedListener { view, _, _, item ->
             view.background = ResourcesCompat.getDrawable(resources, R.drawable.spinner_bg, null)
-            view.setCurrencyLeftIcon(item.toString().substring(0,3))
+            view.setCurrencyLeftIcon(item.toString().substring(0,LENGTH_ABBREVIATION))
             refreshDateRange()
             refreshDate()
         }

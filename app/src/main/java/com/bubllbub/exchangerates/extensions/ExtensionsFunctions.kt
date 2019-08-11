@@ -1,6 +1,7 @@
 package com.bubllbub.exchangerates.extensions
 
 import android.content.Context
+import android.content.res.Resources
 import android.graphics.Point
 import android.view.Display
 import android.widget.TextView
@@ -95,10 +96,15 @@ fun MaterialButtonToggleGroup.setWidthChildFull(display: Display, cxt: Context) 
     for (index in 0 until this.childCount) {
         val button = this.getChildAt(index) as MaterialButton
         val params = button.layoutParams
-        params.width = (size.x - cxt.resources.displayMetrics.density * 88).toInt() / this.childCount
+        params.width =
+            (size.x - (cxt.resources.getDimension(R.dimen.itemMarginDefault).toInt() + cxt.resources.getDimension(
+                R.dimen.containerMarginDefault
+            ).toInt()) * 2) / this.childCount
         button.layoutParams = params
     }
 }
+
+fun Int.toDp(): Int = (this * Resources.getSystem().displayMetrics.density).toInt()
 
 fun initWithTodayMaxDate(): CalendarDatePickerDialogFragment {
     val calendar = Calendar.getInstance()
