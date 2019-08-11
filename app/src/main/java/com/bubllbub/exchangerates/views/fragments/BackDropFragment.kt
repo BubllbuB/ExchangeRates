@@ -57,27 +57,27 @@ open class BackDropFragment : Fragment() {
     }
 
     private fun goToMenu() {
-        menuFragmentCurrentRates.setOnClickListener {
+        menuFragmentCurrentRates?.setOnClickListener {
             (requireActivity() as MainActivity).navigateTo(CurrentRatesFragment())
         }
 
-        menuFragmentChartRates.setOnClickListener {
+        menuFragmentChartRates?.setOnClickListener {
             (requireActivity() as MainActivity).navigateTo(ChartRatesFragment())
         }
 
-        menuFragmentRateOnDate.setOnClickListener {
+        menuFragmentRateOnDate?.setOnClickListener {
             (requireActivity() as MainActivity).navigateTo(RateOnDateFragment())
         }
 
-        menuFragmentIngots.setOnClickListener {
+        menuFragmentIngots?.setOnClickListener {
             (requireActivity() as MainActivity).navigateTo(IngotsFragment())
         }
 
-        menuFragmentCalculator.setOnClickListener {
+        menuFragmentCalculator?.setOnClickListener {
             (requireActivity() as MainActivity).navigateTo(ConverterFragment())
         }
 
-        menuFragmentAbout.setOnClickListener {
+        menuFragmentAbout?.setOnClickListener {
             (requireActivity() as MainActivity).navigateTo(AboutAppFragment())
         }
     }

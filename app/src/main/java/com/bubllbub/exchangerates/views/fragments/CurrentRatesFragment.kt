@@ -69,6 +69,10 @@ class CurrentRatesFragment : BackDropFragment() {
         )
         itemTouchHelper.attachToRecyclerView(binding.rvCurrentRates)
 
+        binding.additionalCurrencyBtn.setOnClickListener {
+            AddCurrencyDialog().show(childFragmentManager, TAG_FAVORITES)
+        }
+
         viewModel.currencies.observe(this,
             Observer<List<Currency>> {
                 it?.let { adapter.replaceData(it) }

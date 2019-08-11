@@ -15,10 +15,7 @@
     <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:clipChildren="false"
-            android:clipToPadding="false"
             tools:context=".views.fragments.CurrentRatesFragment">
-
 
         <LinearLayout
                 style="@style/Widget.ExRates.Backdrop"
@@ -52,9 +49,9 @@
                 android:id="@+id/scroll_view_fragment_first"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="56dp"
                 android:background="@color/scrollViewBackgroundColor"
                 android:elevation="8dp"
+                android:layout_marginTop="?attr/actionBarSize"
                 android:fillViewport="true"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
@@ -63,17 +60,58 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
+                <RelativeLayout
+                        android:id="@+id/last_update"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="28dp"
+                        android:background="@drawable/er_update_gradient"
+                        android:padding="16dp"
+                        android:paddingStart="20dp"
+                        android:paddingEnd="20dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/elementsBackground"
+                            android:fontFamily="@font/open_sans_semibold"
+                            android:textSize="14sp"
+                            android:layout_centerInParent="true"
+                            android:layout_alignParentStart="true"
+                            android:text="Последние изменения" />
+                    <TextView
+                            android:background="@drawable/er_update_date_bg"
+                            android:padding="4dp"
+                            android:paddingStart="12dp"
+                            android:paddingEnd="12dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/elementsBackground"
+                            android:fontFamily="@font/open_sans_semibold"
+                            android:textSize="14sp"
+                            android:layout_centerInParent="true"
+                            android:layout_alignParentEnd="true"
+                            android:text="@{currentRatesViewModel.updateString}"
+                            tools:text="28 july 2019"/>
+                </RelativeLayout>
+
                 <include
                         android:id="@+id/include"
                         layout="@layout/er_main_buttons"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="28dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toBottomOf="@+id/last_update" />
 
                 <LinearLayout
                         android:id="@+id/linearLayout"
                         android:layout_width="match_parent"
-                        android:layout_height="0dp"
+                        android:layout_height="wrap_content"
                         android:layout_margin="28dp"
                         android:orientation="vertical"
                         android:background="@color/elementsBackground"
@@ -87,12 +125,23 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="16dp"
+                            android:paddingTop="0dp"
                             android:visibility="@{currentRatesViewModel.isLoading ? View.GONE : View.VISIBLE}"
                             tools:listitem="@layout/rv_item_currency" />
 
                     <com.google.android.material.button.MaterialButton
+                            android:id="@+id/additionalCurrencyBtn"
                             android:layout_width="wrap_content"
-                            android:layout_height="56dp"
+                            android:layout_height="wrap_content"
+                            android:textSize="14sp"
+                            android:textAllCaps="false"
+                            app:cornerRadius="40dp"
+                            android:padding="16dp"
+                            android:paddingStart="40dp"
+                            android:paddingEnd="40dp"
+                            android:backgroundTint="@color/dialogButtonColor"
+                            android:layout_marginBottom="26dp"
+                            android:fontFamily="@font/open_sans_semibold"
                             android:text="Добавить валюту"
                             android:layout_gravity="center|bottom"/>
                 </LinearLayout>

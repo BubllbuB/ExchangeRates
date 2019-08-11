@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ripple
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:color="@color/colorPrimary">
+        android:color="@color/gradientToolbarStartColor">
 
     <item>
         <color android:color="@color/bpTransparent" />
@@ -9,7 +9,7 @@
     <!-- make sure the ripple doesn't exceed the bounds -->
     <item android:id="@android:id/mask">
         <shape android:shape="rectangle">
-            <solid android:color="@color/colorPrimary" />
+            <solid android:color="@color/gradientToolbarStartColor" />
         </shape>
     </item>
 </ripple>

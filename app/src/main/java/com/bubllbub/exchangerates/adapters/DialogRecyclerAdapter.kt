@@ -38,22 +38,10 @@ class DialogRecyclerAdapter(
                     android.R.color.white
                 )
             )
-            holder.itemView.rv_item_dialog_currency_abbreviation.setTextColor(
-                ContextCompat.getColor(
-                    holder.itemView.context,
-                    android.R.color.white
-                )
-            )
         } else {
             holder.itemView.dialog_item_cv.background =
                 ContextCompat.getDrawable(holder.itemView.context, R.drawable.rv_dialog_add_bg)
             holder.itemView.rv_item_dialog_currency_name.setTextColor(
-                ContextCompat.getColor(
-                    holder.itemView.context,
-                    R.color.textDarkGrey
-                )
-            )
-            holder.itemView.rv_item_dialog_currency_abbreviation.setTextColor(
                 ContextCompat.getColor(
                     holder.itemView.context,
                     R.color.textDarkGrey

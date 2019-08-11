@@ -8,4 +8,6 @@
     <string name="chart_label_months_3">3 months</string>
     <string name="chart_label_months_6">6 months</string>
     <string name="chart_label_months_12">12 months</string>
+    <string name="dialogButtonOk">Ok</string>
+    <string name="dialogButtonCancel">Cancel</string>
 </resources>

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bubllbub.exchangerates.R
 import com.bubllbub.exchangerates.adapters.DialogRecyclerAdapter
 import com.bubllbub.exchangerates.databinding.DialogAddCurrencyBinding
+import com.bubllbub.exchangerates.elements.SmartDividerItemDecoration
 import com.bubllbub.exchangerates.objects.Currency
 import com.bubllbub.exchangerates.viewmodels.DialogAddCurrencyViewModel
 
@@ -41,6 +43,14 @@ class AddCurrencyDialog : DialogFragment() {
         val adapter = DialogRecyclerAdapter(mutableListOf())
         adapter.setHasStableIds(true)
         binding.rvDialogAdd.adapter = adapter
+        binding.rvDialogAdd.addItemDecoration(
+            SmartDividerItemDecoration(
+                ContextCompat.getDrawable(
+                    requireContext(),
+                    R.drawable.er_recycler_devider
+                )
+            )
+        )
 
         viewModel.currencies.observe(this,
             Observer<List<Currency>> { it?.let { adapter.replaceData(it) } })

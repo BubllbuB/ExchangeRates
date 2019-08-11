@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ripple
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:color="@color/colorPrimary">
+        android:color="@color/gradientToolbarStartColor">
 
     <item>
-        <color android:color="@color/colorPrimary" />
+        <shape>
+            <gradient
+                    android:angle="45"
+                    android:startColor="@color/gradientToolbarStartColor"
+                    android:endColor="@color/gradientToolbarEndColor"
+                    android:type="linear" />
+        </shape>
     </item>
     <!-- make sure the ripple doesn't exceed the bounds -->
     <item android:id="@android:id/mask">

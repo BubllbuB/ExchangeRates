@@ -14,11 +14,14 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableCompletableObserver
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subscribers.DisposableSubscriber
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class CurrentRatesViewModel : ViewModel() {
     var currencies = MutableLiveData<List<Currency>>()
     var isLoading = ObservableField(true)
+    var updateString = ObservableField("")
     private val currencyRepo = Repository.of<Currency>()
     private val compositeDisposable = CompositeDisposable()
 
@@ -40,6 +43,8 @@ class CurrentRatesViewModel : ViewModel() {
 
                 override fun onNext(t: List<Currency>) {
                     currencies.value = t.sortedBy { it.favoritePos }
+                    val dateFormat = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
+                    updateString.set(dateFormat.format(t[0].date))
                     isLoading.set(false)
 
                     Log.d(TAG, "[onSuccess] " + t.toString())
