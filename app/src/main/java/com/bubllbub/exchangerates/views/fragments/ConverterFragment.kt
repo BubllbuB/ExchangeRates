@@ -2,6 +2,7 @@ package com.bubllbub.exchangerates.views.fragments
 
 import android.os.Bundle
 import android.view.*
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -12,10 +13,13 @@ import com.bubllbub.exchangerates.adapters.ConverterRecyclerAdapter
 import com.bubllbub.exchangerates.databinding.ErFragmentConverterBinding
 import com.bubllbub.exchangerates.dialogs.AddCurrencyDialog
 import com.bubllbub.exchangerates.dialogs.TAG_CONVERT
+import com.bubllbub.exchangerates.elements.SmartDividerItemDecoration
 import com.bubllbub.exchangerates.objects.Currency
 import com.bubllbub.exchangerates.recyclerview.SwipeDeleteHelper
 import com.bubllbub.exchangerates.viewmodels.ConverterViewModel
+import kotlinx.android.synthetic.main.er_fragment_converter.*
 import kotlinx.android.synthetic.main.er_fragment_converter.view.*
+import kotlinx.android.synthetic.main.er_fragment_converter.view.additionalConverterBtn
 
 class ConverterFragment : BackDropFragment() {
     private lateinit var binding: ErFragmentConverterBinding
@@ -37,6 +41,14 @@ class ConverterFragment : BackDropFragment() {
         )
         adapter.setHasStableIds(true)
         binding.rvConverter.adapter = adapter
+        binding.rvConverter.addItemDecoration(
+            SmartDividerItemDecoration(
+                ContextCompat.getDrawable(
+                    requireContext(),
+                    R.drawable.er_recycler_devider
+                )
+            )
+        )
 
         val itemTouchHelper = ItemTouchHelper(
             SwipeDeleteHelper(
@@ -55,6 +67,10 @@ class ConverterFragment : BackDropFragment() {
             )
         )
         itemTouchHelper.attachToRecyclerView(binding.rvConverter)
+
+        additionalConverterBtn?.setOnClickListener {
+            AddCurrencyDialog().show(childFragmentManager, TAG_CONVERT)
+        }
 
         viewModel.currencies.observe(this,
             Observer<List<Currency>> {

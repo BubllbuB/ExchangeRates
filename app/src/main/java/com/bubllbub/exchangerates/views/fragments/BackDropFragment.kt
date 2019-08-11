@@ -11,9 +11,9 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
-import com.bubllbub.exchangerates.views.MainActivity
 import com.bubllbub.exchangerates.R
 import com.bubllbub.exchangerates.backdrop.NavigationIconClickListener
+import com.bubllbub.exchangerates.views.MainActivity
 import kotlinx.android.synthetic.main.er_backdrop.*
 import kotlinx.android.synthetic.main.er_main_buttons.*
 
@@ -27,7 +27,6 @@ open class BackDropFragment : Fragment() {
     protected fun setBackDrop(toolbar: Toolbar, scrollView: NestedScrollView) {
         viewAnimate = scrollView
         toolbarAnimate = toolbar
-        // Set up the tool bar
         (activity as AppCompatActivity).setSupportActionBar(toolbar)
         toolbar.setNavigationOnClickListener(
             NavigationIconClickListener(
@@ -83,20 +82,23 @@ open class BackDropFragment : Fragment() {
     }
 
     private fun goToMainButtons() {
-        mainButtonFirst?.let { button ->
-            button.setOnClickListener {
-                (requireActivity() as MainActivity).navigateTo(button.getNavigateFragment(), menuNavigate = false)
-            }
+        mainButtonFirst?.setOnClickListener {
+            (requireActivity() as MainActivity).navigateTo(
+                mainButtonFirst.getNavigateFragment(),
+                menuNavigate = false
+            )
         }
-        mainButtonSecond?.let { button ->
-            button.setOnClickListener {
-                (requireActivity() as MainActivity).navigateTo(button.getNavigateFragment(), menuNavigate = false)
-            }
+        mainButtonSecond?.setOnClickListener {
+            (requireActivity() as MainActivity).navigateTo(
+                mainButtonSecond.getNavigateFragment(),
+                menuNavigate = false
+            )
         }
-        mainButtonThird?.let { button ->
-            button.setOnClickListener {
-                (requireActivity() as MainActivity).navigateTo(button.getNavigateFragment(), menuNavigate = false)
-            }
+        mainButtonThird?.setOnClickListener {
+            (requireActivity() as MainActivity).navigateTo(
+                mainButtonThird.getNavigateFragment(),
+                menuNavigate = false
+            )
         }
     }
 

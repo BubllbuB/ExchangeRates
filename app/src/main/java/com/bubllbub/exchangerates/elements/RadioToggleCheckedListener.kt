@@ -1,8 +1,14 @@
 package com.bubllbub.exchangerates.elements
 
+import android.content.Context
+import android.graphics.Color
+import androidx.core.content.ContextCompat
+import com.bubllbub.exchangerates.R
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.button.MaterialButtonToggleGroup
 
-open class RadioToggleCheckedListener: MaterialButtonToggleGroup.OnButtonCheckedListener {
+open class RadioToggleCheckedListener(private val ctx: Context) :
+    MaterialButtonToggleGroup.OnButtonCheckedListener {
     private var prevChecked = 0
 
     override fun onButtonChecked(
@@ -10,17 +16,44 @@ open class RadioToggleCheckedListener: MaterialButtonToggleGroup.OnButtonChecked
         checkedId: Int,
         isChecked: Boolean
     ) {
-        checkPrevExecute(checkedId)
+        if (isChecked) {
+            for (index in 0 until group.childCount) {
+                val button = group.getChildAt(index) as MaterialButton
 
-
+                if (button.id == checkedId) {
+                    button.setBackgroundColor(
+                        ContextCompat.getColor(
+                            ctx,
+                            R.color.toggleButtonColor
+                        )
+                    )
+                    button.setTextColor(Color.parseColor("#ffffff"))
+                    if (!checkPrevExecute(checkedId)) {
+                        executeOnCheck(button)
+                    }
+                } else {
+                    button.setBackgroundColor(0x00000000)
+                    button.setTextColor(
+                        ContextCompat.getColor(
+                            ctx,
+                            R.color.toggleButtonColor
+                        )
+                    )
+                }
+            }
+        }
     }
 
-    fun checkPrevExecute(checkedId: Int): Boolean {
-        return if(prevChecked == 0 || prevChecked != checkedId) {
+    private fun checkPrevExecute(checkedId: Int): Boolean {
+        return if (prevChecked == 0 || prevChecked != checkedId) {
             prevChecked = checkedId
             false
         } else {
             true
         }
+    }
+
+    open fun executeOnCheck(button: MaterialButton) {
+
     }
 }

@@ -16,7 +16,6 @@
             android:layout_width="match_parent"
             android:layout_height="96dp"
             android:layout_margin="0dp"
-            app:cardBackgroundColor="@color/colorPrimary"
             app:cardElevation="0dp"
             app:cardMaxElevation="0dp">
 
@@ -25,61 +24,51 @@
                 android:layout_height="match_parent">
 
             <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:id="@+id/imageViewConv"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:src="@{currency.symbol}"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    tools:src="@mipmap/currency_symbol_usd"
                     />
 
             <TextView
                     android:id="@+id/currency_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
                     android:layout_marginStart="16dp"
+                    android:fontFamily="@font/open_sans_bold"
                     android:text="@{currency.curName}"
-                    android:textSize="20sp"
-                    android:textColor="#fff"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintHorizontal_bias="0.2"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.083"
-                    tools:text="American dollar"/>
+                    android:textColor="@color/textDarkGrey"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toEndOf="@+id/imageViewConv"
+                    app:layout_constraintTop_toTopOf="@+id/imageViewConv"
+                    tools:text="Доллар США" />
 
             <TextView
-                    android:id="@+id/currency_abbreviation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{currency.curAbbreviation}"
-                    android:textColor="#fff"
+                    android:fontFamily="@font/open_sans_semibold"
+                    android:textLocale="@{currency}"
+                    android:textColor="@color/textLightGrey"
                     android:textSize="14sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintHorizontal_bias="0.2"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.363"
-                    tools:text="USD" />
+                    app:layout_constraintStart_toStartOf="@+id/currency_name"
+                    app:layout_constraintTop_toBottomOf="@+id/currency_name"
+                    tools:text="1 доллар" />
 
             <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/currency_amount_tl"
-                    android:layout_width="0dp"
+                    android:layout_width="130dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="32dp"
-                    android:layout_marginEnd="16dp"
                     style="@style/Widget.ExRates.TextInputLayout"
                     app:boxBackgroundMode="outline"
-                    app:boxBackgroundColor="@color/scrollViewBackgroundColor"
+                    app:boxBackgroundColor="@color/elementsBackground"
                     app:hintEnabled="false"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/currency_name"
-                    app:layout_constraintTop_toTopOf="@+id/currency_name">
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/currency_amount_te"
@@ -87,6 +76,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="number"
                         android:hint="Amount"
+                        android:fontFamily="@font/open_sans_bold"
                         android:textColor="@color/textDarkGrey"
                         android:text="@{currency.calcAmount}"
                         tools:text="2.2103"/>

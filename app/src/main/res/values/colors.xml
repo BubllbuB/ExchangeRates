@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <color name="colorPrimary">#009688</color>
-    <color name="colorPrimaryDark">#00695c</color>
-    <color name="colorAccent">#009688</color>
+    <color name="colorPrimary">#5a61e7</color>
+    <color name="colorPrimaryDark">#b785f8</color>
+    <color name="colorAccent">#7966fe</color>
     <color name="elementsBackground">#ffffff</color>
     <color name="textColorPrimary">#ffffff</color>
     <color name="toolbarIconColor">@color/textColorPrimary</color>

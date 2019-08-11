@@ -14,8 +14,8 @@ import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.bubllbub.exchangerates.R
-import com.bubllbub.exchangerates.adapters.CurrencyRecyclerAdapter
 import com.bubllbub.exchangerates.adapters.SwipeAdapter
+import com.bubllbub.exchangerates.extensions.setCustomFont
 import com.bubllbub.exchangerates.objects.Currency
 import com.google.android.material.snackbar.Snackbar
 
@@ -44,17 +44,23 @@ class SwipeDeleteHelper(
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         val position = viewHolder.adapterPosition
-        val removedItem = adapter.removeItem(position)
-        swipeCallback.onDeleteFromSwipe(removedItem)
+        if(position>0) {
+            val removedItem = adapter.removeItem(position)
+            swipeCallback.onDeleteFromSwipe(removedItem)
 
-        val snackbar = Snackbar
-            .make(snackBarLayout, "${removedItem.curAbbreviation} removed", Snackbar.LENGTH_LONG)
-        snackbar.setActionTextColor(Color.WHITE)
-        snackbar.setAction("UNDO") {
-            adapter.restoreItem()
-            swipeCallback.onRestoreFromSwipe(removedItem)
+            val snackbar = Snackbar
+                .make(
+                    snackBarLayout,
+                    "${removedItem.curAbbreviation} removed",
+                    Snackbar.LENGTH_LONG
+                )
+            snackbar.setActionTextColor(Color.WHITE)
+            snackbar.setAction("UNDO") {
+                adapter.restoreItem()
+                swipeCallback.onRestoreFromSwipe(removedItem)
+            }
+            snackbar.show()
         }
-        snackbar.show()
     }
 
     override fun onChildDraw(
@@ -66,54 +72,58 @@ class SwipeDeleteHelper(
         actionState: Int,
         isCurrentlyActive: Boolean
     ) {
-        super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+        if (viewHolder.adapterPosition > 0) {
 
-        val itemView = viewHolder.itemView
-        val backgroundCornerOffset = 20
+            super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
 
-        val layout = LinearLayout(context)
+            val itemView = viewHolder.itemView
+            val backgroundCornerOffset = 20
 
-        val textView = TextView(context)
-        textView.visibility = View.VISIBLE
-        textView.setTextColor(ContextCompat.getColor(context, android.R.color.white))
-        textView.text = context.getString(R.string.swipeDeleteItemText)
-        textView.isAllCaps = true
-        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18f)
-        layout.addView(textView)
+            val layout = LinearLayout(context)
 
-        layout.measure(c.width, c.height)
-        layout.layout(0, 0, c.width, c.height)
+            val textView = TextView(context)
+            textView.visibility = View.VISIBLE
+            textView.setTextColor(ContextCompat.getColor(context, android.R.color.white))
+            textView.text = context.getString(R.string.swipeDeleteItemText)
+            textView.isAllCaps = false
+            textView.setCustomFont(R.font.open_sans_semibold)
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f)
+            layout.addView(textView)
+
+            layout.measure(c.width, c.height)
+            layout.layout(0, 0, c.width, c.height)
 
 
-        icon?.let {
-            val iconMargin = (itemView.height - icon.intrinsicHeight) / 2
-            val iconTop = itemView.top + (itemView.height - icon.intrinsicHeight) / 2
-            val iconBottom = iconTop + icon.intrinsicHeight
+            icon?.let {
+                val iconMargin = (itemView.height - icon.intrinsicHeight) / 2
+                val iconTop = itemView.top + (itemView.height - icon.intrinsicHeight) / 2
+                val iconBottom = iconTop + icon.intrinsicHeight
 
-            val textViewTop = itemView.top + (itemView.height - textView.measuredHeight) / 2
+                val textViewTop = itemView.top + (itemView.height - textView.measuredHeight) / 2
 
-            when {
-                dX < 0 -> {
-                    val iconLeft = itemView.right - iconMargin - icon.intrinsicWidth
-                    val iconRight = itemView.right - iconMargin
-                    icon.setBounds(iconLeft, iconTop, iconRight, iconBottom)
+                when {
+                    dX < 0 -> {
+                        val iconLeft =  itemView.right - iconMargin - icon.intrinsicWidth
+                        val iconRight = itemView.right - iconMargin
+                        icon.setBounds(iconLeft, iconTop, iconRight, iconBottom)
 
-                    background.setBounds(
-                        itemView.right + dX.toInt() - backgroundCornerOffset,
-                        itemView.top, itemView.right, itemView.bottom
-                    )
+                        background.setBounds(
+                            itemView.right + dX.toInt() - backgroundCornerOffset,
+                            itemView.top, itemView.right, itemView.bottom
+                        )
 
-                    background.draw(c)
-                    c.translate(
-                        (iconLeft - textView.measuredWidth - iconMargin).toFloat(),
-                        textViewTop.toFloat()
-                    )
-                    layout.draw(c)
-                    c.restore()
-                    icon.draw(c)
+                        background.draw(c)
+                        c.translate(
+                            (iconLeft - textView.measuredWidth - iconMargin).toFloat(),
+                            textViewTop.toFloat()
+                        )
+                        layout.draw(c)
+                        c.restore()
+                        icon.draw(c)
+                    }
+                    else ->
+                        background.setBounds(0, 0, 0, 0)
                 }
-                else ->
-                    background.setBounds(0, 0, 0, 0)
             }
         }
     }

@@ -1,8 +1,19 @@
 package com.bubllbub.exchangerates.extensions
 
+import android.content.Context
+import android.graphics.Point
+import android.view.Display
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
+import com.bubllbub.exchangerates.R
 import com.bubllbub.exchangerates.enums.CurrencyRes
+import com.bubllbub.exchangerates.objects.Currency
+import com.codetroopers.betterpickers.calendardatepicker.CalendarDatePickerDialogFragment
+import com.codetroopers.betterpickers.calendardatepicker.MonthAdapter
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.button.MaterialButtonToggleGroup
+import com.jaredrummler.materialspinner.MaterialSpinner
+import java.util.*
 
 
 fun TextView.setCurrencyLeftIcon(abbreviation: String) {
@@ -21,4 +32,89 @@ fun TextView.setCurrencyLeftIcon(abbreviation: String) {
 
 fun TextView.setCustomFont(font: Int) {
     this.typeface = ResourcesCompat.getFont(context, font)
+}
+
+fun MaterialSpinner.initCurrencySpinner(list: List<Currency>) {
+    this.setCustomFont(R.font.open_sans_bold)
+    this.setCurrencyLeftIcon(list[0].curAbbreviation)
+
+    this.background =
+        ResourcesCompat.getDrawable(resources, R.drawable.spinner_bg, null)
+    this.elevation = 0f
+    this.popupWindow.elevation = 0f
+    this.popupWindow.setBackgroundDrawable(
+        ResourcesCompat.getDrawable(
+            resources,
+            R.drawable.spinner_dropdown_bg,
+            null
+        )
+    )
+
+    this.setOnClickListener {
+        it.background =
+            ResourcesCompat.getDrawable(resources, R.drawable.spinner_bg_opened, null)
+    }
+    this.setOnNothingSelectedListener {
+        it.background = ResourcesCompat.getDrawable(resources, R.drawable.spinner_bg, null)
+    }
+}
+
+fun CalendarDatePickerDialogFragment.setMinMaxRangeFromCurrency(curr: Currency) {
+    val calendar = Calendar.getInstance()
+    calendar.time = curr.curDateStart
+
+    val minDate = if (calendar.get(Calendar.YEAR) < 1995) {
+        MonthAdapter.CalendarDay(
+            1995,
+            Calendar.APRIL,
+            1
+        )
+    } else {
+        MonthAdapter.CalendarDay(
+            calendar.get(Calendar.YEAR),
+            calendar.get(Calendar.MONTH),
+            calendar.get(Calendar.DAY_OF_MONTH)
+        )
+    }
+
+    calendar.time = Date()
+
+    val maxDate = MonthAdapter.CalendarDay(
+        calendar.get(Calendar.YEAR),
+        calendar.get(Calendar.MONTH),
+        calendar.get(Calendar.DAY_OF_MONTH)
+    )
+
+    this.setDateRange(minDate, maxDate)
+}
+
+fun MaterialButtonToggleGroup.setWidthChildFull(display: Display, cxt: Context) {
+    val size = Point()
+    display.getSize(size)
+
+    for (index in 0 until this.childCount) {
+        val button = this.getChildAt(index) as MaterialButton
+        val params = button.layoutParams
+        params.width = (size.x - cxt.resources.displayMetrics.density * 88).toInt() / this.childCount
+        button.layoutParams = params
+    }
+}
+
+fun initWithTodayMaxDate(): CalendarDatePickerDialogFragment {
+    val calendar = Calendar.getInstance()
+    val maxDate = MonthAdapter.CalendarDay(
+        calendar.get(Calendar.YEAR),
+        calendar.get(Calendar.MONTH),
+        calendar.get(Calendar.DAY_OF_MONTH)
+    )
+
+    return CalendarDatePickerDialogFragment()
+        .setFirstDayOfWeek(Calendar.MONDAY)
+        .setPreselectedDate(
+            calendar.get(Calendar.YEAR),
+            calendar.get(Calendar.MONTH),
+            calendar.get(Calendar.DAY_OF_MONTH)
+        )
+        .setDateRange(null, maxDate)
+        .setThemeCustom(R.style.Widget_ExRates_DatePicker)
 }

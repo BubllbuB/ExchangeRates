@@ -29,6 +29,7 @@ class IngotApiData : DataSource<Ingot> {
                 val ingotRates =
                     ingot.filter { it != firstIngot && it.metalIdApi == metalElem.ingotId }
                         .map {
+                            it.id = "${it.metalIdApi}_${it.nominal}"
                             it.ingotId = metalElem.ingotId
                             it.ingotName = metalElem.ingotName
                             it.ingotNameBel = metalElem.ingotNameBel
@@ -38,6 +39,7 @@ class IngotApiData : DataSource<Ingot> {
                         }
 
                 firstIngot?.let {
+                    it.id = "${it.metalIdApi}_${it.nominal}"
                     it.ingotId = metalElem.ingotId
                     it.ingotName = metalElem.ingotName
                     it.ingotNameBel = metalElem.ingotNameBel

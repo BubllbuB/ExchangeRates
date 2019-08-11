@@ -1,6 +1,5 @@
 package com.bubllbub.exchangerates.adapters
 
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -19,10 +18,6 @@ class SmallIngotsRecyclerAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(items[position])
-        if (holder.adapterPosition % 2 == 0)
-            holder.itemView.setBackgroundColor(Color.parseColor("#009688"))
-        else
-            holder.itemView.setBackgroundColor(Color.parseColor("#00695c"))
     }
 
     override fun getItemCount(): Int = items.size

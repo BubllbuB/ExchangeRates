@@ -1,6 +1,5 @@
 package com.bubllbub.exchangerates.adapters
 
-import android.graphics.Color
 import android.text.Editable
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -31,10 +30,6 @@ class ConverterRecyclerAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(items[position])
-        if (holder.adapterPosition % 2 == 0)
-            holder.itemView.setBackgroundColor(Color.parseColor("#009688"))
-        else
-            holder.itemView.setBackgroundColor(Color.parseColor("#00695c"))
     }
 
     override fun getItemCount(): Int = items.size
@@ -44,9 +39,9 @@ class ConverterRecyclerAdapter(
     }
 
     fun replaceData(newItems: List<Currency>, updateObserver: Boolean = true) {
-        if(updateObserver) {
+        if (updateObserver) {
             val byn = items.find { it.curAbbreviation == "BYN" }
-            if(byn == null) {
+            if (byn == null) {
                 diffCalc(recalculateAmount(10.0, newItems))
             } else {
                 diffCalc(recalculateAmount(byn.calcAmount, newItems))
@@ -113,7 +108,12 @@ class ConverterRecyclerAdapter(
                         if (!s?.toString().isNullOrBlank() && binding.currencyAmountTe.tag == null) {
                             mRecyclerView.post {
                                 activePosition = layoutPosition
-                                replaceData(recalculateAmount(s?.toString()?.toDouble() ?: 1.0, items), updateObserver = false)
+                                replaceData(
+                                    recalculateAmount(
+                                        s?.toString()?.toDouble() ?: 1.0,
+                                        items
+                                    ), updateObserver = false
+                                )
                                 binding.currencyAmountTe.requestFocus()
                             }
                         }

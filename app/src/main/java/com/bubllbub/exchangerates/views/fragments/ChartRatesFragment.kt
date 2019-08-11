@@ -1,13 +1,9 @@
 package com.bubllbub.exchangerates.views.fragments
 
-import android.graphics.Color
-import android.graphics.Point
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -17,12 +13,12 @@ import com.bubllbub.exchangerates.adapters.SpinnerImageAdapter
 import com.bubllbub.exchangerates.databinding.ErFragmentChartRatesBinding
 import com.bubllbub.exchangerates.elements.RadioToggleCheckedListener
 import com.bubllbub.exchangerates.enums.CurrencyRes
+import com.bubllbub.exchangerates.extensions.initCurrencySpinner
 import com.bubllbub.exchangerates.extensions.setCurrencyLeftIcon
-import com.bubllbub.exchangerates.extensions.setCustomFont
+import com.bubllbub.exchangerates.extensions.setWidthChildFull
 import com.bubllbub.exchangerates.objects.Currency
 import com.bubllbub.exchangerates.viewmodels.ChartsViewModel
 import com.google.android.material.button.MaterialButton
-import com.google.android.material.button.MaterialButtonToggleGroup
 import kotlinx.android.synthetic.main.er_fragment_chart_rates.view.*
 import java.util.*
 
@@ -64,51 +60,18 @@ class ChartRatesFragment : BackDropFragment() {
     }
 
     private fun initToggleButtons() {
-        binding.toggleButtonGroup.addOnButtonCheckedListener(object: RadioToggleCheckedListener() {
-            override fun onButtonChecked(
-                group: MaterialButtonToggleGroup,
-                checkedId: Int,
-                isChecked: Boolean
-            ) {
-                if (isChecked) {
-                    for (index in 0 until group.childCount) {
-                        val button = group.getChildAt(index) as MaterialButton
-
-                        if (button.id == checkedId) {
-                            button.setBackgroundColor(
-                                ContextCompat.getColor(
-                                    requireContext(),
-                                    R.color.toggleButtonColor
-                                )
-                            )
-                            button.setTextColor(Color.parseColor("#ffffff"))
-                            if(!checkPrevExecute(checkedId)) {
-                                setupForDates(button.text.toString().substringBefore(' ').toInt() * -1)
-                                refreshChartDate()
-                            }
-                        } else {
-                            button.setBackgroundColor(0x00000000)
-                            button.setTextColor(
-                                ContextCompat.getColor(
-                                    requireContext(),
-                                    R.color.toggleButtonColor
-                                )
-                            )
-                        }
-                    }
-                }
+        binding.toggleButtonGroup.addOnButtonCheckedListener(object :
+            RadioToggleCheckedListener(requireContext()) {
+            override fun executeOnCheck(button: MaterialButton) {
+                setupForDates(button.text.toString().substringBefore(' ').toInt() * -1)
+                refreshChartDate()
             }
         })
         binding.button3Months.performClick()
-
-        val display = requireActivity().windowManager.defaultDisplay
-        val size = Point()
-        display.getSize(size)
-        val params = binding.button3Months.layoutParams
-        params.width = (size.x - requireContext().resources.displayMetrics.density * 88).toInt() / 3
-        binding.button3Months.layoutParams = params
-        binding.button6Months.layoutParams = params
-        binding.button12Months.layoutParams = params
+        binding.toggleButtonGroup.setWidthChildFull(
+            requireActivity().windowManager.defaultDisplay,
+            requireContext()
+        )
     }
 
     private fun initSpinner() {
@@ -117,36 +80,18 @@ class ChartRatesFragment : BackDropFragment() {
         binding.chartViewModel?.currencies?.observe(this,
             Observer<List<Currency>> { currencies ->
                 currencies?.let { list ->
-                    val sortedList = list.sortedBy { CurrencyRes.valueOf(it.curAbbreviation).ordinal }
+                    val sortedList =
+                        list.sortedBy { CurrencyRes.valueOf(it.curAbbreviation).ordinal }
 
                     val adapter = SpinnerImageAdapter(requireContext(), sortedList)
                     binding.chartSpinner.setAdapter(adapter)
-                    binding.chartSpinner.setCustomFont(R.font.open_sans_bold)
-                    binding.chartSpinner.setCurrencyLeftIcon(sortedList[0].curAbbreviation)
+                    binding.chartSpinner.initCurrencySpinner(sortedList)
                     currentId = sortedList[0].curId
                     currentAbbreviation = sortedList[0].curAbbreviation
                     refreshChartDate()
                 }
             })
-        binding.chartSpinner.background =
-            ResourcesCompat.getDrawable(resources, R.drawable.spinner_bg, null)
-        binding.chartSpinner.elevation = 0f
-        binding.chartSpinner.popupWindow.elevation = 0f
-        binding.chartSpinner.popupWindow.setBackgroundDrawable(
-            ResourcesCompat.getDrawable(
-                resources,
-                R.drawable.spinner_dropdown_bg,
-                null
-            )
-        )
 
-        binding.chartSpinner.setOnClickListener {
-            it.background =
-                ResourcesCompat.getDrawable(resources, R.drawable.spinner_bg_opened, null)
-        }
-        binding.chartSpinner.setOnNothingSelectedListener {
-            it.background = ResourcesCompat.getDrawable(resources, R.drawable.spinner_bg, null)
-        }
         binding.chartSpinner.setOnItemSelectedListener { view, position, id, item ->
             view.background = ResourcesCompat.getDrawable(resources, R.drawable.spinner_bg, null)
             view.setCurrencyLeftIcon((item as Currency).curAbbreviation)
@@ -154,9 +99,5 @@ class ChartRatesFragment : BackDropFragment() {
             currentAbbreviation = item.curAbbreviation
             refreshChartDate()
         }
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
     }
 }

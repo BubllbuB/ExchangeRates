@@ -12,7 +12,7 @@ import com.bubllbub.exchangerates.R
 import com.bubllbub.exchangerates.adapters.SpinnerImageAdapter
 import com.bubllbub.exchangerates.databinding.ErFragmentRateOnDateBinding
 import com.bubllbub.exchangerates.enums.CurrencyRes
-import com.bubllbub.exchangerates.extensions.setCurrencyLeftIcon
+import com.bubllbub.exchangerates.extensions.*
 import com.bubllbub.exchangerates.objects.Currency
 import com.bubllbub.exchangerates.viewmodels.RateOnDateViewModel
 import com.codetroopers.betterpickers.calendardatepicker.CalendarDatePickerDialogFragment
@@ -56,52 +56,13 @@ class RateOnDateFragment : BackDropFragment() {
         val currency =
             binding.rateOnDateViewModel?.currencies?.value?.find { it.curAbbreviation == currencyName }
         currency?.let {
-            val calendar = Calendar.getInstance()
-            calendar.time = it.curDateStart
-
-            val minDate = if (calendar.get(Calendar.YEAR) < 1995) {
-                MonthAdapter.CalendarDay(
-                    1995,
-                    Calendar.APRIL,
-                    1
-                )
-            } else {
-                MonthAdapter.CalendarDay(
-                    calendar.get(Calendar.YEAR),
-                    calendar.get(Calendar.MONTH),
-                    calendar.get(Calendar.DAY_OF_MONTH)
-                )
-            }
-
-            calendar.time = Date()
-
-            val maxDate = MonthAdapter.CalendarDay(
-                calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH)
-            )
-
-            datepicker.setDateRange(minDate, maxDate)
+            datepicker.setMinMaxRangeFromCurrency(it)
         }
     }
 
     private fun initDatePicker() {
-        val calendar = Calendar.getInstance()
-        val maxDate = MonthAdapter.CalendarDay(
-            calendar.get(Calendar.YEAR),
-            calendar.get(Calendar.MONTH),
-            calendar.get(Calendar.DAY_OF_MONTH)
-        )
 
-        datepicker = CalendarDatePickerDialogFragment()
-            .setFirstDayOfWeek(Calendar.MONDAY)
-            .setPreselectedDate(
-                calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH)
-            )
-            .setDateRange(null, maxDate)
-            .setThemeCustom(R.style.Widget_ExRates_DatePicker)
+        datepicker = initWithTodayMaxDate()
 
         datepicker.setOnDateSetListener { _, year, monthOfYear, dayOfMonth ->
             val cal = Calendar.getInstance()
@@ -126,32 +87,15 @@ class RateOnDateFragment : BackDropFragment() {
 
                     val adapter = SpinnerImageAdapter(requireContext(), sortedList)
                     binding.rateOnDateSpinner.setAdapter(adapter)
-                    binding.rateOnDateSpinner.setCurrencyLeftIcon(sortedList[0].curAbbreviation)
+                    binding.rateOnDateSpinner.initCurrencySpinner(sortedList)
+
                     refreshDateRange()
                     refreshDate()
                 }
             })
 
-        binding.rateOnDateSpinner.background =
-            ResourcesCompat.getDrawable(resources, R.drawable.spinner_bg, null)
-        binding.rateOnDateSpinner.elevation = 0f
-        binding.rateOnDateSpinner.popupWindow.elevation = 0f
-        binding.rateOnDateSpinner.popupWindow.setBackgroundDrawable(
-            ResourcesCompat.getDrawable(
-                resources,
-                R.drawable.spinner_dropdown_bg,
-                null
-            )
-        )
 
-        binding.rateOnDateSpinner.setOnClickListener {
-            it.background =
-                ResourcesCompat.getDrawable(resources, R.drawable.spinner_bg_opened, null)
-        }
-        binding.rateOnDateSpinner.setOnNothingSelectedListener {
-            it.background = ResourcesCompat.getDrawable(resources, R.drawable.spinner_bg, null)
-        }
-        binding.rateOnDateSpinner.setOnItemSelectedListener { view, position, id, item ->
+        binding.rateOnDateSpinner.setOnItemSelectedListener { view, _, _, item ->
             view.background = ResourcesCompat.getDrawable(resources, R.drawable.spinner_bg, null)
             view.setCurrencyLeftIcon(item.toString().substring(0,3))
             refreshDateRange()

@@ -17,7 +17,7 @@
             android:layout_height="match_parent"
             android:clipChildren="false"
             android:clipToPadding="false"
-            tools:context=".views.fragments.CurrentRatesFragment">
+            tools:context=".views.fragments.ChartRatesFragment">
 
         <LinearLayout
                 style="@style/Widget.ExRates.Backdrop"

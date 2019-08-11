@@ -14,9 +14,7 @@
     <FrameLayout
                  android:layout_width="match_parent"
                  android:layout_height="match_parent"
-                 android:clipChildren="false"
-                 android:clipToPadding="false"
-                 tools:context=".views.fragments.CurrentRatesFragment">
+                 tools:context=".views.fragments.ConverterFragment">
 
         <LinearLayout
                 style="@style/Widget.ExRates.Backdrop"
@@ -58,17 +56,45 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:paddingTop="42dp"
                     >
 
-                <include layout="@layout/er_main_buttons" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_converter"
+                <include layout="@layout/er_main_buttons"
                         android:layout_width="match_parent"
-                        android:layout_height="500dp"
-                        android:visibility="@{converterViewModel.isLoading ? View.GONE : View.VISIBLE}"
-                        tools:listitem="@layout/rv_item_converter"/>
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="28dp"/>
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="28dp"
+                        android:orientation="vertical"
+                        android:background="@color/elementsBackground">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rv_converter"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="16dp"
+                            android:paddingTop="0dp"
+                            android:visibility="@{converterViewModel.isLoading ? View.GONE : View.VISIBLE}"
+                            tools:listitem="@layout/rv_item_converter" />
+
+                    <com.google.android.material.button.MaterialButton
+                            android:id="@+id/additionalConverterBtn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="14sp"
+                            android:textAllCaps="false"
+                            app:cornerRadius="40dp"
+                            android:padding="16dp"
+                            android:paddingStart="40dp"
+                            android:paddingEnd="40dp"
+                            android:backgroundTint="@color/dialogButtonColor"
+                            android:layout_marginBottom="26dp"
+                            android:fontFamily="@font/open_sans_semibold"
+                            android:text="Добавить валюту"
+                            android:layout_gravity="center|bottom"/>
+                </LinearLayout>
             </LinearLayout>
 
         </androidx.core.widget.NestedScrollView>

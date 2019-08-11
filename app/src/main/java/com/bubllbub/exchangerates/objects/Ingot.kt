@@ -9,9 +9,9 @@ import java.util.*
 @Entity(tableName = "ingots")
 @TypeConverters(RoomDateConverter::class)
 data class Ingot(
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
     @ColumnInfo(name = "idIngot")
-    var id: Int = 0,
+    var id: String = "",
     @SerializedName("Id")
     @Expose
     var ingotId: Int = 0,

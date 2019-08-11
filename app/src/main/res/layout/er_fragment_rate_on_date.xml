@@ -4,34 +4,35 @@
         xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="android.view.View"/>
+
+        <import type="android.view.View" />
+
         <variable
                 name="rateOnDateViewModel"
-                type="com.bubllbub.exchangerates.viewmodels.RateOnDateViewModel"
-                />
+                type="com.bubllbub.exchangerates.viewmodels.RateOnDateViewModel" />
     </data>
 
     <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:clipChildren="false"
-            android:clipToPadding="false"
-            tools:context=".views.fragments.CurrentRatesFragment">
+            tools:context=".views.fragments.RateOnDateFragment">
 
         <LinearLayout
                 style="@style/Widget.ExRates.Backdrop"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@drawable/er_backdrop_bg"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
                 android:paddingTop="88dp">
 
-            <include layout="@layout/er_backdrop"/>
+            <include layout="@layout/er_backdrop" />
         </LinearLayout>
 
         <com.google.android.material.appbar.AppBarLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
                 app:elevation="0dp">
 
             <androidx.appcompat.widget.Toolbar
@@ -39,140 +40,173 @@
                     style="@style/Widget.ExRates.Toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    android:paddingStart="12dp"
-                    android:paddingLeft="12dp"
-                    android:paddingEnd="12dp"
-                    android:paddingRight="12dp"
-                    app:contentInsetStart="0dp"
                     app:navigationIcon="@drawable/er_backdrop_menu"
-                    app:title="@string/er_app_name"/>
+                    app:title="@string/er_app_name" />
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.core.widget.NestedScrollView
                 android:id="@+id/scroll_view_fragment_third"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="56dp"
+                android:layout_marginTop="?attr/actionBarSize"
                 android:background="@color/scrollViewBackgroundColor"
                 android:elevation="8dp"
+                android:fillViewport="true"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="48dp"
-                    android:orientation="vertical">
+                    android:layout_height="match_parent">
 
-                <com.jaredrummler.materialspinner.MaterialSpinner
-                        android:id="@+id/rateOnDateSpinner"
-                        android:layout_width="300dp"
-                        android:layout_height="48dp"
-                        android:drawableStart="@mipmap/currency_symbol_usd"
-                        android:drawablePadding="8dp"
-                        android:textSize="14sp"
+                <include
+                        android:id="@+id/include"
+                        layout="@layout/er_main_buttons"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="28dp"
+                        android:layout_marginBottom="28dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:ms_dropdown_max_height="300dp"
-                        app:ms_arrow_tint="@color/colorAccent"
-                        app:ms_padding_left="8dp"
-                        app:ms_padding_right="8dp"
-                        app:ms_text_color="@color/colorAccent" />
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                        android:id="@+id/tvDate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@{rateOnDateViewModel.date}"
-                        app:layout_constraintBottom_toBottomOf="@+id/selectDateButton"
-                        app:layout_constraintStart_toStartOf="@+id/rateOnDateSpinner"
-                        app:layout_constraintTop_toTopOf="@+id/selectDateButton" />
-
-                <com.google.android.material.button.MaterialButton
-                        android:id="@+id/selectDateButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
-                        android:text="Select date"
-                        app:layout_constraintStart_toEndOf="@+id/tvDate"
-                        app:layout_constraintTop_toBottomOf="@+id/rateOnDateSpinner" />
-
-                <androidx.cardview.widget.CardView
+                <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="96dp"
-                        android:layout_margin="0dp"
-                        app:cardBackgroundColor="@color/colorPrimary"
-                        app:cardElevation="0dp"
-                        app:cardMaxElevation="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="28dp"
+                        android:background="@color/elementsBackground"
+                        android:padding="16dp"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/selectDateButton">
+                        app:layout_constraintTop_toBottomOf="@id/include">
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
+                    <com.jaredrummler.materialspinner.MaterialSpinner
+                            android:id="@+id/rateOnDateSpinner"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent">
+                            android:layout_height="60dp"
+                            android:drawableStart="@mipmap/currency_symbol_usd"
+                            android:drawablePadding="8dp"
+                            android:textSize="15sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:ms_arrow_tint="@color/gradientToolbarStartColor"
+                            app:ms_dropdown_max_height="300dp"
+                            app:ms_padding_left="24dp"
+                            app:ms_padding_right="24dp"
+                            app:ms_text_color="@color/textDarkGrey" />
 
-                        <ImageView
-                                android:layout_width="50dp"
-                                android:layout_height="50dp"
-                                android:src="@{rateOnDateViewModel.currency.symbol}"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintHorizontal_bias="0.0"
-                                app:layout_constraintLeft_toLeftOf="parent"
-                                app:layout_constraintRight_toRightOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
+                    <RelativeLayout
+                            android:id="@+id/selectDateContainer"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="14dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/rateOnDateSpinner">
                         <TextView
-                                android:id="@+id/currency_name"
+                                android:id="@+id/tvDate"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@{rateOnDateViewModel.date}"
+                                android:fontFamily="@font/open_sans_semibold"
+                                android:textColor="@color/textDarkGrey"
+                                android:textSize="16sp"
+                                android:layout_alignParentStart="true"
+                                android:layout_centerInParent="true"
+                                tools:text="28.09.2019"/>
+
+                        <com.google.android.material.button.MaterialButton
+                                android:id="@+id/selectDateButton"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="16dp"
-                                android:layout_marginEnd="16dp"
-                                android:text="@{rateOnDateViewModel.currency.curName}"
-                                android:textColor="#fff"
-                                android:textSize="20sp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintHorizontal_bias="0.2"
-                                app:layout_constraintLeft_toLeftOf="parent"
-                                app:layout_constraintRight_toRightOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintVertical_bias="0.083"
-                                tools:text="American dollar" />
+                                android:layout_marginTop="16dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerInParent="true"
+                                android:textAllCaps="false"
+                                android:fontFamily="@font/open_sans_semibold"
+                                android:backgroundTint="@color/dialogButtonColor"
+                                app:cornerRadius="25dp"
+                                android:paddingTop="12dp"
+                                android:paddingBottom="12dp"
+                                android:paddingLeft="30dp"
+                                android:paddingRight="30dp"
+                                android:text="Select date" />
+                    </RelativeLayout>
 
-                        <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="16dp"
-                                android:layout_marginEnd="16dp"
-                                android:text="@{rateOnDateViewModel.currency.curAbbreviation}"
-                                android:textColor="#fff"
-                                android:textSize="14sp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintHorizontal_bias="0.2"
-                                app:layout_constraintLeft_toLeftOf="parent"
-                                app:layout_constraintRight_toRightOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintVertical_bias="0.363"
-                                tools:text="USD" />
+                    <View
+                            android:id="@+id/devider"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="14dp"
+                            android:background="@drawable/er_recycler_devider"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/selectDateContainer"/>
 
-                        <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="16dp"
-                                android:layout_marginEnd="16dp"
-                                android:text="@{Double.toString(rateOnDateViewModel.currency.curOfficialRate)}"
-                                android:textColor="#fff"
-                                android:textSize="32sp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintHorizontal_bias="0.95"
-                                app:layout_constraintLeft_toLeftOf="parent"
-                                app:layout_constraintRight_toRightOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                tools:text="2.044" />
+                    <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="96dp"
+                            app:cardElevation="0dp"
+                            app:cardMaxElevation="0dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/devider">
 
-                    </androidx.constraintlayout.widget.ConstraintLayout>
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
 
-                </androidx.cardview.widget.CardView>
+                            <ImageView
+                                    android:id="@+id/rateOnDateImg"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:src="@{rateOnDateViewModel.currency.symbol}"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintLeft_toLeftOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    tools:src="@mipmap/currency_symbol_usd" />
+
+                            <TextView
+                                    android:id="@+id/currency_name"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="16dp"
+                                    android:fontFamily="@font/open_sans_bold"
+                                    android:text="@{rateOnDateViewModel.currency.curName}"
+                                    android:textColor="@color/textDarkGrey"
+                                    android:textSize="14sp"
+                                    app:layout_constraintStart_toEndOf="@+id/rateOnDateImg"
+                                    app:layout_constraintTop_toTopOf="@+id/rateOnDateImg"
+                                    tools:text="Доллар США" />
+
+                            <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/open_sans_semibold"
+                                    android:textColor="@color/textLightGrey"
+                                    android:textLocale="@{rateOnDateViewModel.currency}"
+                                    android:textSize="14sp"
+                                    app:layout_constraintStart_toStartOf="@+id/currency_name"
+                                    app:layout_constraintTop_toBottomOf="@+id/currency_name"
+                                    tools:text="1 доллар" />
+
+                            <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/open_sans_bold"
+                                    android:text="@{Double.toString(rateOnDateViewModel.currency.curOfficialRate)}"
+                                    android:textColor="@color/textDarkGrey"
+                                    android:textSize="18sp"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintRight_toRightOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    tools:text="2.044" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </androidx.cardview.widget.CardView>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

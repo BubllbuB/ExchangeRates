@@ -15,14 +15,13 @@
     <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:clipChildren="false"
-            android:clipToPadding="false"
-            tools:context=".views.fragments.CurrentRatesFragment">
+            tools:context=".views.fragments.IngotsFragment">
 
         <LinearLayout
                 style="@style/Widget.ExRates.Backdrop"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@drawable/er_backdrop_bg"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
                 android:paddingTop="88dp">
@@ -33,6 +32,7 @@
         <com.google.android.material.appbar.AppBarLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
                 app:elevation="0dp">
 
             <androidx.appcompat.widget.Toolbar
@@ -40,11 +40,6 @@
                     style="@style/Widget.ExRates.Toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    android:paddingStart="12dp"
-                    android:paddingLeft="12dp"
-                    android:paddingEnd="12dp"
-                    android:paddingRight="12dp"
-                    app:contentInsetStart="0dp"
                     app:navigationIcon="@drawable/er_backdrop_menu"
                     app:title="@string/er_app_name" />
         </com.google.android.material.appbar.AppBarLayout>
@@ -53,7 +48,7 @@
                 android:id="@+id/scroll_view_fragment_fourth"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="56dp"
+                android:layout_marginTop="?attr/actionBarSize"
                 android:background="@color/scrollViewBackgroundColor"
                 android:elevation="8dp"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior">
