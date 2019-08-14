@@ -2,13 +2,15 @@ package com.bubllbub.exchangerates.models.room.roomDatas
 
 import com.bubllbub.exchangerates.models.DataSource
 import com.bubllbub.exchangerates.models.room.RoomData
+import com.bubllbub.exchangerates.models.room.RoomData.sqlWhere
 import com.bubllbub.exchangerates.models.room.daos.IngotDao
 import com.bubllbub.exchangerates.objects.Ingot
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Observable
+import javax.inject.Inject
 
-class IngotRoomData(private val dao: IngotDao) : DataSource<Ingot> {
+class IngotRoomData @Inject constructor(private val dao: IngotDao) : DataSource<Ingot> {
     private val tableName = "ingots"
 
     override fun getAll(): Flowable<List<Ingot>> {
@@ -26,7 +28,7 @@ class IngotRoomData(private val dao: IngotDao) : DataSource<Ingot> {
 
     override fun getAll(query: DataSource.Query<Ingot>): Flowable<List<Ingot>> {
         return dao.rawQuery(
-            RoomData.sqlWhere(
+            sqlWhere(
                 tableName,
                 query.params
             )
@@ -35,7 +37,7 @@ class IngotRoomData(private val dao: IngotDao) : DataSource<Ingot> {
 
     override fun get(query: DataSource.Query<Ingot>): Observable<Ingot> {
         return dao.getWithQuery(
-            RoomData.sqlWhere(
+            sqlWhere(
                 tableName,
                 query.params
             )

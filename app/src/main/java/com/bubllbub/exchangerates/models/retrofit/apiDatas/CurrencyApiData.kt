@@ -1,20 +1,17 @@
 package com.bubllbub.exchangerates.models.retrofit.apiDatas
 
 import com.bubllbub.exchangerates.enums.CurrencyRes
-import com.bubllbub.exchangerates.models.DataSource
-import com.bubllbub.exchangerates.models.Repository
-import com.bubllbub.exchangerates.models.Repository.CUR_ABBREVIATION
-import com.bubllbub.exchangerates.models.Repository.CUR_DATE
-import com.bubllbub.exchangerates.models.retrofit.APIService
+import com.bubllbub.exchangerates.models.*
+import com.bubllbub.exchangerates.models.retrofit.JSONNbrbAPI
 import com.bubllbub.exchangerates.objects.Currency
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Observable
 import java.util.*
+import javax.inject.Inject
 
-class CurrencyApiData : DataSource<Currency> {
-    private val jSONApi = APIService.instance.getJSONApi()
+class CurrencyApiData @Inject constructor(private val jSONApi: JSONNbrbAPI) : DataSource<Currency> {
     private val startingCurrenciesAbbreviations = listOf("USD", "EUR", "RUB")
 
     override fun getAll(): Flowable<List<Currency>> {
@@ -45,7 +42,7 @@ class CurrencyApiData : DataSource<Currency> {
 
     override fun getAll(query: DataSource.Query<Currency>): Flowable<List<Currency>> {
         return when {
-            (query.has(Repository.CUR_CONVERTER) || query.has(Repository.CUR_FAVORITE)) -> {
+            (query.has(CUR_CONVERTER) || query.has(CUR_FAVORITE)) -> {
                 jSONApi.getCurrencies()
                     .map {
                         it.filter { curr ->
@@ -60,19 +57,20 @@ class CurrencyApiData : DataSource<Currency> {
                         list
                             .sortedBy { CurrencyRes.valueOf(it.curAbbreviation).ordinal }
                             .forEachIndexed { ind, curr ->
-                            val ratesAPI = jSONApi.getRatesWithID(curr.curId)
-                                .flatMap { rate ->
-                                    curr.date = rate.date
-                                    curr.curOfficialRate = rate.curOfficialRate
-                                    curr.symbol = CurrencyRes.valueOf(curr.curAbbreviation).getSymbolRes()
-                                    curr.isConverter = true
-                                    curr.isFavorite = true
-                                    curr.favoritePos = ind + 1
-                                    curr.converterPos = ind + 1
-                                    Observable.just(curr)
-                                }
-                            requests.add(ratesAPI.toFlowable(BackpressureStrategy.LATEST))
-                        }
+                                val ratesAPI = jSONApi.getRatesWithID(curr.curId)
+                                    .flatMap { rate ->
+                                        curr.date = rate.date
+                                        curr.curOfficialRate = rate.curOfficialRate
+                                        curr.symbol =
+                                            CurrencyRes.valueOf(curr.curAbbreviation).getSymbolRes()
+                                        curr.isConverter = true
+                                        curr.isFavorite = true
+                                        curr.favoritePos = ind + 1
+                                        curr.converterPos = ind + 1
+                                        Observable.just(curr)
+                                    }
+                                requests.add(ratesAPI.toFlowable(BackpressureStrategy.LATEST))
+                            }
 
                         Flowable.zip(requests) { listWithRates ->
                             listWithRates.map { obj -> obj as Currency }

@@ -5,10 +5,14 @@ import android.util.Log
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.bubllbub.exchangerates.models.Repository
-import com.bubllbub.exchangerates.models.Repository.CUR_ABBREVIATION
-import com.bubllbub.exchangerates.models.Repository.CUR_DATE
-import com.bubllbub.exchangerates.models.Repository.DATE_IN_MILLI
+import com.bubllbub.exchangerates.App
+import com.bubllbub.exchangerates.di.DaggerAppComponent
+import com.bubllbub.exchangerates.di.modules.AppModule
+import com.bubllbub.exchangerates.di.modules.RepositoryModule
+import com.bubllbub.exchangerates.models.CUR_ABBREVIATION
+import com.bubllbub.exchangerates.models.CUR_DATE
+import com.bubllbub.exchangerates.models.DATE_IN_MILLI
+import com.bubllbub.exchangerates.models.Repo
 import com.bubllbub.exchangerates.objects.Currency
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -17,8 +21,8 @@ import io.reactivex.schedulers.Schedulers
 import io.reactivex.subscribers.DisposableSubscriber
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
-import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 
 class RateOnDateViewModel : ViewModel() {
     var currency =
@@ -29,7 +33,15 @@ class RateOnDateViewModel : ViewModel() {
     var isLoadingRate = ObservableField(true)
     private val compositeDisposable = CompositeDisposable()
 
-    private val currencyRepo = Repository.of<Currency>()
+    @Inject lateinit var currencyRepo: Repo<Currency>
+
+    init {
+        DaggerAppComponent.builder()
+            .appModule(AppModule(App.instance))
+            .repositoryModule(RepositoryModule())
+            .build()
+            .inject(this)
+    }
 
     fun refresh(currencyAbbreviation: String) {
         val dateFormat = DateTimeFormat.forPattern("yyyy-MM-dd")

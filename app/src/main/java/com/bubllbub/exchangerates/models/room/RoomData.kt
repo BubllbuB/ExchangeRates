@@ -1,38 +1,9 @@
 package com.bubllbub.exchangerates.models.room
 
 import androidx.sqlite.db.SimpleSQLiteQuery
-import com.bubllbub.exchangerates.App
-import com.bubllbub.exchangerates.models.DataSource
-import com.bubllbub.exchangerates.models.Repository.CUR_ABBREVIATION
-import com.bubllbub.exchangerates.models.Repository.CUR_DATE
-import com.bubllbub.exchangerates.models.Repository.CUR_ID
-import com.bubllbub.exchangerates.models.Repository.DATE_IN_MILLI
-import com.bubllbub.exchangerates.models.Repository.DIALOG_CUR
-import com.bubllbub.exchangerates.models.Repository.END_DATE
-import com.bubllbub.exchangerates.models.Repository.RATE_ID
-import com.bubllbub.exchangerates.models.Repository.START_DATE
-import com.bubllbub.exchangerates.models.room.roomDatas.*
-import com.bubllbub.exchangerates.objects.*
-import kotlin.reflect.KClass
+import com.bubllbub.exchangerates.models.*
 
 object RoomData {
-
-    private val db: AppDatabase by lazy { AppDatabase.getDatabase(App.appContext()) }
-
-    fun <Entity : Any> of(clazz: KClass<*>): DataSource<Entity> {
-        return when (clazz) {
-            Currency::class -> CurrencyRoomData(db.currencyDao())
-            Ingot::class -> IngotRoomData(db.ingotDao())
-            Rate::class -> RateRoomData(db.rateDao())
-            else -> throw IllegalArgumentException("Unsupported data type")
-        } as DataSource<Entity>
-    }
-
-    fun clearDb() {
-        db.clearAllTables()
-    }
-
-
     fun sqlWhere(table: String, params: Map<String, String>): SimpleSQLiteQuery {
         var query: String
         if (params.containsKey(CUR_ABBREVIATION) && params.containsKey(CUR_DATE) && table == "currency") {

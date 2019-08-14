@@ -8,9 +8,11 @@ import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
 import com.bubllbub.exchangerates.di.AppComponent
 import com.bubllbub.exchangerates.di.DaggerAppComponent
+import com.bubllbub.exchangerates.di.modules.AppModule
+import com.bubllbub.exchangerates.di.modules.RepositoryModule
+import com.bubllbub.exchangerates.di.modules.RetrofitModule
+import com.bubllbub.exchangerates.di.modules.RoomModule
 import com.bubllbub.exchangerates.workers.UpdateDatabasesWorker
-import dagger.android.AndroidInjector
-import dagger.android.DaggerApplication
 import org.joda.time.DateTime
 import org.joda.time.Duration
 import java.util.concurrent.TimeUnit
@@ -39,8 +41,13 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         instance = this
-        applicationComponent = DaggerAppComponent.builder().build()
-        runWorker()
+
+        DaggerAppComponent.builder()
+            .appModule(AppModule(this))
+            .repositoryModule(RepositoryModule())
+            .build()
+            .inject(this)
+        //runWorker()
     }
 
     private fun runWorker() {

@@ -1,8 +1,6 @@
 package com.bubllbub.exchangerates.models.room
 
-import android.content.Context
 import androidx.room.Database
-import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.bubllbub.exchangerates.models.room.daos.CurrencyDao
 import com.bubllbub.exchangerates.models.room.daos.IngotDao
@@ -16,25 +14,4 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun currencyDao(): CurrencyDao
     abstract fun ingotDao(): IngotDao
     abstract fun rateDao(): RateDao
-
-    companion object {
-        @Volatile
-        private var INSTANCE: AppDatabase? = null
-
-        fun getDatabase(context: Context): AppDatabase {
-            val tempInstance = INSTANCE
-            if (tempInstance != null) {
-                return tempInstance
-            }
-            synchronized(this) {
-                val instance = Room.databaseBuilder(
-                    context.applicationContext,
-                    AppDatabase::class.java,
-                    "app_database"
-                ).build()
-                INSTANCE = instance
-                return instance
-            }
-        }
-    }
 }

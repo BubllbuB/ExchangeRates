@@ -1,8 +1,7 @@
-package com.bubllbub.exchangerates.di
+package com.bubllbub.exchangerates.di.modules
 
 import android.app.Application
 import android.content.Context
-import com.bubllbub.exchangerates.App
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton

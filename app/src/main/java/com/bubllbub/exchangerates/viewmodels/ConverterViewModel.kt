@@ -5,22 +5,28 @@ import android.util.Log
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.bubllbub.exchangerates.App
+import com.bubllbub.exchangerates.di.DaggerAppComponent
+import com.bubllbub.exchangerates.di.modules.AppModule
+import com.bubllbub.exchangerates.di.modules.RepositoryModule
 import com.bubllbub.exchangerates.enums.CurrencyRes
-import com.bubllbub.exchangerates.models.Repository
-import com.bubllbub.exchangerates.models.Repository.CUR_CONVERTER
-import com.bubllbub.exchangerates.models.Repository.CUR_QUERY_TRUE
+import com.bubllbub.exchangerates.models.CUR_CONVERTER
+import com.bubllbub.exchangerates.models.CUR_QUERY_TRUE
+import com.bubllbub.exchangerates.models.Repo
 import com.bubllbub.exchangerates.objects.Currency
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableCompletableObserver
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subscribers.DisposableSubscriber
+import javax.inject.Inject
 
 class ConverterViewModel : ViewModel() {
     var currencies = MutableLiveData<List<Currency>>()
     var isLoading = ObservableField(true)
     private val compositeDisposable = CompositeDisposable()
-    private val currencyRepo = Repository.of<Currency>()
+    @Inject
+    lateinit var currencyRepo: Repo<Currency>
     private val BYN = Currency(
         curOfficialRate = 1.0,
         curAbbreviation = "BYN",
@@ -34,6 +40,14 @@ class ConverterViewModel : ViewModel() {
         isConverter = true,
         converterPos = 0
     )
+
+    init {
+        DaggerAppComponent.builder()
+            .appModule(AppModule(App.instance))
+            .repositoryModule(RepositoryModule())
+            .build()
+            .inject(this)
+    }
 
     fun getCurrenciesForConverter() {
         compositeDisposable.add(

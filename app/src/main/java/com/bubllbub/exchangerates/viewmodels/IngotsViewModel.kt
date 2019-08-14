@@ -5,18 +5,31 @@ import android.util.Log
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.bubllbub.exchangerates.models.Repository
+import com.bubllbub.exchangerates.App
+import com.bubllbub.exchangerates.di.DaggerAppComponent
+import com.bubllbub.exchangerates.di.modules.AppModule
+import com.bubllbub.exchangerates.di.modules.RepositoryModule
+import com.bubllbub.exchangerates.models.Repo
 import com.bubllbub.exchangerates.objects.Ingot
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subscribers.DisposableSubscriber
+import javax.inject.Inject
 
 class IngotsViewModel : ViewModel() {
     var ingots = MutableLiveData<List<Ingot>>()
     var isLoading = ObservableField(true)
     private val compositeDisposable = CompositeDisposable()
-    private val ingotRepo = Repository.of<Ingot>()
+    @Inject lateinit var ingotRepo: Repo<Ingot>
+
+    init {
+        DaggerAppComponent.builder()
+            .appModule(AppModule(App.instance))
+            .repositoryModule(RepositoryModule())
+            .build()
+            .inject(this)
+    }
 
     fun refresh() {
         compositeDisposable.add(

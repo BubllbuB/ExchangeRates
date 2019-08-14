@@ -1,9 +1,10 @@
 package com.bubllbub.exchangerates.models.retrofit.apiDatas
 
+import com.bubllbub.exchangerates.models.CUR_ID
 import com.bubllbub.exchangerates.models.DataSource
-import com.bubllbub.exchangerates.models.Repository
-import com.bubllbub.exchangerates.models.retrofit.APIService
-import com.bubllbub.exchangerates.models.retrofit.NbrbApiData
+import com.bubllbub.exchangerates.models.END_DATE
+import com.bubllbub.exchangerates.models.START_DATE
+import com.bubllbub.exchangerates.models.retrofit.JSONNbrbAPI
 import com.bubllbub.exchangerates.objects.Currency
 import com.bubllbub.exchangerates.objects.Rate
 import io.reactivex.BackpressureStrategy
@@ -15,16 +16,14 @@ import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 import kotlin.math.max
 
-class RateApiData : DataSource<Rate> {
-    private val jSONApi = APIService.instance.getJSONApi()
+class RateApiData @Inject constructor(private val jSONApi: JSONNbrbAPI) : DataSource<Rate> {
+    @Inject
+    lateinit var apiCurrency: CurrencyApiData
 
     override fun getAll(): Flowable<List<Rate>> {
-
-        val apiCurrency =
-            NbrbApiData.of<Currency>(Currency::class)
-
         val allCurrencies = arrayListOf<Currency>()
 
         return apiCurrency.getAll()
@@ -62,18 +61,16 @@ class RateApiData : DataSource<Rate> {
     override fun getAll(query: DataSource.Query<Rate>): Flowable<List<Rate>> {
 
         return when {
-            (query.has(Repository.CUR_ID) && query.has(Repository.START_DATE) && query.has(
-                Repository.END_DATE
+            (query.has(CUR_ID) && query.has(START_DATE) && query.has(
+                END_DATE
             )) -> {
-                val dateStartString = query.get(Repository.START_DATE)!!
-                val dateEndString = query.get(Repository.END_DATE)!!
-                val curIdQuery = query.get(Repository.CUR_ID)?.toInt()
+                val dateStartString = query.get(START_DATE)!!
+                val dateEndString = query.get(END_DATE)!!
+                val curIdQuery = query.get(CUR_ID)?.toInt()
                 val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
                 val dateStart = dateFormat.parse(dateStartString)
                 val dateEnd = dateFormat.parse(dateEndString)
                 var existCurrencyFromList: Currency? = null
-                val apiCurrency =
-                    NbrbApiData.of<Currency>(Currency::class)
 
                 val allCurrencies = arrayListOf<Currency>()
 
@@ -89,7 +86,8 @@ class RateApiData : DataSource<Rate> {
                     }.flatMap {
                         val needRate =
                             it.find { currency -> currency.curAbbreviation == existCurrencyFromList!!.curAbbreviation }
-                        val needCurrency = allCurrencies.find { it.curId == needRate!!.curId }
+                        val needCurrency =
+                            allCurrencies.find { allCurr -> allCurr.curId == needRate!!.curId }
 
                         if (needCurrency!!.curDateEnd >= dateEnd) {
 
@@ -134,8 +132,8 @@ class RateApiData : DataSource<Rate> {
                                     startMonth = startMonth.plusMonths(1)
                                 }
 
-                                Observable.zip(requests) {
-                                    val list = it.map { obj -> obj as Rate }
+                                Observable.zip(requests) { ratesList ->
+                                    val list = ratesList.map { obj -> obj as Rate }
                                     list.forEach { rate ->
                                         rate.scale = needCurrency.scale
                                         rate.curAbbreviation = needCurrency.curAbbreviation

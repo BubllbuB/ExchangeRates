@@ -11,23 +11,40 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.work.RxWorker
 import androidx.work.WorkerParameters
+import com.bubllbub.exchangerates.App
 import com.bubllbub.exchangerates.R
-import com.bubllbub.exchangerates.models.Repository
-import com.bubllbub.exchangerates.models.Repository.UPDATE_DATAS
+import com.bubllbub.exchangerates.di.DaggerAppComponent
+import com.bubllbub.exchangerates.di.modules.AppModule
+import com.bubllbub.exchangerates.di.modules.RepositoryModule
+import com.bubllbub.exchangerates.di.modules.RetrofitModule
+import com.bubllbub.exchangerates.di.modules.RoomModule
+import com.bubllbub.exchangerates.models.CUR_FAVORITE
+import com.bubllbub.exchangerates.models.CUR_QUERY_TRUE
+import com.bubllbub.exchangerates.models.Repo
+import com.bubllbub.exchangerates.models.UPDATE_DATAS
 import com.bubllbub.exchangerates.objects.Currency
 import com.bubllbub.exchangerates.objects.Ingot
 import com.bubllbub.exchangerates.objects.Rate
 import com.bubllbub.exchangerates.views.MainActivity
 import io.reactivex.Flowable
 import io.reactivex.Single
+import javax.inject.Inject
 
 const val CHANNEL_ID = "CURRENCY_NOTIFICATION_CHANNEL_ID"
 const val CHANNEL_NAME = "Currency notification"
 
 class UpdateDatabasesWorker(ctx: Context, params: WorkerParameters) : RxWorker(ctx, params) {
-    private val currenciesRepo = Repository.of<Currency>()
-    private val ingotsRepo = Repository.of<Ingot>()
-    private val ratesRepo = Repository.of<Rate>()
+    @Inject lateinit var currenciesRepo: Repo<Currency>
+    @Inject lateinit var ingotsRepo: Repo<Ingot>
+    @Inject lateinit var ratesRepo: Repo<Rate>
+
+    init {
+        DaggerAppComponent.builder()
+            .appModule(AppModule(App.instance))
+            .repositoryModule(RepositoryModule())
+            .build()
+            .inject(this)
+    }
 
     override fun createWork(): Single<Result> {
         val favoriteCurrencies = mutableListOf<Currency>()
@@ -42,7 +59,7 @@ class UpdateDatabasesWorker(ctx: Context, params: WorkerParameters) : RxWorker(c
             }
             .flatMap {
                 currenciesRepo.query()
-                    .where(Repository.CUR_FAVORITE, Repository.CUR_QUERY_TRUE)
+                    .where(CUR_FAVORITE, CUR_QUERY_TRUE)
                     .findAll()
             }
             .flatMap {

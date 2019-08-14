@@ -1,7 +1,9 @@
 package com.bubllbub.exchangerates.models.room.roomDatas
 
+import com.bubllbub.exchangerates.models.CUR_ID
 import com.bubllbub.exchangerates.models.DataSource
-import com.bubllbub.exchangerates.models.Repository
+import com.bubllbub.exchangerates.models.END_DATE
+import com.bubllbub.exchangerates.models.START_DATE
 import com.bubllbub.exchangerates.models.room.RoomData.sqlBetween
 import com.bubllbub.exchangerates.models.room.RoomData.sqlWhere
 import com.bubllbub.exchangerates.models.room.daos.RateDao
@@ -9,8 +11,9 @@ import com.bubllbub.exchangerates.objects.Rate
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Observable
+import javax.inject.Inject
 
-class RateRoomData(private val dao: RateDao) : DataSource<Rate> {
+class RateRoomData @Inject constructor(private val dao: RateDao) : DataSource<Rate> {
     private val tableName = "rates"
 
     override fun getAll(): Flowable<List<Rate>> {
@@ -19,8 +22,8 @@ class RateRoomData(private val dao: RateDao) : DataSource<Rate> {
 
     override fun getAll(query: DataSource.Query<Rate>): Flowable<List<Rate>> {
         return when {
-            (query.has(Repository.CUR_ID) && query.has(Repository.START_DATE) && query.has(
-                Repository.END_DATE
+            (query.has(CUR_ID) && query.has(START_DATE) && query.has(
+                END_DATE
             )) -> {
                 dao.rawQuery(sqlBetween(tableName, query.params)).toFlowable()
             }

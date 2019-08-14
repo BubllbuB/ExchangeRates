@@ -1,16 +1,7 @@
 package com.bubllbub.exchangerates.models
 
-import com.bubllbub.exchangerates.enums.CurrencyRes
-import com.bubllbub.exchangerates.models.Repository.CUR_ABBREVIATION
-import com.bubllbub.exchangerates.models.Repository.CUR_DATE
-import com.bubllbub.exchangerates.models.Repository.CUR_ID
-import com.bubllbub.exchangerates.models.Repository.DATE_IN_MILLI
-import com.bubllbub.exchangerates.models.Repository.DIALOG_CUR
-import com.bubllbub.exchangerates.models.Repository.END_DATE
-import com.bubllbub.exchangerates.models.Repository.START_DATE
-import com.bubllbub.exchangerates.models.Repository.UPDATE_DATAS
-import com.bubllbub.exchangerates.models.retrofit.NbrbApiData
-import com.bubllbub.exchangerates.models.room.RoomData
+
+import com.bubllbub.exchangerates.models.room.roomDatas.RateRoomData
 import com.bubllbub.exchangerates.objects.Currency
 import com.bubllbub.exchangerates.objects.Rate
 import io.reactivex.Completable
@@ -20,30 +11,29 @@ import io.reactivex.schedulers.Schedulers
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
-object Repository {
 
-    const val CUR_ABBREVIATION = "curAbbreviation"
-    const val DATE_IN_MILLI = "rateDate"
-    const val START_DATE = "startDate"
-    const val END_DATE = "endDate"
-    const val CUR_ID = "curId"
-    const val CUR_DATE = "date"
-    const val RATE_ID = "id"
-    const val DIALOG_CUR = "currenciesForDialog"
-    const val CUR_CONVERTER = "isConverter"
-    const val CUR_FAVORITE = "isFavorite"
-    const val CUR_QUERY_TRUE = "1"
-    const val CUR_QUERY_FALSE = "0"
-    const val UPDATE_DATAS = "updateDatas"
-
-    inline fun <reified Entity : Any> of(): Repo<Entity> {
-        return Repo(NbrbApiData.of(Entity::class), RoomData.of(Entity::class))
-    }
-}
+const val CUR_ABBREVIATION = "curAbbreviation"
+const val DATE_IN_MILLI = "rateDate"
+const val START_DATE = "startDate"
+const val END_DATE = "endDate"
+const val CUR_ID = "curId"
+const val CUR_DATE = "date"
+const val RATE_ID = "id"
+const val DIALOG_CUR = "currenciesForDialog"
+const val CUR_CONVERTER = "isConverter"
+const val CUR_FAVORITE = "isFavorite"
+const val CUR_QUERY_TRUE = "1"
+const val CUR_QUERY_FALSE = "0"
+const val UPDATE_DATAS = "updateDatas"
 
 class Repo<Entity : Any>(val api: DataSource<Entity>, val db: DataSource<Entity>) :
     DataSource<Entity> {
+
+    @Inject
+    lateinit var rateRoomData: RateRoomData
+
     override fun getAll(): Flowable<List<Entity>> {
         return db.getAll()
             .flatMap {
@@ -81,7 +71,7 @@ class Repo<Entity : Any>(val api: DataSource<Entity>, val db: DataSource<Entity>
                     }
                 }
             }
-            (query.has(Repository.CUR_CONVERTER) || query.has(Repository.CUR_FAVORITE)) -> {
+            (query.has(CUR_CONVERTER) || query.has(CUR_FAVORITE)) -> {
                 db.getAll(query)
                     .flatMap {
                         if (it.isEmpty()) {
@@ -136,8 +126,7 @@ class Repo<Entity : Any>(val api: DataSource<Entity>, val db: DataSource<Entity>
                         api.get(query)
                             .switchMap {
                                 if (it is Currency) {
-                                    val dbRate = RoomData.of<Rate>(Rate::class)
-                                    dbRate.save(
+                                    rateRoomData.save(
                                         Rate(
                                             rateId = it.curAbbreviation + "_" + query.get(CUR_DATE),
                                             curId = it.curId,

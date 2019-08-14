@@ -5,11 +5,11 @@ import android.util.Log
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.bubllbub.exchangerates.models.Repository
-import com.bubllbub.exchangerates.models.Repository.CUR_ABBREVIATION
-import com.bubllbub.exchangerates.models.Repository.CUR_ID
-import com.bubllbub.exchangerates.models.Repository.END_DATE
-import com.bubllbub.exchangerates.models.Repository.START_DATE
+import com.bubllbub.exchangerates.App
+import com.bubllbub.exchangerates.di.DaggerAppComponent
+import com.bubllbub.exchangerates.di.modules.AppModule
+import com.bubllbub.exchangerates.di.modules.RepositoryModule
+import com.bubllbub.exchangerates.models.*
 import com.bubllbub.exchangerates.objects.Currency
 import com.bubllbub.exchangerates.objects.Rate
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -19,15 +19,26 @@ import io.reactivex.schedulers.Schedulers
 import io.reactivex.subscribers.DisposableSubscriber
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 
 
 class ChartsViewModel : ViewModel() {
     var currencies = MutableLiveData<List<Currency>>()
     var rates = MutableLiveData<List<Rate>>()
     var isLoading = ObservableField(true)
-    private val rateRepo = Repository.of<Rate>()
-    private val currencyRepo = Repository.of<Currency>()
+    @Inject
+    lateinit var rateRepo: Repo<Rate>
+    @Inject
+    lateinit var currencyRepo: Repo<Currency>
     private val compositeDisposable = CompositeDisposable()
+
+    init {
+        DaggerAppComponent.builder()
+            .appModule(AppModule(App.instance))
+            .repositoryModule(RepositoryModule())
+            .build()
+            .inject(this)
+    }
 
     fun refresh(currencyId: Int, currencyAbbreviation: String, startDate: Date, finishDate: Date) {
         val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
