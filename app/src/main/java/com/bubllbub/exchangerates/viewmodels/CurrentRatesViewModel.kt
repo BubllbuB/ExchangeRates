@@ -25,7 +25,7 @@ import java.util.*
 import javax.inject.Inject
 
 
-class CurrentRatesViewModel : ViewModel() {
+class CurrentRatesViewModel @Inject constructor(): ViewModel() {
     var currencies = MutableLiveData<List<Currency>>()
     var isLoading = ObservableField(true)
     var updateString = ObservableField("")

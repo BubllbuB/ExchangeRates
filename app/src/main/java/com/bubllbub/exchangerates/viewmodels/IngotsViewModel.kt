@@ -17,7 +17,7 @@ import io.reactivex.schedulers.Schedulers
 import io.reactivex.subscribers.DisposableSubscriber
 import javax.inject.Inject
 
-class IngotsViewModel : ViewModel() {
+class IngotsViewModel @Inject constructor(): ViewModel() {
     var ingots = MutableLiveData<List<Ingot>>()
     var isLoading = ObservableField(true)
     private val compositeDisposable = CompositeDisposable()

@@ -21,7 +21,7 @@ import io.reactivex.schedulers.Schedulers
 import io.reactivex.subscribers.DisposableSubscriber
 import javax.inject.Inject
 
-class DialogAddCurrencyViewModel : ViewModel() {
+class DialogAddCurrencyViewModel @Inject constructor(): ViewModel() {
     @Inject
     lateinit var currencyRepo: Repo<Currency>
     var currencies = MutableLiveData<List<Currency>>()

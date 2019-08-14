@@ -10,16 +10,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
-import androidx.fragment.app.Fragment
 import com.bubllbub.exchangerates.R
 import com.bubllbub.exchangerates.backdrop.NavigationIconClickListener
 import com.bubllbub.exchangerates.views.MainActivity
+import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.er_backdrop.*
 import kotlinx.android.synthetic.main.er_main_buttons.*
 
 const val FRAGMENT_FROM_NAVIGATE = "openFromNavigate"
 
-open class BackDropFragment : Fragment() {
+open class BackDropFragment : DaggerFragment() {
     private lateinit var viewAnimate: View
     private lateinit var toolbarAnimate: Toolbar
     private var openFromNavigate = false

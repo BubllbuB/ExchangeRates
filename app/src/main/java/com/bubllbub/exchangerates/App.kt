@@ -1,6 +1,5 @@
 package com.bubllbub.exchangerates
 
-import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
 import androidx.work.OneTimeWorkRequest
@@ -8,22 +7,28 @@ import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
 import com.bubllbub.exchangerates.di.AppComponent
 import com.bubllbub.exchangerates.di.DaggerAppComponent
+import com.bubllbub.exchangerates.di.modules.AdaptersModule
 import com.bubllbub.exchangerates.di.modules.AppModule
 import com.bubllbub.exchangerates.di.modules.RepositoryModule
-import com.bubllbub.exchangerates.di.modules.RetrofitModule
-import com.bubllbub.exchangerates.di.modules.RoomModule
 import com.bubllbub.exchangerates.workers.UpdateDatabasesWorker
+import dagger.android.AndroidInjector
+import dagger.android.DaggerApplication
+import dagger.android.DispatchingAndroidInjector
 import org.joda.time.DateTime
 import org.joda.time.Duration
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
 
 const val DAY_REPEAT_INTERVAL: Long = 1
 const val START_HOUR = 19
 const val UPDATE_WORKER_TAG = "updateWorker"
 
-class App : Application() {
+class App : DaggerApplication() {
     private lateinit var workManager: WorkManager
+
+    @Inject
+    lateinit var androidInjector: DispatchingAndroidInjector<Any>
 
     companion object {
         lateinit var applicationComponent: AppComponent
@@ -41,13 +46,14 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         instance = this
-
-        DaggerAppComponent.builder()
-            .appModule(AppModule(this))
-            .repositoryModule(RepositoryModule())
-            .build()
-            .inject(this)
         //runWorker()
+    }
+
+    override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
+        return DaggerAppComponent.builder().appModule(AppModule(this))
+            .repositoryModule(RepositoryModule())
+            .adaptersModule(AdaptersModule())
+            .build()
     }
 
     private fun runWorker() {

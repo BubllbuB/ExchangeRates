@@ -126,7 +126,7 @@
                             android:textAllCaps="false"/>
                 </com.google.android.material.button.MaterialButtonToggleGroup>
 
-                <com.bubllbub.exchangerates.charts.LineChatGradient
+                <com.bubllbub.exchangerates.ui.charts.LineChatGradient
                         android:id="@+id/chartLines"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"

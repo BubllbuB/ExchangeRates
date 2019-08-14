@@ -1,4 +1,4 @@
-package com.bubllbub.exchangerates.charts
+package com.bubllbub.exchangerates.ui.charts
 
 import com.github.mikephil.charting.formatter.ValueFormatter
 import java.text.SimpleDateFormat

@@ -1,4 +1,4 @@
-package com.bubllbub.exchangerates.recyclerview
+package com.bubllbub.exchangerates.ui.recyclerview
 
 import android.text.Editable
 import android.text.TextWatcher

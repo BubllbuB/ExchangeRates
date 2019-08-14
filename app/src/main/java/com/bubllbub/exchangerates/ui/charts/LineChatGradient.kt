@@ -1,4 +1,4 @@
-package com.bubllbub.exchangerates.charts
+package com.bubllbub.exchangerates.ui.charts
 
 import android.content.Context
 import android.graphics.CornerPathEffect

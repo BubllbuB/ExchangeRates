@@ -7,25 +7,29 @@ import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import com.bubllbub.exchangerates.R
 import com.bubllbub.exchangerates.adapters.SpinnerImageAdapter
 import com.bubllbub.exchangerates.databinding.ErFragmentRateOnDateBinding
 import com.bubllbub.exchangerates.enums.CurrencyRes
-import com.bubllbub.exchangerates.extensions.*
+import com.bubllbub.exchangerates.extensions.initCurrencySpinner
+import com.bubllbub.exchangerates.extensions.initWithTodayMaxDate
+import com.bubllbub.exchangerates.extensions.setCurrencyLeftIcon
+import com.bubllbub.exchangerates.extensions.setMinMaxRangeFromCurrency
 import com.bubllbub.exchangerates.objects.Currency
 import com.bubllbub.exchangerates.viewmodels.RateOnDateViewModel
 import com.codetroopers.betterpickers.calendardatepicker.CalendarDatePickerDialogFragment
-import com.codetroopers.betterpickers.calendardatepicker.MonthAdapter
 import kotlinx.android.synthetic.main.er_fragment_rate_on_date.view.*
 import org.joda.time.DateTime
 import java.util.*
+import javax.inject.Inject
 
 const val LENGTH_ABBREVIATION = 3
 
 class RateOnDateFragment : BackDropFragment() {
     private lateinit var binding: ErFragmentRateOnDateBinding
     private lateinit var datepicker: CalendarDatePickerDialogFragment
+    @Inject
+    lateinit var currentViewModel: RateOnDateViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -33,8 +37,7 @@ class RateOnDateFragment : BackDropFragment() {
         binding =
             DataBindingUtil.inflate(inflater, R.layout.er_fragment_rate_on_date, container, false)
         binding.lifecycleOwner = this
-        val viewModel = ViewModelProviders.of(this).get(RateOnDateViewModel::class.java)
-        binding.rateOnDateViewModel = viewModel
+        binding.rateOnDateViewModel = currentViewModel
         binding.executePendingBindings()
 
         initDatePicker()
@@ -84,7 +87,8 @@ class RateOnDateFragment : BackDropFragment() {
         binding.rateOnDateViewModel?.currencies?.observe(this,
             Observer<List<Currency>> { currencies ->
                 currencies?.let { list ->
-                    val sortedList = list.sortedBy { CurrencyRes.valueOf(it.curAbbreviation).ordinal }
+                    val sortedList =
+                        list.sortedBy { CurrencyRes.valueOf(it.curAbbreviation).ordinal }
 
                     val adapter = SpinnerImageAdapter(requireContext(), sortedList)
                     binding.rateOnDateSpinner.setAdapter(adapter)
@@ -98,7 +102,7 @@ class RateOnDateFragment : BackDropFragment() {
 
         binding.rateOnDateSpinner.setOnItemSelectedListener { view, _, _, item ->
             view.background = ResourcesCompat.getDrawable(resources, R.drawable.spinner_bg, null)
-            view.setCurrencyLeftIcon(item.toString().substring(0,LENGTH_ABBREVIATION))
+            view.setCurrencyLeftIcon(item.toString().substring(0, LENGTH_ABBREVIATION))
             refreshDateRange()
             refreshDate()
         }

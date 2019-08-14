@@ -1,15 +1,14 @@
 package com.bubllbub.exchangerates.views
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.bubllbub.exchangerates.R
 import com.bubllbub.exchangerates.backdrop.NavigationHost
 import com.bubllbub.exchangerates.views.fragments.CurrentRatesFragment
 import com.bubllbub.exchangerates.views.fragments.FRAGMENT_FROM_NAVIGATE
+import dagger.android.support.DaggerAppCompatActivity
 
-class MainActivity : AppCompatActivity(), NavigationHost {
-
+class MainActivity : DaggerAppCompatActivity(), NavigationHost {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.er_activity_main)

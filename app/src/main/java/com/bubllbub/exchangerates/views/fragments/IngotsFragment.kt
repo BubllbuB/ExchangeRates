@@ -9,31 +9,33 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bubllbub.exchangerates.R
+import com.bubllbub.exchangerates.adapters.CurrencyRecyclerAdapter
 import com.bubllbub.exchangerates.adapters.IngotsRecyclerAdapter
 import com.bubllbub.exchangerates.databinding.ErFragmentIngotsBinding
 import com.bubllbub.exchangerates.objects.Ingot
+import com.bubllbub.exchangerates.viewmodels.CurrentRatesViewModel
 import com.bubllbub.exchangerates.viewmodels.IngotsViewModel
 import kotlinx.android.synthetic.main.er_fragment_ingots.view.*
+import javax.inject.Inject
 
 class IngotsFragment : BackDropFragment() {
     private lateinit var binding: ErFragmentIngotsBinding
+    @Inject
+    lateinit var ingotViewModel: IngotsViewModel
+    @Inject
+    lateinit var adapter: IngotsRecyclerAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.er_fragment_ingots, container, false)
-        val viewModel = ViewModelProviders.of(this).get(IngotsViewModel::class.java)
-        binding.ingotsViewModel = viewModel
+        binding.ingotsViewModel = ingotViewModel
         binding.executePendingBindings()
 
         binding.rvIngots.layoutManager = LinearLayoutManager(requireContext())
-        val adapter = IngotsRecyclerAdapter(arrayListOf(), object: IngotsRecyclerAdapter.OnItemClickListener{
-            override fun onItemClick(position: Int) {
-            }
-        })
         binding.rvIngots.adapter = adapter
 
-        viewModel.ingots.observe(this,
+        ingotViewModel.ingots.observe(this,
             Observer<List<Ingot>> { it?.let{ adapter.replaceData(it)} })
 
 
@@ -44,7 +46,6 @@ class IngotsFragment : BackDropFragment() {
 
     override fun onStart() {
         super.onStart()
-
         binding.ingotsViewModel?.refresh()
     }
 }

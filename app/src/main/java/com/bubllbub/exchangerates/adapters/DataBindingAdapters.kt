@@ -7,8 +7,8 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import com.bubllbub.exchangerates.R
-import com.bubllbub.exchangerates.charts.DateAxisValueFormatter
-import com.bubllbub.exchangerates.charts.LineChatGradient
+import com.bubllbub.exchangerates.ui.charts.DateAxisValueFormatter
+import com.bubllbub.exchangerates.ui.charts.LineChatGradient
 import com.bubllbub.exchangerates.objects.Currency
 import com.bubllbub.exchangerates.objects.Rate
 import com.github.mikephil.charting.animation.Easing

@@ -5,7 +5,6 @@ import android.view.*
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bubllbub.exchangerates.R
@@ -13,14 +12,19 @@ import com.bubllbub.exchangerates.adapters.ConverterRecyclerAdapter
 import com.bubllbub.exchangerates.databinding.ErFragmentConverterBinding
 import com.bubllbub.exchangerates.dialogs.AddCurrencyDialog
 import com.bubllbub.exchangerates.dialogs.TAG_CONVERT
-import com.bubllbub.exchangerates.elements.SmartDividerItemDecoration
+import com.bubllbub.exchangerates.ui.widgets.SmartDividerItemDecoration
 import com.bubllbub.exchangerates.objects.Currency
-import com.bubllbub.exchangerates.recyclerview.SwipeDeleteHelper
+import com.bubllbub.exchangerates.ui.recyclerview.SwipeDeleteHelper
 import com.bubllbub.exchangerates.viewmodels.ConverterViewModel
 import kotlinx.android.synthetic.main.er_fragment_converter.view.*
+import javax.inject.Inject
 
 class ConverterFragment : BackDropFragment() {
     private lateinit var binding: ErFragmentConverterBinding
+    @Inject
+    lateinit var converterViewModel: ConverterViewModel
+    @Inject
+    lateinit var adapter: ConverterRecyclerAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -29,14 +33,10 @@ class ConverterFragment : BackDropFragment() {
 
         binding =
             DataBindingUtil.inflate(inflater, R.layout.er_fragment_converter, container, false)
-        val viewModel = ViewModelProviders.of(this).get(ConverterViewModel::class.java)
-        binding.converterViewModel = viewModel
+        binding.converterViewModel = converterViewModel
         binding.executePendingBindings()
 
         binding.rvConverter.layoutManager = LinearLayoutManager(requireContext())
-        val adapter = ConverterRecyclerAdapter(
-            mutableListOf()
-        )
         adapter.setHasStableIds(true)
         binding.rvConverter.adapter = adapter
         binding.rvConverter.addItemDecoration(
@@ -70,7 +70,7 @@ class ConverterFragment : BackDropFragment() {
             AddCurrencyDialog().show(childFragmentManager, TAG_CONVERT)
         }
 
-        viewModel.currencies.observe(this,
+        converterViewModel.currencies.observe(this,
             Observer<List<Currency>> {
                 it?.let { adapter.replaceData(it) }
             }

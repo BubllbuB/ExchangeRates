@@ -24,7 +24,7 @@ import org.joda.time.format.DateTimeFormat
 import java.util.*
 import javax.inject.Inject
 
-class RateOnDateViewModel : ViewModel() {
+class RateOnDateViewModel @Inject constructor(): ViewModel() {
     var currency =
         ObservableField(Currency(curDateEnd = Date(), curDateStart = Date(), date = Date()))
     var currencies = MutableLiveData<List<Currency>>()

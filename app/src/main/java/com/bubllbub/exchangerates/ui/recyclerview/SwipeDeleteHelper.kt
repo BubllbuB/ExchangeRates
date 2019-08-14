@@ -1,4 +1,4 @@
-package com.bubllbub.exchangerates.recyclerview
+package com.bubllbub.exchangerates.ui.recyclerview
 
 import android.content.Context
 import android.graphics.Canvas

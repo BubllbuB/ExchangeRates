@@ -21,7 +21,7 @@ import io.reactivex.schedulers.Schedulers
 import io.reactivex.subscribers.DisposableSubscriber
 import javax.inject.Inject
 
-class ConverterViewModel : ViewModel() {
+class ConverterViewModel @Inject constructor(): ViewModel() {
     var currencies = MutableLiveData<List<Currency>>()
     var isLoading = ObservableField(true)
     private val compositeDisposable = CompositeDisposable()

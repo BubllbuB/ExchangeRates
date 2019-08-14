@@ -9,8 +9,7 @@ import com.bubllbub.exchangerates.objects.Ingot
 import kotlinx.android.synthetic.main.rv_item_ingot.view.*
 
 class IngotsRecyclerAdapter(
-    private var items: ArrayList<Ingot>,
-    private var listener: OnItemClickListener
+    private var items: MutableList<Ingot>
 ) : RecyclerView.Adapter<IngotsRecyclerAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -20,7 +19,7 @@ class IngotsRecyclerAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(items[position], listener)
+        holder.bind(items[position])
 
         holder.itemView.setOnClickListener {
             holder.itemView.expandableLayout.toggle()
@@ -35,13 +34,9 @@ class IngotsRecyclerAdapter(
         notifyDataSetChanged()
     }
 
-    interface OnItemClickListener {
-        fun onItemClick(position: Int)
-    }
-
     class ViewHolder(private var binding: RvItemIngotBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(ing: Ingot, listener: OnItemClickListener?) {
+        fun bind(ing: Ingot) {
             binding.ingot = ing
 
             binding.rvSmallIngots.layoutManager = LinearLayoutManager(binding.rvSmallIngots.context)
@@ -51,10 +46,6 @@ class IngotsRecyclerAdapter(
 
             binding.expandableLayout.setOnExpansionUpdateListener { expansionFraction, _ ->
                 binding.expandableArrow.rotation = expansionFraction * 180
-            }
-
-            if (listener != null) {
-                binding.root.setOnClickListener { listener.onItemClick(layoutPosition) }
             }
 
             binding.executePendingBindings()

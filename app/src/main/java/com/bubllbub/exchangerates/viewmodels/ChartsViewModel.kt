@@ -22,7 +22,7 @@ import java.util.*
 import javax.inject.Inject
 
 
-class ChartsViewModel : ViewModel() {
+class ChartsViewModel @Inject constructor(): ViewModel() {
     var currencies = MutableLiveData<List<Currency>>()
     var rates = MutableLiveData<List<Rate>>()
     var isLoading = ObservableField(true)

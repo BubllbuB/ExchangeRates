@@ -7,11 +7,10 @@ import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import com.bubllbub.exchangerates.R
 import com.bubllbub.exchangerates.adapters.SpinnerImageAdapter
 import com.bubllbub.exchangerates.databinding.ErFragmentChartRatesBinding
-import com.bubllbub.exchangerates.elements.RadioToggleCheckedListener
+import com.bubllbub.exchangerates.ui.listeners.RadioToggleCheckedListener
 import com.bubllbub.exchangerates.enums.CurrencyRes
 import com.bubllbub.exchangerates.extensions.initCurrencySpinner
 import com.bubllbub.exchangerates.extensions.setCurrencyLeftIcon
@@ -21,6 +20,7 @@ import com.bubllbub.exchangerates.viewmodels.ChartsViewModel
 import com.google.android.material.button.MaterialButton
 import kotlinx.android.synthetic.main.er_fragment_chart_rates.view.*
 import java.util.*
+import javax.inject.Inject
 
 
 class ChartRatesFragment : BackDropFragment() {
@@ -30,14 +30,16 @@ class ChartRatesFragment : BackDropFragment() {
     private var currentId = 145
     private var currentAbbreviation = "USD"
 
+    @Inject
+    lateinit var chartViewModel: ChartsViewModel
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         binding =
             DataBindingUtil.inflate(inflater, R.layout.er_fragment_chart_rates, container, false)
         binding.lifecycleOwner = this
-        val viewModel = ViewModelProviders.of(this).get(ChartsViewModel::class.java)
-        binding.chartViewModel = viewModel
+        binding.chartViewModel = chartViewModel
         binding.executePendingBindings()
 
         initSpinner()

@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bubllbub.exchangerates.databinding.RvItemConverterBinding
 import com.bubllbub.exchangerates.objects.Currency
-import com.bubllbub.exchangerates.recyclerview.ConverterTextWatcher
+import com.bubllbub.exchangerates.ui.recyclerview.ConverterTextWatcher
 
 class ConverterRecyclerAdapter(
     private var items: MutableList<Currency>

@@ -1,6 +1,5 @@
 package com.bubllbub.exchangerates.adapters
 
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -8,8 +7,7 @@ import com.bubllbub.exchangerates.databinding.RvItemCurrencyBinding
 import com.bubllbub.exchangerates.objects.Currency
 
 class CurrencyRecyclerAdapter(
-    private var items: MutableList<Currency>,
-    private var listener: OnItemClickListener
+    private var items: MutableList<Currency>
 ) : RecyclerView.Adapter<CurrencyRecyclerAdapter.ViewHolder>(), SwipeAdapter {
     private lateinit var removedItem: Currency
     private var removedPosition = 0
@@ -22,7 +20,7 @@ class CurrencyRecyclerAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(items[position], listener)
+        holder.bind(items[position])
     }
 
     override fun getItemCount(): Int = items.size
@@ -45,18 +43,10 @@ class CurrencyRecyclerAdapter(
         notifyItemInserted(removedPosition)
     }
 
-    interface OnItemClickListener {
-        fun onItemClick(position: Int)
-    }
-
     class ViewHolder(private var binding: RvItemCurrencyBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(curr: Currency, listener: OnItemClickListener?) {
+        fun bind(curr: Currency) {
             binding.currency = curr
-            if (listener != null) {
-                binding.root.setOnClickListener { listener.onItemClick(layoutPosition) }
-            }
-
             binding.executePendingBindings()
         }
     }
