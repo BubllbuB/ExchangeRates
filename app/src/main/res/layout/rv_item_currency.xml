@@ -33,7 +33,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                     />
+                    android:contentDescription="@string/rvItemCurrencyIconContentDescription" />
 
             <TextView
                     android:id="@+id/currency_name"

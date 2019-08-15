@@ -1,35 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:background="@color/scrollViewBackgroundColor"
-        >
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
     <com.bubllbub.exchangerates.ui.widgets.LinearLayoutNavigate
             android:id="@+id/mainButtonFirst"
             android:layout_width="0dp"
             android:layout_height="100dp"
-            android:orientation="vertical"
-            android:background="@drawable/er_main_button_bg"
-            android:gravity="bottom|center"
-            android:padding="12dp"
             android:layout_marginLeft="28dp"
             android:layout_marginRight="28dp"
             android:layout_weight="4"
+            android:background="@drawable/er_main_button_bg"
+            android:gravity="top|center"
+            android:orientation="vertical"
+            android:padding="8dp"
             app:navigateTo="Rates">
+
         <ImageView
                 android:layout_width="45dp"
                 android:layout_height="45dp"
+                android:layout_marginBottom="0dp"
+                android:contentDescription="@string/mainButtonImageContentDescriptionCurrentRates"
                 android:scaleType="fitCenter"
-                android:layout_marginBottom="10dp"
-                android:src="@mipmap/er_rates_ic"/>
+                android:src="@mipmap/er_rates_ic" />
+
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/open_sans"
+                android:text="@string/mainButtonCurrentRates"
+                android:gravity="center"
                 android:textColor="@color/textDarkGrey"
-                android:textSize="12sp"
-            android:text="Курсы валют" />
+                android:textSize="12sp" />
     </com.bubllbub.exchangerates.ui.widgets.LinearLayoutNavigate>
 
 
@@ -37,50 +41,62 @@
             android:id="@+id/mainButtonSecond"
             android:layout_width="0dp"
             android:layout_height="100dp"
-            android:orientation="vertical"
-            android:background="@drawable/er_main_button_bg"
-            android:gravity="bottom|center"
-            android:padding="12dp"
             android:layout_weight="4"
+            android:background="@drawable/er_main_button_bg"
+            android:gravity="top|center"
+            android:orientation="vertical"
+            android:padding="8dp"
             app:navigateTo="Chart">
+
         <ImageView
                 android:layout_width="45dp"
                 android:layout_height="45dp"
+                android:layout_marginBottom="0dp"
+                android:contentDescription="@string/mainButtonImageContentDescriptionChart"
                 android:scaleType="fitCenter"
-                android:layout_marginBottom="10dp"
-                android:src="@mipmap/er_charts_ic"/>
+                android:src="@mipmap/er_charts_ic" />
+
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/open_sans"
+                android:text="@string/mainButtonChart"
+                android:gravity="center"
                 android:textColor="@color/textDarkGrey"
-                android:textSize="12sp"
-                android:text="График" />
+                android:textSize="12sp" />
     </com.bubllbub.exchangerates.ui.widgets.LinearLayoutNavigate>
 
     <com.bubllbub.exchangerates.ui.widgets.LinearLayoutNavigate
             android:id="@+id/mainButtonThird"
             android:layout_width="0dp"
             android:layout_height="100dp"
-            android:orientation="vertical"
-            android:background="@drawable/er_main_button_bg"
-            android:gravity="bottom|center"
-            android:padding="12dp"
             android:layout_marginLeft="28dp"
             android:layout_marginRight="28dp"
             android:layout_weight="4"
+            android:background="@drawable/er_main_button_bg"
+            android:gravity="top|center"
+            android:orientation="vertical"
+            android:padding="8dp"
             app:navigateTo="Converter">
+
         <ImageView
                 android:layout_width="45dp"
                 android:layout_height="45dp"
+                android:layout_marginBottom="0dp"
+                android:contentDescription="@string/mainButtonImageContentDescriptionConverter"
                 android:scaleType="fitCenter"
-                android:layout_marginBottom="10dp"
-                android:src="@mipmap/er_converter_ic"/>
+                android:src="@mipmap/er_converter_ic" />
+
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/open_sans"
+                android:text="@string/mainButtonConverter"
+                android:gravity="center"
                 android:textColor="@color/textDarkGrey"
-                android:textSize="12sp"
-                android:text="Конвертер" />
+                android:textSize="12sp" />
     </com.bubllbub.exchangerates.ui.widgets.LinearLayoutNavigate>
 
 </LinearLayout>

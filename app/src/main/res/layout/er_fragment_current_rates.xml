@@ -88,7 +88,7 @@
                             android:layout_alignParentStart="true"
                             android:layout_centerInParent="true"
                             android:fontFamily="@font/open_sans_semibold"
-                            android:text="Последние изменения"
+                            android:text="@string/lastChangesLabel"
                             android:textColor="@color/elementsBackground"
                             android:textSize="14sp" />
 
@@ -105,7 +105,8 @@
                             android:text="@{currentRatesViewModel.updateString}"
                             android:textColor="@color/elementsBackground"
                             android:textSize="14sp"
-                            tools:text="28 july 2019" />
+                            tools:text="28 july 2019"
+                            tools:ignore="RelativeOverlap" />
                 </RelativeLayout>
 
                 <include
@@ -150,7 +151,7 @@
                             android:padding="@dimen/itemMarginDefault"
                             android:paddingStart="40dp"
                             android:paddingEnd="40dp"
-                            android:text="Добавить валюту"
+                            android:text="@string/addCurrencyAdditionalButton"
                             android:textAllCaps="false"
                             android:textSize="14sp"
                             app:cornerRadius="40dp" />

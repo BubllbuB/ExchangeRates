@@ -2,15 +2,9 @@ package com.bubllbub.exchangerates.di
 
 import com.bubllbub.exchangerates.App
 import com.bubllbub.exchangerates.di.modules.*
-import com.bubllbub.exchangerates.models.retrofit.apiDatas.CurrencyApiData
-import com.bubllbub.exchangerates.models.retrofit.apiDatas.IngotApiData
-import com.bubllbub.exchangerates.models.retrofit.apiDatas.RateApiData
-import com.bubllbub.exchangerates.models.room.roomDatas.CurrencyRoomData
-import com.bubllbub.exchangerates.models.room.roomDatas.IngotRoomData
-import com.bubllbub.exchangerates.models.room.roomDatas.RateRoomData
+import com.bubllbub.exchangerates.models.Repo
+import com.bubllbub.exchangerates.objects.Currency
 import com.bubllbub.exchangerates.viewmodels.*
-import com.bubllbub.exchangerates.views.MainActivity
-import com.bubllbub.exchangerates.views.fragments.BackDropFragment
 import com.bubllbub.exchangerates.workers.UpdateDatabasesWorker
 import dagger.Component
 import dagger.android.AndroidInjector
@@ -31,4 +25,6 @@ interface AppComponent : AndroidInjector<App> {
     fun inject(viewModel: RateOnDateViewModel)
 
     fun inject(worker: UpdateDatabasesWorker)
+
+    fun inject(repo: Repo<Currency>)
 }

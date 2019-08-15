@@ -4,6 +4,7 @@ import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
+import com.bubllbub.exchangerates.extensions.stringForSpinner
 import com.bubllbub.exchangerates.models.room.RoomDateConverter
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
@@ -66,7 +67,5 @@ data class Currency(
     var converterPos: Int = 0,
     var favoritePos: Int = 0
 ) {
-    override fun toString(): String {
-        return "$curAbbreviation ($curName)"
-    }
+    override fun toString(): String = this.stringForSpinner()
 }

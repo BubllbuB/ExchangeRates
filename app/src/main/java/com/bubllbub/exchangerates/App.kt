@@ -5,7 +5,6 @@ import android.net.ConnectivityManager
 import androidx.work.OneTimeWorkRequest
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
-import com.bubllbub.exchangerates.di.AppComponent
 import com.bubllbub.exchangerates.di.DaggerAppComponent
 import com.bubllbub.exchangerates.di.modules.AdaptersModule
 import com.bubllbub.exchangerates.di.modules.AppModule
@@ -31,7 +30,6 @@ class App : DaggerApplication() {
     lateinit var androidInjector: DispatchingAndroidInjector<Any>
 
     companion object {
-        lateinit var applicationComponent: AppComponent
         lateinit var instance: App
 
         fun appContext(): Context = instance.applicationContext

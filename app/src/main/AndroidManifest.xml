@@ -12,7 +12,8 @@
             android:label="@string/app_name"
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
-            android:theme="@style/Theme.ExRates">
+            android:theme="@style/Theme.ExRates"
+            android:fullBackupContent="@xml/backup_descriptor">
         <activity
                 android:name="com.bubllbub.exchangerates.views.MainActivity"
                 android:label="@string/app_name"

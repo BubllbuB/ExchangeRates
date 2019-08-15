@@ -20,15 +20,15 @@ class RepositoryModule {
     @Provides
     @Singleton
     fun provideRepositoryCurrency(api: CurrencyApiData, database: CurrencyRoomData): Repo<Currency> =
-        Repo(api, database)
+        Repo(api, database, Currency::class)
 
     @Provides
     @Singleton
     fun provideRepositoryIngot(api: IngotApiData, database: IngotRoomData): Repo<Ingot> =
-        Repo(api, database)
+        Repo(api, database, Ingot::class)
 
     @Provides
     @Singleton
     fun provideRepositoryRate(api: RateApiData, database: RateRoomData): Repo<Rate> =
-        Repo(api, database)
+        Repo(api, database, Rate::class)
 }

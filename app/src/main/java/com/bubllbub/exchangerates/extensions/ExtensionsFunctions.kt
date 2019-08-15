@@ -6,6 +6,7 @@ import android.graphics.Point
 import android.view.Display
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
+import com.bubllbub.exchangerates.App
 import com.bubllbub.exchangerates.R
 import com.bubllbub.exchangerates.enums.CurrencyRes
 import com.bubllbub.exchangerates.objects.Currency
@@ -105,6 +106,22 @@ fun MaterialButtonToggleGroup.setWidthChildFull(display: Display, cxt: Context) 
 }
 
 fun Int.toDp(): Int = (this * Resources.getSystem().displayMetrics.density).toInt()
+
+fun TextView.setSpinnerTextCurrency(curr: Currency) {
+    when {
+        Locale.getDefault().toString() == "ru_RU" -> this.text = this.context.getString(R.string.spinnerText, curr.curAbbreviation, curr.curName)
+        Locale.getDefault().toString() == "be_BY" -> this.text = this.context.getString(R.string.spinnerText, curr.curAbbreviation, curr.curNameBel)
+        else -> this.text = this.context.getString(R.string.spinnerText, curr.curAbbreviation, curr.curNameEng)
+    }
+}
+
+fun Currency.stringForSpinner(): String {
+    return when {
+        Locale.getDefault().toString() == "ru_RU" -> App.instance.getString(R.string.spinnerText, this.curAbbreviation, this.curName)
+        Locale.getDefault().toString() == "be_BY" -> App.instance.getString(R.string.spinnerText, this.curAbbreviation, this.curNameBel)
+        else -> App.instance.getString(R.string.spinnerText, this.curAbbreviation, this.curNameEng)
+    }
+}
 
 fun initWithTodayMaxDate(): CalendarDatePickerDialogFragment {
     val calendar = Calendar.getInstance()

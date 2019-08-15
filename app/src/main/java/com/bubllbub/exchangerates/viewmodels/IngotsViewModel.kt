@@ -49,7 +49,7 @@ class IngotsViewModel @Inject constructor(): ViewModel() {
                     override fun onNext(m: List<Ingot>) {
                         ingots.value = m
                         isLoading.set(false)
-                        Log.d(ContentValues.TAG, "[onNext] " + m.toString())
+                        Log.d(ContentValues.TAG, "[onNext] $m")
                     }
                 })
         )

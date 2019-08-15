@@ -6,10 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import com.bubllbub.exchangerates.App
 import com.bubllbub.exchangerates.R
 import com.bubllbub.exchangerates.extensions.setCurrencyLeftIcon
 import com.bubllbub.exchangerates.extensions.setCustomFont
+import com.bubllbub.exchangerates.extensions.setSpinnerTextCurrency
 import com.bubllbub.exchangerates.extensions.toDp
 import com.bubllbub.exchangerates.objects.Currency
 import com.jaredrummler.materialspinner.MaterialSpinnerAdapter
@@ -31,7 +31,7 @@ class SpinnerImageAdapter(private val context: Context, items: List<Currency>) :
         val textView = TextView(context)
 
         textView.textSize = 15f
-        textView.text = "${item.curAbbreviation} (${item.curName})"
+        textView.setSpinnerTextCurrency(item)
         textView.gravity = Gravity.CENTER_VERTICAL
         textView.setCustomFont(R.font.open_sans_bold)
         textView.setTextColor(ContextCompat.getColor(context, R.color.textDarkGrey))

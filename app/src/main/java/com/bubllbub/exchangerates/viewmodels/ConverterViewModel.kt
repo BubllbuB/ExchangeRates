@@ -27,7 +27,7 @@ class ConverterViewModel @Inject constructor(): ViewModel() {
     private val compositeDisposable = CompositeDisposable()
     @Inject
     lateinit var currencyRepo: Repo<Currency>
-    private val BYN = Currency(
+    private val bynCurrency = Currency(
         curOfficialRate = 1.0,
         curAbbreviation = "BYN",
         curName = "Белорусский рубль",
@@ -67,11 +67,11 @@ class ConverterViewModel @Inject constructor(): ViewModel() {
                     }
 
                     override fun onNext(m: List<Currency>) {
-                        val convertList = mutableListOf(BYN)
+                        val convertList = mutableListOf(bynCurrency)
                         convertList.addAll(m)
                         currencies.value = convertList.sortedBy { it.converterPos }
                         isLoading.set(false)
-                        Log.d(ContentValues.TAG, "[onNext] " + m.toString())
+                        Log.d(ContentValues.TAG, "[onNext] $m")
                     }
                 })
         )

@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">ExchangeRates</string>
-    <string name="action_settings">Settings</string>
-    <string name="er_app_name">Exchange rates</string>
     <string name="swipeDeleteItemText">Delete</string>
     <string name="currentRatesMenuAddTitle">Add currency</string>
     <string name="notification_channel_description">A channel which shows notifications about events at update currency rate</string>
@@ -20,4 +18,22 @@
     <string name="menuIngots">Ingots</string>
     <string name="menuConverter">Converter</string>
     <string name="menuAbout">About</string>
+    <string name="addCurrencyAdditionalButton">Add currency</string>
+    <string name="lastChangesLabel">Last changes</string>
+    <string name="spinnerText">%1$s (%2$s)</string>
+    <string name="mainButtonCurrentRates">Exchange rates</string>
+    <string name="mainButtonChart">Chart</string>
+    <string name="mainButtonConverter">Converter</string>
+    <string name="mainButtonImageContentDescriptionCurrentRates">Exchange rates</string>
+    <string name="mainButtonImageContentDescriptionChart">Chart</string>
+    <string name="mainButtonImageContentDescriptionConverter">Converter</string>
+    <string name="ingotItemIconContentDescription">Ingot icon</string>
+    <string name="ingotExpandIconContentDescription">More ingots</string>
+    <string name="converterTextEditHint">Amount</string>
+    <string name="converterIconContentDescription">Currency icon</string>
+    <string name="dialogTitle">Select a currency to add to the list</string>
+    <string name="dialogIconContentDescription">Dialog currency icon</string>
+    <string name="rateOnDateButton">Select date</string>
+    <string name="rateOnDateCurrencyIcon">Currency icon</string>
+    <string name="rvItemCurrencyIconContentDescription">Currency icon</string>
 </resources>

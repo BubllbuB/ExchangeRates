@@ -16,8 +16,6 @@ import com.bubllbub.exchangerates.R
 import com.bubllbub.exchangerates.di.DaggerAppComponent
 import com.bubllbub.exchangerates.di.modules.AppModule
 import com.bubllbub.exchangerates.di.modules.RepositoryModule
-import com.bubllbub.exchangerates.di.modules.RetrofitModule
-import com.bubllbub.exchangerates.di.modules.RoomModule
 import com.bubllbub.exchangerates.models.CUR_FAVORITE
 import com.bubllbub.exchangerates.models.CUR_QUERY_TRUE
 import com.bubllbub.exchangerates.models.Repo

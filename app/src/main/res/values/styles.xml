@@ -14,14 +14,6 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="Widget.ExRates.Button" parent="Widget.MaterialComponents.Button">
-        <item name="android:textColor">?android:attr/textColorPrimary</item>
-        <item name="backgroundTint">?attr/colorPrimaryDark</item>
-        <item name="android:stateListAnimator" >
-            @anim/er_next_button_state_list_anim
-        </item>
-    </style>
-
     <style name="Widget.ExRates.Button.TextButton" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="android:textColor">?android:attr/textColorPrimary</item>
     </style>
@@ -67,10 +59,6 @@
 
         <item name="bpButtonsBackgroundColor">@color/scrollViewBackgroundColor</item>
         <item name="bpButtonsTextColor">@android:color/white</item>
-    </style>
-
-    <style name="Widget.ExRates.HideHint" parent="TextAppearance.Design.Hint">
-        <item name="android:textSize">0sp</item>
     </style>
 
     <style name="Widget.ExRates.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">

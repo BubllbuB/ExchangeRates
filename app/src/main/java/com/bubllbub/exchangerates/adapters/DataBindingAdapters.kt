@@ -10,6 +10,7 @@ import com.bubllbub.exchangerates.R
 import com.bubllbub.exchangerates.ui.charts.DateAxisValueFormatter
 import com.bubllbub.exchangerates.ui.charts.LineChatGradient
 import com.bubllbub.exchangerates.objects.Currency
+import com.bubllbub.exchangerates.objects.Ingot
 import com.bubllbub.exchangerates.objects.Rate
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.components.XAxis
@@ -60,6 +61,15 @@ fun setTextNameFromLocale(view: TextView, value: Currency?) {
         Locale.getDefault().toString() == "ru_RU" -> view.text = value?.curName
         Locale.getDefault().toString() == "be_BY" -> view.text = value?.curNameBel
         else -> view.text = value?.curNameEng
+    }
+}
+
+@BindingAdapter("android:textIngotLocale")
+fun setIngotNameFromLocale(view: TextView, value: Ingot?) {
+    when {
+        Locale.getDefault().toString() == "ru_RU" -> view.text = value?.ingotName
+        Locale.getDefault().toString() == "be_BY" -> view.text = value?.ingotNameBel
+        else -> view.text = value?.ingotNameEng
     }
 }
 

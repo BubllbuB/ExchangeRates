@@ -61,7 +61,7 @@ class DialogAddCurrencyViewModel @Inject constructor(): ViewModel() {
                         currencies.value =
                             m.sortedBy { CurrencyRes.valueOf(it.curAbbreviation).ordinal }
                         isLoading.set(false)
-                        Log.d(TAG, "[onNext] " + m.toString())
+                        Log.d(TAG, "[onNext] $m")
                     }
                 })
         )

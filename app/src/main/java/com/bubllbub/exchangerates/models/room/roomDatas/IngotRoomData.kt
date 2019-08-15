@@ -1,7 +1,6 @@
 package com.bubllbub.exchangerates.models.room.roomDatas
 
 import com.bubllbub.exchangerates.models.DataSource
-import com.bubllbub.exchangerates.models.room.RoomData
 import com.bubllbub.exchangerates.models.room.RoomData.sqlWhere
 import com.bubllbub.exchangerates.models.room.daos.IngotDao
 import com.bubllbub.exchangerates.objects.Ingot

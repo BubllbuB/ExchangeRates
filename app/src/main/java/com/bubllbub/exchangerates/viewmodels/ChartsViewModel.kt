@@ -58,7 +58,7 @@ class ChartsViewModel @Inject constructor(): ViewModel() {
                     override fun onSuccess(t: List<Rate>) {
                         rates.value = t
                         isLoading.set(false)
-                        Log.d(ContentValues.TAG, "[onNext] " + t.toString())
+                        Log.d(ContentValues.TAG, "[onNext] $t")
                     }
 
                     override fun onError(t: Throwable) {
@@ -87,7 +87,7 @@ class ChartsViewModel @Inject constructor(): ViewModel() {
                     override fun onNext(m: List<Currency>) {
                         currencies.value = m
                         isLoading.set(false)
-                        Log.d(ContentValues.TAG, "[onNext] " + m.toString())
+                        Log.d(ContentValues.TAG, "[onNext] $m")
                     }
                 })
         )

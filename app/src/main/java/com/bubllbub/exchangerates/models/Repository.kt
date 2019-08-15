@@ -1,6 +1,10 @@
 package com.bubllbub.exchangerates.models
 
 
+import com.bubllbub.exchangerates.App
+import com.bubllbub.exchangerates.di.DaggerAppComponent
+import com.bubllbub.exchangerates.di.modules.AppModule
+import com.bubllbub.exchangerates.di.modules.RoomModule
 import com.bubllbub.exchangerates.models.room.roomDatas.RateRoomData
 import com.bubllbub.exchangerates.objects.Currency
 import com.bubllbub.exchangerates.objects.Rate
@@ -12,6 +16,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import kotlin.reflect.KClass
 
 
 const val CUR_ABBREVIATION = "curAbbreviation"
@@ -28,11 +33,23 @@ const val CUR_QUERY_TRUE = "1"
 const val CUR_QUERY_FALSE = "0"
 const val UPDATE_DATAS = "updateDatas"
 
-class Repo<Entity : Any>(val api: DataSource<Entity>, val db: DataSource<Entity>) :
+class Repo<Entity : Any>(val api: DataSource<Entity>, private val db: DataSource<Entity>, currentKClass: KClass<Entity>) :
     DataSource<Entity> {
 
     @Inject
     lateinit var rateRoomData: RateRoomData
+
+    init {
+        if(Currency::class == currentKClass) {
+            this as Repo<Currency>
+
+            DaggerAppComponent.builder()
+                .appModule(AppModule(App.instance))
+                .roomModule(RoomModule())
+                .build()
+                .inject(this)
+        }
+    }
 
     override fun getAll(): Flowable<List<Entity>> {
         return db.getAll()

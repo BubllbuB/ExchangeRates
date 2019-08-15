@@ -41,7 +41,8 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        tools:src="@mipmap/ic_ingot_gold" />
+                        tools:src="@mipmap/ic_ingot_gold"
+                        android:contentDescription="@string/ingotItemIconContentDescription" />
 
                 <TextView
                         android:id="@+id/currency_name"
@@ -49,7 +50,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/itemMarginDefault"
                         android:fontFamily="@font/open_sans_bold"
-                        android:text="@{ingot.ingotName}"
+                        android:textIngotLocale="@{ingot}"
                         android:textColor="#fff"
                         android:textSize="18sp"
                         app:layout_constraintStart_toEndOf="@+id/imageView3"
@@ -105,7 +106,8 @@
                         android:src="@drawable/ic_expandable_arrow"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:contentDescription="@string/ingotExpandIconContentDescription" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

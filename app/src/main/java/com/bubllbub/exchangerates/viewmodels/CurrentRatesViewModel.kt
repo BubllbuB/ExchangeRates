@@ -9,8 +9,6 @@ import com.bubllbub.exchangerates.App
 import com.bubllbub.exchangerates.di.DaggerAppComponent
 import com.bubllbub.exchangerates.di.modules.AppModule
 import com.bubllbub.exchangerates.di.modules.RepositoryModule
-import com.bubllbub.exchangerates.di.modules.RetrofitModule
-import com.bubllbub.exchangerates.di.modules.RoomModule
 import com.bubllbub.exchangerates.models.CUR_FAVORITE
 import com.bubllbub.exchangerates.models.CUR_QUERY_TRUE
 import com.bubllbub.exchangerates.models.Repo
@@ -63,7 +61,7 @@ class CurrentRatesViewModel @Inject constructor(): ViewModel() {
                     updateString.set(dateFormat.format(t[0].date))
                     isLoading.set(false)
 
-                    Log.d(TAG, "[onSuccess] " + t.toString())
+                    Log.d(TAG, "[onSuccess] $t")
                 }
             })
     }

@@ -99,7 +99,7 @@
                             android:padding="16dp"
                             android:paddingStart="40dp"
                             android:paddingEnd="40dp"
-                            android:text="Добавить валюту"
+                            android:text="@string/addCurrencyAdditionalButton"
                             android:textAllCaps="false"
                             android:textSize="14sp"
                             app:cornerRadius="40dp" />

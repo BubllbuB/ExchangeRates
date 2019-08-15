@@ -67,7 +67,7 @@ class RateOnDateViewModel @Inject constructor(): ViewModel() {
                     override fun onNext(m: Currency) {
                         currency.set(m)
                         isLoadingRate.set(false)
-                        Log.d(ContentValues.TAG, "[onNext] " + m.toString())
+                        Log.d(ContentValues.TAG, "[onNext] $m")
                     }
                 })
         )
@@ -91,7 +91,7 @@ class RateOnDateViewModel @Inject constructor(): ViewModel() {
                     override fun onNext(m: List<Currency>) {
                         currencies.value = m
                         isLoading.set(false)
-                        Log.d(ContentValues.TAG, "[onNext] " + m.toString())
+                        Log.d(ContentValues.TAG, "[onNext] $m")
                     }
                 })
         )
