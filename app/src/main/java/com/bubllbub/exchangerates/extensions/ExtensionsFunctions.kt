@@ -36,9 +36,9 @@ fun TextView.setCustomFont(font: Int) {
     this.typeface = ResourcesCompat.getFont(context, font)
 }
 
-fun MaterialSpinner.initCurrencySpinner(list: List<Currency>) {
+fun MaterialSpinner.initCurrencySpinner(list: List<Currency>, position: Int = 0) {
     this.setCustomFont(R.font.open_sans_bold)
-    this.setCurrencyLeftIcon(list[0].curAbbreviation)
+    this.setCurrencyLeftIcon(list[position].curAbbreviation)
 
     this.background =
         ResourcesCompat.getDrawable(resources, R.drawable.spinner_bg, null)
@@ -122,6 +122,15 @@ fun Currency.stringForSpinner(): String {
         else -> App.instance.getString(R.string.spinnerText, this.curAbbreviation, this.curNameEng)
     }
 }
+
+fun Currency.titleForNotification(): String {
+    return when {
+        Locale.getDefault().toString() == "ru_RU" -> App.instance.getString(R.string.notificationTitle, this.curName)
+        Locale.getDefault().toString() == "be_BY" -> App.instance.getString(R.string.notificationTitle, this.curNameBel)
+        else -> App.instance.getString(R.string.notificationTitle, this.curNameEng)
+    }
+}
+
 
 fun initWithTodayMaxDate(): CalendarDatePickerDialogFragment {
     val calendar = Calendar.getInstance()

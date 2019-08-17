@@ -1,12 +1,12 @@
 <resources>
-    <string name="app_name">ExchangeRates</string>
+    <string name="app_name" translatable="false">ExchangeRates</string>
     <string name="swipeDeleteItemText">Delete</string>
     <string name="currentRatesMenuAddTitle">Add currency</string>
     <string name="notification_channel_description">A channel which shows notifications about events at update currency rate</string>
     <string name="chart_label_months_3">3 months</string>
     <string name="chart_label_months_6">6 months</string>
     <string name="chart_label_months_12">12 months</string>
-    <string name="dialogButtonOk">OK</string>
+    <string name="dialogButtonOk" translatable="false">OK</string>
     <string name="dialogButtonCancel">Cancel</string>
     <string name="ingotNominalCapacity">%d gram</string>
     <string name="stringNominalLabel">Face value</string>
@@ -20,7 +20,7 @@
     <string name="menuAbout">About</string>
     <string name="addCurrencyAdditionalButton">Add currency</string>
     <string name="lastChangesLabel">Last changes</string>
-    <string name="spinnerText">%1$s (%2$s)</string>
+    <string name="spinnerText" translatable="false">%1$s (%2$s)</string>
     <string name="mainButtonCurrentRates">Exchange rates</string>
     <string name="mainButtonChart">Chart</string>
     <string name="mainButtonConverter">Converter</string>
@@ -36,4 +36,7 @@
     <string name="rateOnDateButton">Select date</string>
     <string name="rateOnDateCurrencyIcon">Currency icon</string>
     <string name="rvItemCurrencyIconContentDescription">Currency icon</string>
+    <string name="contentDescriptionNotificationIcon">Notification icon</string>
+    <string name="notificationTitle">%s rate it\'s update</string>
+    <string name="notificationSubTitle">Tap to show chart</string>
 </resources>

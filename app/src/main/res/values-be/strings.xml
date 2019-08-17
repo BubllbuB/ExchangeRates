@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="swipeDeleteItemText">Выдаліць</string>
+    <string name="currentRatesMenuAddTitle">Дабавіць валюту</string>
+    <string name="notification_channel_description">Канал, які адлюстроўвае натыфікацыі пра абнаўленне курсаў валют</string>
+    <string name="chart_label_months_3">3 месяцы</string>
+    <string name="chart_label_months_6">6 месяцаў</string>
+    <string name="chart_label_months_12">12 месяцаў</string>
+    <string name="dialogButtonCancel">Зачыніць</string>
+    <string name="ingotNominalCapacity">% d грам</string>
+    <string name="stringNominalLabel">Намінал</string>
+    <string name="stringBuyLabel">Купля</string>
+    <string name="stringSellLabel">Продаж</string>
+    <string name="menuCurrentRates">Курсы валют</string>
+    <string name="menuChart">Графік</string>
+    <string name="menuRateOnDate">Курс на дату</string>
+    <string name="menuIngots">Зліткі</string>
+    <string name="menuConverter">Канвэртар</string>
+    <string name="menuAbout">Аб дадатку</string>
+    <string name="addCurrencyAdditionalButton">Дабавіць валюту</string>
+    <string name="lastChangesLabel">Апошнія змены</string>
+    <string name="mainButtonCurrentRates">Курсы валют</string>
+    <string name="mainButtonChart">Графік</string>
+    <string name="mainButtonConverter">Канвэртар</string>
+    <string name="mainButtonImageContentDescriptionCurrentRates">Курсы валют</string>
+    <string name="mainButtonImageContentDescriptionChart">Графік</string>
+    <string name="mainButtonImageContentDescriptionConverter">Канвэртар</string>
+    <string name="ingotItemIconContentDescription">Абразок злітка</string>
+    <string name="ingotExpandIconContentDescription">Паказаць усе</string>
+    <string name="converterTextEditHint">Колькасць</string>
+    <string name="converterIconContentDescription">Абразок валюты</string>
+    <string name="dialogTitle">Выберыце валюту для дадання</string>
+    <string name="dialogIconContentDescription">Абразок валюты ў дыялогу</string>
+    <string name="rateOnDateButton">Выберыце дату</string>
+    <string name="rateOnDateCurrencyIcon">Абразок валюты</string>
+    <string name="rvItemCurrencyIconContentDescription">Абразок валюты</string>
+    <string name="contentDescriptionNotificationIcon">Абразок натыфікацыі</string>
+    <string name="notificationTitle">Курс %s абноўлены</string>
+    <string name="notificationSubTitle">Націсніце для адлюстравання графіка</string>
+</resources>

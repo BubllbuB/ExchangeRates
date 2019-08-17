@@ -42,7 +42,7 @@ class ChartsViewModel @Inject constructor(): ViewModel() {
 
     fun refresh(currencyId: Int, currencyAbbreviation: String, startDate: Date, finishDate: Date) {
         val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-
+        isLoading.set(true)
         compositeDisposable.add(
 
             rateRepo.query()

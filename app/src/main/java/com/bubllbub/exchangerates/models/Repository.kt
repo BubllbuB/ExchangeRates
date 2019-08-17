@@ -112,10 +112,6 @@ class Repo<Entity : Any>(val api: DataSource<Entity>, private val db: DataSource
             }
             (query.has(UPDATE_DATAS)) -> {
                 api.getAll()
-                    .flatMap { apiList ->
-                        db.saveAll(apiList).subscribe()
-                        Flowable.just(apiList)
-                    }
             }
             else -> {
                 db.getAll(query)

@@ -2,7 +2,7 @@ package com.bubllbub.exchangerates
 
 import android.content.Context
 import android.net.ConnectivityManager
-import androidx.work.OneTimeWorkRequest
+import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
 import com.bubllbub.exchangerates.di.DaggerAppComponent
@@ -14,13 +14,14 @@ import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
 import dagger.android.DispatchingAndroidInjector
 import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
 import org.joda.time.Duration
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 
 const val DAY_REPEAT_INTERVAL: Long = 1
-const val START_HOUR = 19
+const val START_HOUR = 12
 const val UPDATE_WORKER_TAG = "updateWorker"
 
 class App : DaggerApplication() {
@@ -44,7 +45,7 @@ class App : DaggerApplication() {
     override fun onCreate() {
         super.onCreate()
         instance = this
-        //runWorker()
+        runWorker()
     }
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
@@ -55,22 +56,22 @@ class App : DaggerApplication() {
     }
 
     private fun runWorker() {
-        val delay = if (DateTime.now().hourOfDay < START_HOUR) {
+        val delay = if (DateTime.now().withZone(DateTimeZone.forID("Etc/GMT-3")).hourOfDay < START_HOUR) {
             Duration(
-                DateTime.now(),
-                DateTime.now().withTimeAtStartOfDay().plusHours(START_HOUR)
+                DateTime.now().withZone(DateTimeZone.forID("Etc/GMT-3")),
+                DateTime.now().withZone(DateTimeZone.forID("Etc/GMT-3")).withTimeAtStartOfDay().plusHours(
+                    START_HOUR
+                )
             ).standardMinutes
         } else {
             Duration(
-                DateTime.now(),
-                DateTime.now().withTimeAtStartOfDay().plusDays(1).plusHours(START_HOUR)
+                DateTime.now().withZone(DateTimeZone.forID("Etc/GMT-3")),
+                DateTime.now().withZone(DateTimeZone.forID("Etc/GMT-3")).withTimeAtStartOfDay().plusDays(
+                    1
+                ).plusHours(START_HOUR)
             ).standardMinutes
         }
         workManager = WorkManager.getInstance(applicationContext)
-
-        val updateWorkerOneTime =
-            OneTimeWorkRequest.Builder(UpdateDatabasesWorker::class.java).build()
-        workManager.enqueue(updateWorkerOneTime)
 
         val updateWorker = PeriodicWorkRequest.Builder(
             UpdateDatabasesWorker::class.java,
@@ -84,10 +85,10 @@ class App : DaggerApplication() {
             .build()
 
 
-        /*workManager.enqueueUniquePeriodicWork(
+        workManager.enqueueUniquePeriodicWork(
             UPDATE_WORKER_TAG,
             ExistingPeriodicWorkPolicy.KEEP,
             updateWorker
-        )*/
+        )
     }
 }

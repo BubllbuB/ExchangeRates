@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="swipeDeleteItemText">Удалить</string>
+    <string name="currentRatesMenuAddTitle">Добавить валюту</string>
+    <string name="notification_channel_description">Канал, который отображает нотификации об обновлении курсов валют</string>
+    <string name="chart_label_months_3">3 месяца</string>
+    <string name="chart_label_months_6">6 месяцев</string>
+    <string name="chart_label_months_12">12 месяцев</string>
+    <string name="dialogButtonCancel">Закрыть</string>
+    <string name="ingotNominalCapacity">%d грамм</string>
+    <string name="stringNominalLabel">Номинал</string>
+    <string name="stringBuyLabel">Покупка</string>
+    <string name="stringSellLabel">Продажа</string>
+    <string name="menuCurrentRates">Курсы валют</string>
+    <string name="menuChart">График</string>
+    <string name="menuRateOnDate">Курс на дату</string>
+    <string name="menuIngots">Слитки</string>
+    <string name="menuConverter">Конвертер</string>
+    <string name="menuAbout">О приложении</string>
+    <string name="addCurrencyAdditionalButton">Добавить валюту</string>
+    <string name="lastChangesLabel">Последние изменения</string>
+    <string name="mainButtonCurrentRates">Курсы валют</string>
+    <string name="mainButtonChart">График</string>
+    <string name="mainButtonConverter">Конвертер</string>
+    <string name="mainButtonImageContentDescriptionCurrentRates">Курсы валют</string>
+    <string name="mainButtonImageContentDescriptionChart">График</string>
+    <string name="mainButtonImageContentDescriptionConverter">Конвертер</string>
+    <string name="ingotItemIconContentDescription">Иконка слитка</string>
+    <string name="ingotExpandIconContentDescription">Показать все</string>
+    <string name="converterTextEditHint">Количество</string>
+    <string name="converterIconContentDescription">Иконка валюты</string>
+    <string name="dialogTitle">Выберите валюту для добавления</string>
+    <string name="dialogIconContentDescription">Иконка валюты в диалоге</string>
+    <string name="rateOnDateButton">Выберите дату</string>
+    <string name="rateOnDateCurrencyIcon">Иконка валюты</string>
+    <string name="rvItemCurrencyIconContentDescription">Иконка валюты</string>
+    <string name="contentDescriptionNotificationIcon">Иконка нотификации</string>
+    <string name="notificationTitle">Курс %s обновлен</string>
+    <string name="notificationSubTitle">Нажмите для отображения графика</string>
+</resources>

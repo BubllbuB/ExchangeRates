@@ -129,6 +129,21 @@
                             android:textAllCaps="false"/>
                 </com.google.android.material.button.MaterialButtonToggleGroup>
 
+                <androidx.core.widget.ContentLoadingProgressBar
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="?android:attr/progressBarStyleLarge"
+                        android:layout_gravity="center_horizontal|center_vertical"
+                        android:visibility="@{chartViewModel.isLoading ? View.VISIBLE : View.GONE}"
+                        tools:visibility="visible"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="@dimen/itemMarginDefault"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/toggle_button_group"
+                        />
+
                 <com.bubllbub.exchangerates.ui.charts.LineChatGradient
                         android:id="@+id/chartLines"
                         android:layout_width="match_parent"
@@ -136,6 +151,7 @@
                         android:setLinesData="@{chartViewModel.rates}"
                         android:layout_marginTop="8dp"
                         android:layout_marginBottom="@dimen/itemMarginDefault"
+                        android:visibility="@{chartViewModel.isLoading ? View.GONE : View.VISIBLE}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"

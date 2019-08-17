@@ -13,15 +13,14 @@ import com.bubllbub.exchangerates.dialogs.TAG_FAVORITES
 import com.bubllbub.exchangerates.enums.CurrencyRes
 import com.bubllbub.exchangerates.models.*
 import com.bubllbub.exchangerates.objects.Currency
-import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.observers.DisposableCompletableObserver
+import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subscribers.DisposableSubscriber
 import javax.inject.Inject
 
-class DialogAddCurrencyViewModel @Inject constructor(): ViewModel() {
+class DialogAddCurrencyViewModel @Inject constructor() : ViewModel() {
     @Inject
     lateinit var currencyRepo: Repo<Currency>
     var currencies = MutableLiveData<List<Currency>>()
@@ -72,19 +71,16 @@ class DialogAddCurrencyViewModel @Inject constructor(): ViewModel() {
             currencyRepo.query()
                 .where(CUR_FAVORITE, CUR_QUERY_TRUE)
                 .findAll()
-                .flatMapCompletable { list ->
-                    list.maxBy { it.favoritePos }?.favoritePos?.let {
-                        curr.favoritePos = it + 1
-                    }
-                    curr.isFavorite = true
-                    currencyRepo.save(curr).subscribe()
-                    Completable.fromAction {  }
-                }
+                .firstOrError()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(object : DisposableCompletableObserver() {
-                    override fun onComplete() {
-                        isLoading.set(false)
+                .subscribeWith(object : DisposableSingleObserver<List<Currency>>() {
+                    override fun onSuccess(list: List<Currency>) {
+                        list.maxBy { it.favoritePos }?.favoritePos?.let {
+                            curr.favoritePos = it + 1
+                        }
+                        curr.isFavorite = true
+                        currencyRepo.save(curr).subscribe()
                     }
 
                     override fun onError(e: Throwable) {
@@ -100,19 +96,16 @@ class DialogAddCurrencyViewModel @Inject constructor(): ViewModel() {
             currencyRepo.query()
                 .where(CUR_CONVERTER, CUR_QUERY_TRUE)
                 .findAll()
-                .flatMapCompletable { list ->
-                    list.maxBy { it.converterPos }?.converterPos?.let {
-                        curr.converterPos = it + 1
-                    }
-                    curr.isConverter = true
-                    currencyRepo.save(curr).subscribe()
-                    Completable.fromAction {  }
-                }
+                .firstOrError()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(object : DisposableCompletableObserver() {
-                    override fun onComplete() {
-                        isLoading.set(false)
+                .subscribeWith(object : DisposableSingleObserver<List<Currency>>() {
+                    override fun onSuccess(list: List<Currency>) {
+                        list.maxBy { it.converterPos }?.converterPos?.let {
+                            curr.converterPos = it + 1
+                        }
+                        curr.isConverter = true
+                        currencyRepo.save(curr).subscribe()
                     }
 
                     override fun onError(e: Throwable) {

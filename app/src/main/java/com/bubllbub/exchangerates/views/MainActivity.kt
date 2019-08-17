@@ -4,8 +4,10 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.bubllbub.exchangerates.R
 import com.bubllbub.exchangerates.backdrop.NavigationHost
+import com.bubllbub.exchangerates.views.fragments.ChartRatesFragment
 import com.bubllbub.exchangerates.views.fragments.CurrentRatesFragment
 import com.bubllbub.exchangerates.views.fragments.FRAGMENT_FROM_NAVIGATE
+import com.bubllbub.exchangerates.workers.NOTIFICATION_CURRENCY
 import dagger.android.support.DaggerAppCompatActivity
 
 class MainActivity : DaggerAppCompatActivity(), NavigationHost {
@@ -13,7 +15,22 @@ class MainActivity : DaggerAppCompatActivity(), NavigationHost {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.er_activity_main)
 
-        if (savedInstanceState == null) {
+        val currAbbreviation = intent.extras?.getString(NOTIFICATION_CURRENCY)
+
+        if (currAbbreviation != null) {
+            val bundle = Bundle()
+            bundle.putString(NOTIFICATION_CURRENCY, currAbbreviation)
+            val fragment = ChartRatesFragment()
+            fragment.arguments = bundle
+
+            supportFragmentManager
+                .beginTransaction()
+                .add(
+                    R.id.container,
+                    fragment
+                )
+                .commit()
+        } else if (savedInstanceState == null) {
             supportFragmentManager
                 .beginTransaction()
                 .add(
