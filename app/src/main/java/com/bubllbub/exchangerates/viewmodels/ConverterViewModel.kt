@@ -3,6 +3,7 @@ package com.bubllbub.exchangerates.viewmodels
 import android.content.ContentValues
 import android.util.Log
 import androidx.databinding.ObservableField
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bubllbub.exchangerates.App
@@ -22,10 +23,12 @@ import io.reactivex.subscribers.DisposableSubscriber
 import javax.inject.Inject
 
 class ConverterViewModel @Inject constructor(): ViewModel() {
-    var currencies = MutableLiveData<List<Currency>>()
+    private val _currencies = MutableLiveData<List<Currency>>()
+    val currencies: LiveData<List<Currency>>
+        get() = _currencies
     var isLoading = ObservableField(true)
     private val compositeDisposable = CompositeDisposable()
-    @Inject
+    @field:Inject
     lateinit var currencyRepo: Repo<Currency>
     private val bynCurrency = Currency(
         curOfficialRate = 1.0,
@@ -69,7 +72,7 @@ class ConverterViewModel @Inject constructor(): ViewModel() {
                     override fun onNext(m: List<Currency>) {
                         val convertList = mutableListOf(bynCurrency)
                         convertList.addAll(m)
-                        currencies.value = convertList.sortedBy { it.converterPos }
+                        _currencies.value = convertList.sortedBy { it.converterPos }
                         isLoading.set(false)
                         Log.d(ContentValues.TAG, "[onNext] $m")
                     }

@@ -3,12 +3,14 @@ package com.bubllbub.exchangerates.viewmodels
 import android.content.ContentValues
 import android.util.Log
 import androidx.databinding.ObservableField
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bubllbub.exchangerates.App
 import com.bubllbub.exchangerates.di.DaggerAppComponent
 import com.bubllbub.exchangerates.di.modules.AppModule
 import com.bubllbub.exchangerates.di.modules.RepositoryModule
+import com.bubllbub.exchangerates.enums.CurrencyRes
 import com.bubllbub.exchangerates.models.*
 import com.bubllbub.exchangerates.objects.Currency
 import com.bubllbub.exchangerates.objects.Rate
@@ -23,12 +25,17 @@ import javax.inject.Inject
 
 
 class ChartsViewModel @Inject constructor(): ViewModel() {
-    var currencies = MutableLiveData<List<Currency>>()
-    var rates = MutableLiveData<List<Rate>>()
+
+    private val _currencies = MutableLiveData<List<Currency>>()
+    val currencies: LiveData<List<Currency>>
+        get() = _currencies
+    private val _rates = MutableLiveData<List<Rate>>()
+    val rates: LiveData<List<Rate>>
+        get() = _rates
     var isLoading = ObservableField(true)
-    @Inject
+    @field:Inject
     lateinit var rateRepo: Repo<Rate>
-    @Inject
+    @field:Inject
     lateinit var currencyRepo: Repo<Currency>
     private val compositeDisposable = CompositeDisposable()
 
@@ -56,7 +63,7 @@ class ChartsViewModel @Inject constructor(): ViewModel() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(object : DisposableSingleObserver<List<Rate>>() {
                     override fun onSuccess(t: List<Rate>) {
-                        rates.value = t
+                        _rates.value = t
                         isLoading.set(false)
                         Log.d(ContentValues.TAG, "[onNext] $t")
                     }
@@ -85,7 +92,7 @@ class ChartsViewModel @Inject constructor(): ViewModel() {
                     }
 
                     override fun onNext(m: List<Currency>) {
-                        currencies.value = m
+                        _currencies.value = m.sortedBy { CurrencyRes.valueOf(it.curAbbreviation).ordinal }
                         isLoading.set(false)
                         Log.d(ContentValues.TAG, "[onNext] $m")
                     }

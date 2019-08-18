@@ -10,7 +10,6 @@ import androidx.lifecycle.Observer
 import com.bubllbub.exchangerates.R
 import com.bubllbub.exchangerates.adapters.SpinnerImageAdapter
 import com.bubllbub.exchangerates.databinding.ErFragmentRateOnDateBinding
-import com.bubllbub.exchangerates.enums.CurrencyRes
 import com.bubllbub.exchangerates.extensions.initCurrencySpinner
 import com.bubllbub.exchangerates.extensions.initWithTodayMaxDate
 import com.bubllbub.exchangerates.extensions.setCurrencyLeftIcon
@@ -87,12 +86,9 @@ class RateOnDateFragment : BackDropFragment() {
         binding.rateOnDateViewModel?.currencies?.observe(this,
             Observer<List<Currency>> { currencies ->
                 currencies?.let { list ->
-                    val sortedList =
-                        list.sortedBy { CurrencyRes.valueOf(it.curAbbreviation).ordinal }
-
-                    val adapter = SpinnerImageAdapter(requireContext(), sortedList)
+                    val adapter = SpinnerImageAdapter(requireContext(), list)
                     binding.rateOnDateSpinner.setAdapter(adapter)
-                    binding.rateOnDateSpinner.initCurrencySpinner(sortedList)
+                    binding.rateOnDateSpinner.initCurrencySpinner(list)
 
                     refreshDateRange()
                     refreshDate()

@@ -23,6 +23,9 @@ import java.text.DecimalFormat
 import java.util.*
 
 
+const val LOCALE_RU = "ru_RU"
+const val LOCALE_BY = "be_BY"
+
 @BindingAdapter("android:src")
 fun setImageViewResource(imageView: ImageView, resource: Int) {
     imageView.setImageResource(resource)
@@ -48,28 +51,28 @@ fun setTextFromDouble(view: EditText, value: Double?) {
 
 @BindingAdapter("android:textQuotLocale")
 fun setTextQuotFromLocale(view: TextView, value: Currency?) {
-    when {
-        Locale.getDefault().toString() == "ru_RU" -> view.text = value?.curQuotName
-        Locale.getDefault().toString() == "be_BY" -> view.text = value?.curQuotNameBel
-        else -> view.text = value?.curQuotNameEng
+    view.text = when {
+        Locale.getDefault().toString() == LOCALE_RU -> value?.curQuotName
+        Locale.getDefault().toString() == LOCALE_BY -> value?.curQuotNameBel
+        else -> value?.curQuotNameEng
     }
 }
 
 @BindingAdapter("android:textNameLocale")
 fun setTextNameFromLocale(view: TextView, value: Currency?) {
-    when {
-        Locale.getDefault().toString() == "ru_RU" -> view.text = value?.curName
-        Locale.getDefault().toString() == "be_BY" -> view.text = value?.curNameBel
-        else -> view.text = value?.curNameEng
+    view.text = when {
+        Locale.getDefault().toString() == LOCALE_RU -> value?.curName
+        Locale.getDefault().toString() == LOCALE_BY -> value?.curNameBel
+        else -> value?.curNameEng
     }
 }
 
 @BindingAdapter("android:textIngotLocale")
 fun setIngotNameFromLocale(view: TextView, value: Ingot?) {
-    when {
-        Locale.getDefault().toString() == "ru_RU" -> view.text = value?.ingotName
-        Locale.getDefault().toString() == "be_BY" -> view.text = value?.ingotNameBel
-        else -> view.text = value?.ingotNameEng
+    view.text = when {
+        Locale.getDefault().toString() == LOCALE_RU -> value?.ingotName
+        Locale.getDefault().toString() == LOCALE_BY -> value?.ingotNameBel
+        else -> value?.ingotNameEng
     }
 }
 

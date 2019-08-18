@@ -3,12 +3,14 @@ package com.bubllbub.exchangerates.viewmodels
 import android.content.ContentValues
 import android.util.Log
 import androidx.databinding.ObservableField
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bubllbub.exchangerates.App
 import com.bubllbub.exchangerates.di.DaggerAppComponent
 import com.bubllbub.exchangerates.di.modules.AppModule
 import com.bubllbub.exchangerates.di.modules.RepositoryModule
+import com.bubllbub.exchangerates.enums.CurrencyRes
 import com.bubllbub.exchangerates.models.CUR_ABBREVIATION
 import com.bubllbub.exchangerates.models.CUR_DATE
 import com.bubllbub.exchangerates.models.DATE_IN_MILLI
@@ -24,16 +26,17 @@ import org.joda.time.format.DateTimeFormat
 import java.util.*
 import javax.inject.Inject
 
-class RateOnDateViewModel @Inject constructor(): ViewModel() {
+class RateOnDateViewModel @Inject constructor() : ViewModel() {
     var currency =
         ObservableField(Currency(curDateEnd = Date(), curDateStart = Date(), date = Date()))
-    var currencies = MutableLiveData<List<Currency>>()
+    private val _currencies = MutableLiveData<List<Currency>>()
+    val currencies: LiveData<List<Currency>>
+        get() = _currencies
     var date = ObservableField(DateTime().withTimeAtStartOfDay())
-    var isLoading = ObservableField(true)
-    var isLoadingRate = ObservableField(true)
     private val compositeDisposable = CompositeDisposable()
 
-    @Inject lateinit var currencyRepo: Repo<Currency>
+    @field:Inject
+    lateinit var currencyRepo: Repo<Currency>
 
     init {
         DaggerAppComponent.builder()
@@ -66,7 +69,6 @@ class RateOnDateViewModel @Inject constructor(): ViewModel() {
 
                     override fun onNext(m: Currency) {
                         currency.set(m)
-                        isLoadingRate.set(false)
                         Log.d(ContentValues.TAG, "[onNext] $m")
                     }
                 })
@@ -89,8 +91,8 @@ class RateOnDateViewModel @Inject constructor(): ViewModel() {
                     }
 
                     override fun onNext(m: List<Currency>) {
-                        currencies.value = m
-                        isLoading.set(false)
+                        _currencies.value =
+                            m.sortedBy { CurrencyRes.valueOf(it.curAbbreviation).ordinal }
                         Log.d(ContentValues.TAG, "[onNext] $m")
                     }
                 })

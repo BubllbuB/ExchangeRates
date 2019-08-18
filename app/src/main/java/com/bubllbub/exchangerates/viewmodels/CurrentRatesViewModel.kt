@@ -3,6 +3,7 @@ package com.bubllbub.exchangerates.viewmodels
 import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.databinding.ObservableField
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bubllbub.exchangerates.App
@@ -24,10 +25,12 @@ import javax.inject.Inject
 
 
 class CurrentRatesViewModel @Inject constructor(): ViewModel() {
-    var currencies = MutableLiveData<List<Currency>>()
+    private val _currencies = MutableLiveData<List<Currency>>()
+    val currencies: LiveData<List<Currency>>
+        get() = _currencies
     var isLoading = ObservableField(true)
     var updateString = ObservableField("")
-    @Inject
+    @field:Inject
     lateinit var currencyRepo: Repo<Currency>
     private val compositeDisposable = CompositeDisposable()
 
@@ -56,7 +59,7 @@ class CurrentRatesViewModel @Inject constructor(): ViewModel() {
                 }
 
                 override fun onNext(t: List<Currency>) {
-                    currencies.value = t.sortedBy { it.favoritePos }
+                    _currencies.value = t.sortedBy { it.favoritePos }
                     val dateFormat = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
                     updateString.set(dateFormat.format(t[0].date))
                     isLoading.set(false)

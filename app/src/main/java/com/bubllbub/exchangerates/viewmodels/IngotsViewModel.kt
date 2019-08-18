@@ -3,6 +3,7 @@ package com.bubllbub.exchangerates.viewmodels
 import android.content.ContentValues
 import android.util.Log
 import androidx.databinding.ObservableField
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bubllbub.exchangerates.App
@@ -10,6 +11,7 @@ import com.bubllbub.exchangerates.di.DaggerAppComponent
 import com.bubllbub.exchangerates.di.modules.AppModule
 import com.bubllbub.exchangerates.di.modules.RepositoryModule
 import com.bubllbub.exchangerates.models.Repo
+import com.bubllbub.exchangerates.objects.Currency
 import com.bubllbub.exchangerates.objects.Ingot
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -18,7 +20,9 @@ import io.reactivex.subscribers.DisposableSubscriber
 import javax.inject.Inject
 
 class IngotsViewModel @Inject constructor(): ViewModel() {
-    var ingots = MutableLiveData<List<Ingot>>()
+    private val _ingots = MutableLiveData<List<Ingot>>()
+    val ingots: LiveData<List<Ingot>>
+        get() = _ingots
     var isLoading = ObservableField(true)
     private val compositeDisposable = CompositeDisposable()
     @Inject lateinit var ingotRepo: Repo<Ingot>
@@ -47,7 +51,7 @@ class IngotsViewModel @Inject constructor(): ViewModel() {
                     }
 
                     override fun onNext(m: List<Ingot>) {
-                        ingots.value = m
+                        _ingots.value = m
                         isLoading.set(false)
                         Log.d(ContentValues.TAG, "[onNext] $m")
                     }

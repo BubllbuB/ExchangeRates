@@ -10,12 +10,11 @@ import androidx.lifecycle.Observer
 import com.bubllbub.exchangerates.R
 import com.bubllbub.exchangerates.adapters.SpinnerImageAdapter
 import com.bubllbub.exchangerates.databinding.ErFragmentChartRatesBinding
-import com.bubllbub.exchangerates.ui.listeners.RadioToggleCheckedListener
-import com.bubllbub.exchangerates.enums.CurrencyRes
 import com.bubllbub.exchangerates.extensions.initCurrencySpinner
 import com.bubllbub.exchangerates.extensions.setCurrencyLeftIcon
 import com.bubllbub.exchangerates.extensions.setWidthChildFull
 import com.bubllbub.exchangerates.objects.Currency
+import com.bubllbub.exchangerates.ui.listeners.RadioToggleCheckedListener
 import com.bubllbub.exchangerates.viewmodels.ChartsViewModel
 import com.bubllbub.exchangerates.workers.NOTIFICATION_CURRENCY
 import com.google.android.material.button.MaterialButton
@@ -87,26 +86,22 @@ class ChartRatesFragment : BackDropFragment() {
         binding.chartViewModel?.currencies?.observe(this,
             Observer<List<Currency>> { currencies ->
                 currencies?.let { list ->
-                    val sortedList =
-                        list.sortedBy { CurrencyRes.valueOf(it.curAbbreviation).ordinal }
-                            .toMutableList()
-
-                    val adapter = SpinnerImageAdapter(requireContext(), sortedList)
+                    val adapter = SpinnerImageAdapter(requireContext(), list)
                     binding.chartSpinner.setAdapter(adapter)
 
 
-                    val defaultCurr = sortedList.find { it.curAbbreviation == currentAbbreviation}
-                    if(defaultCurr != null ) {
-                        val index = sortedList.indexOf(defaultCurr)
+                    val defaultCurr = list.find { it.curAbbreviation == currentAbbreviation }
+                    if (defaultCurr != null) {
+                        val index = list.indexOf(defaultCurr)
                         binding.chartSpinner.selectedIndex = index
 
-                        binding.chartSpinner.initCurrencySpinner(sortedList, index)
-                        currentId = sortedList[index].curId
-                        currentAbbreviation = sortedList[index].curAbbreviation
+                        binding.chartSpinner.initCurrencySpinner(list, index)
+                        currentId = list[index].curId
+                        currentAbbreviation = list[index].curAbbreviation
                     } else {
-                        binding.chartSpinner.initCurrencySpinner(sortedList)
-                        currentId = sortedList[0].curId
-                        currentAbbreviation = sortedList[0].curAbbreviation
+                        binding.chartSpinner.initCurrencySpinner(list)
+                        currentId = list[0].curId
+                        currentAbbreviation = list[0].curAbbreviation
                     }
                     refreshChartDate()
                 }

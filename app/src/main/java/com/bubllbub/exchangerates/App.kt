@@ -76,14 +76,10 @@ class App : DaggerApplication() {
         val updateWorker = PeriodicWorkRequest.Builder(
             UpdateDatabasesWorker::class.java,
             DAY_REPEAT_INTERVAL,
-            TimeUnit.DAYS,
-            PeriodicWorkRequest.MIN_PERIODIC_FLEX_MILLIS,
-            TimeUnit.MILLISECONDS
+            TimeUnit.DAYS
         )
             .setInitialDelay(delay, TimeUnit.MINUTES)
-            .addTag(UPDATE_WORKER_TAG)
             .build()
-
 
         workManager.enqueueUniquePeriodicWork(
             UPDATE_WORKER_TAG,
