@@ -34,6 +34,7 @@ class CurrentRatesFragment : BackDropFragment() {
 
         binding =
             DataBindingUtil.inflate(inflater, R.layout.er_fragment_current_rates, container, false)
+        binding.lifecycleOwner = viewLifecycleOwner
         binding.currentRatesViewModel = currentViewModel
         binding.executePendingBindings()
 

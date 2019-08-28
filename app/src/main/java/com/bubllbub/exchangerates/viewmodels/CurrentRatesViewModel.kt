@@ -10,6 +10,7 @@ import com.bubllbub.exchangerates.App
 import com.bubllbub.exchangerates.di.DaggerAppComponent
 import com.bubllbub.exchangerates.di.modules.AppModule
 import com.bubllbub.exchangerates.di.modules.RepositoryModule
+import com.bubllbub.exchangerates.extensions.putInCompositeDisposible
 import com.bubllbub.exchangerates.models.CUR_FAVORITE
 import com.bubllbub.exchangerates.models.CUR_QUERY_TRUE
 import com.bubllbub.exchangerates.models.Repo
@@ -24,7 +25,7 @@ import java.util.*
 import javax.inject.Inject
 
 
-class CurrentRatesViewModel @Inject constructor(): ViewModel() {
+class CurrentRatesViewModel @Inject constructor() : ViewModel() {
     private val _currencies = MutableLiveData<List<Currency>>()
     val currencies: LiveData<List<Currency>>
         get() = _currencies
@@ -48,7 +49,7 @@ class CurrentRatesViewModel @Inject constructor(): ViewModel() {
             .findAll()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : DisposableSubscriber<List<Currency>>() {
+            .subscribeWith(object : DisposableSubscriber<List<Currency>>() {
                 override fun onComplete() {
                     Log.d(TAG, "[onCompleted] ")
                 }
@@ -67,46 +68,45 @@ class CurrentRatesViewModel @Inject constructor(): ViewModel() {
                     Log.d(TAG, "[onSuccess] $t")
                 }
             })
+            .putInCompositeDisposible(compositeDisposable)
     }
 
     fun deleteFavCurrency(currency: Currency) {
         val savedCurr = currency.copy()
         savedCurr.favoritePos = 0
         savedCurr.isFavorite = false
-        compositeDisposable.add(
-            currencyRepo.save(savedCurr)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(object : DisposableCompletableObserver() {
-                    override fun onComplete() {
-                        isLoading.set(false)
-                    }
+        currencyRepo.save(savedCurr)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeWith(object : DisposableCompletableObserver() {
+                override fun onComplete() {
+                    isLoading.set(false)
+                }
 
-                    override fun onError(e: Throwable) {
-                        Log.d(TAG, "[onError] ")
-                        e.printStackTrace()
-                    }
-                })
-        )
+                override fun onError(e: Throwable) {
+                    Log.d(TAG, "[onError] ")
+                    e.printStackTrace()
+                }
+            })
+            .putInCompositeDisposible(compositeDisposable)
     }
 
     fun insertFavCurrency(currency: Currency) {
         currency.isFavorite = true
-        compositeDisposable.add(
-            currencyRepo.save(currency)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(object : DisposableCompletableObserver() {
-                    override fun onComplete() {
-                        isLoading.set(false)
-                    }
+        currencyRepo.save(currency)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeWith(object : DisposableCompletableObserver() {
+                override fun onComplete() {
+                    isLoading.set(false)
+                }
 
-                    override fun onError(e: Throwable) {
-                        Log.d(TAG, "[onError] ")
-                        e.printStackTrace()
-                    }
-                })
-        )
+                override fun onError(e: Throwable) {
+                    Log.d(TAG, "[onError] ")
+                    e.printStackTrace()
+                }
+            })
+            .putInCompositeDisposible(compositeDisposable)
     }
 
     override fun onCleared() {

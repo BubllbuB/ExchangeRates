@@ -11,6 +11,7 @@ import com.bubllbub.exchangerates.di.DaggerAppComponent
 import com.bubllbub.exchangerates.di.modules.AppModule
 import com.bubllbub.exchangerates.di.modules.RepositoryModule
 import com.bubllbub.exchangerates.enums.CurrencyRes
+import com.bubllbub.exchangerates.extensions.putInCompositeDisposible
 import com.bubllbub.exchangerates.models.CUR_ABBREVIATION
 import com.bubllbub.exchangerates.models.CUR_DATE
 import com.bubllbub.exchangerates.models.DATE_IN_MILLI
@@ -49,54 +50,52 @@ class RateOnDateViewModel @Inject constructor() : ViewModel() {
     fun refresh(currencyAbbreviation: String) {
         val dateFormat = DateTimeFormat.forPattern("yyyy-MM-dd")
 
-        compositeDisposable.add(
-            currencyRepo.query()
-                .where(CUR_ABBREVIATION, currencyAbbreviation)
-                .where(CUR_DATE, dateFormat.print(date.get()))
-                .where(DATE_IN_MILLI, date.get()!!.millis.toString())
-                .findOne()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(object : DisposableObserver<Currency>() {
-                    override fun onComplete() {
-                        Log.d(ContentValues.TAG, "[onCompleted] ")
-                    }
+        currencyRepo.query()
+            .where(CUR_ABBREVIATION, currencyAbbreviation)
+            .where(CUR_DATE, dateFormat.print(date.get()))
+            .where(DATE_IN_MILLI, date.get()!!.millis.toString())
+            .findOne()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeWith(object : DisposableObserver<Currency>() {
+                override fun onComplete() {
+                    Log.d(ContentValues.TAG, "[onCompleted] ")
+                }
 
-                    override fun onError(t: Throwable) {
-                        Log.d(ContentValues.TAG, "[onError] ")
-                        t.printStackTrace()
-                    }
+                override fun onError(t: Throwable) {
+                    Log.d(ContentValues.TAG, "[onError] ")
+                    t.printStackTrace()
+                }
 
-                    override fun onNext(m: Currency) {
-                        currency.set(m)
-                        Log.d(ContentValues.TAG, "[onNext] $m")
-                    }
-                })
-        )
+                override fun onNext(m: Currency) {
+                    currency.set(m)
+                    Log.d(ContentValues.TAG, "[onNext] $m")
+                }
+            })
+            .putInCompositeDisposible(compositeDisposable)
     }
 
     fun getActualList() {
-        compositeDisposable.add(
-            currencyRepo.getAll()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(object : DisposableSubscriber<List<Currency>>() {
-                    override fun onComplete() {
-                        Log.d(ContentValues.TAG, "[onCompleted] ")
-                    }
+        currencyRepo.getAll()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeWith(object : DisposableSubscriber<List<Currency>>() {
+                override fun onComplete() {
+                    Log.d(ContentValues.TAG, "[onCompleted] ")
+                }
 
-                    override fun onError(t: Throwable) {
-                        Log.d(ContentValues.TAG, "[onError] ")
-                        t.printStackTrace()
-                    }
+                override fun onError(t: Throwable) {
+                    Log.d(ContentValues.TAG, "[onError] ")
+                    t.printStackTrace()
+                }
 
-                    override fun onNext(m: List<Currency>) {
-                        _currencies.value =
-                            m.sortedBy { CurrencyRes.valueOf(it.curAbbreviation).ordinal }
-                        Log.d(ContentValues.TAG, "[onNext] $m")
-                    }
-                })
-        )
+                override fun onNext(m: List<Currency>) {
+                    _currencies.value =
+                        m.sortedBy { CurrencyRes.valueOf(it.curAbbreviation).ordinal }
+                    Log.d(ContentValues.TAG, "[onNext] $m")
+                }
+            })
+            .putInCompositeDisposible(compositeDisposable)
     }
 
     override fun onCleared() {

@@ -19,16 +19,11 @@ import com.bubllbub.exchangerates.viewmodels.ChartsViewModel
 import com.bubllbub.exchangerates.workers.NOTIFICATION_CURRENCY
 import com.google.android.material.button.MaterialButton
 import kotlinx.android.synthetic.main.er_fragment_chart_rates.view.*
-import java.util.*
 import javax.inject.Inject
 
 
 class ChartRatesFragment : BackDropFragment() {
     private lateinit var binding: ErFragmentChartRatesBinding
-    private val finishDate = Date()
-    private val startDate = Date()
-    private var currentId = 145
-    private var currentAbbreviation = "USD"
 
     @Inject
     lateinit var chartViewModel: ChartsViewModel
@@ -38,12 +33,12 @@ class ChartRatesFragment : BackDropFragment() {
     ): View? {
         binding =
             DataBindingUtil.inflate(inflater, R.layout.er_fragment_chart_rates, container, false)
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
         binding.chartViewModel = chartViewModel
         binding.executePendingBindings()
 
         arguments?.let {
-            currentAbbreviation = it.getString(NOTIFICATION_CURRENCY, "USD")
+            binding.chartViewModel.currentAbbreviation = it.getString(NOTIFICATION_CURRENCY, "USD")
         }
 
         initSpinner()
@@ -54,23 +49,13 @@ class ChartRatesFragment : BackDropFragment() {
         return view
     }
 
-    private fun refreshChartDate() {
-        binding.chartViewModel?.refresh(currentId, currentAbbreviation, startDate, finishDate)
-    }
-
-    private fun setupForDates(amountMonths: Int) {
-        val calendar = Calendar.getInstance()
-        calendar.time = finishDate
-        calendar.add(Calendar.MONTH, amountMonths)
-        startDate.time = calendar.timeInMillis
-    }
-
     private fun initToggleButtons() {
         binding.toggleButtonGroup.addOnButtonCheckedListener(object :
             RadioToggleCheckedListener(requireContext()) {
             override fun executeOnCheck(button: MaterialButton) {
-                setupForDates(button.text.toString().substringBefore(' ').toInt() * -1)
-                refreshChartDate()
+                binding.chartViewModel.currentAmountMonths =
+                    button.text.toString().substringBefore(' ').toInt() * -1
+                binding.chartViewModel.refresh()
             }
         })
         binding.button3Months.performClick()
@@ -90,29 +75,30 @@ class ChartRatesFragment : BackDropFragment() {
                     binding.chartSpinner.setAdapter(adapter)
 
 
-                    val defaultCurr = list.find { it.curAbbreviation == currentAbbreviation }
+                    val defaultCurr =
+                        list.find { it.curAbbreviation == binding.chartViewModel.currentAbbreviation }
                     if (defaultCurr != null) {
                         val index = list.indexOf(defaultCurr)
                         binding.chartSpinner.selectedIndex = index
 
                         binding.chartSpinner.initCurrencySpinner(list, index)
-                        currentId = list[index].curId
-                        currentAbbreviation = list[index].curAbbreviation
+                        binding.chartViewModel.currentId = list[index].curId
+                        binding.chartViewModel.currentAbbreviation = list[index].curAbbreviation
                     } else {
                         binding.chartSpinner.initCurrencySpinner(list)
-                        currentId = list[0].curId
-                        currentAbbreviation = list[0].curAbbreviation
+                        binding.chartViewModel.currentId = list[0].curId
+                        binding.chartViewModel.currentAbbreviation = list[0].curAbbreviation
                     }
-                    refreshChartDate()
+                    binding.chartViewModel.refresh()
                 }
             })
 
-        binding.chartSpinner.setOnItemSelectedListener { view, position, id, item ->
+        binding.chartSpinner.setOnItemSelectedListener { view, _, _, item ->
             view.background = ResourcesCompat.getDrawable(resources, R.drawable.spinner_bg, null)
             view.setCurrencyLeftIcon((item as Currency).curAbbreviation)
-            currentId = item.curId
-            currentAbbreviation = item.curAbbreviation
-            refreshChartDate()
+            binding.chartViewModel.currentId = item.curId
+            binding.chartViewModel.currentAbbreviation = item.curAbbreviation
+            binding.chartViewModel.refresh()
         }
     }
 }

@@ -33,6 +33,7 @@ class ConverterFragment : BackDropFragment() {
 
         binding =
             DataBindingUtil.inflate(inflater, R.layout.er_fragment_converter, container, false)
+        binding.lifecycleOwner = viewLifecycleOwner
         binding.converterViewModel = converterViewModel
         binding.executePendingBindings()
 

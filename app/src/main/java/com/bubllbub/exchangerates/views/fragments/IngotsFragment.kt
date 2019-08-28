@@ -26,6 +26,7 @@ class IngotsFragment : BackDropFragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.er_fragment_ingots, container, false)
+        binding.lifecycleOwner = viewLifecycleOwner
         binding.ingotsViewModel = ingotViewModel
         binding.executePendingBindings()
 

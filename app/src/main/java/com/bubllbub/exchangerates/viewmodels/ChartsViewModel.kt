@@ -11,6 +11,7 @@ import com.bubllbub.exchangerates.di.DaggerAppComponent
 import com.bubllbub.exchangerates.di.modules.AppModule
 import com.bubllbub.exchangerates.di.modules.RepositoryModule
 import com.bubllbub.exchangerates.enums.CurrencyRes
+import com.bubllbub.exchangerates.extensions.putInCompositeDisposible
 import com.bubllbub.exchangerates.models.*
 import com.bubllbub.exchangerates.objects.Currency
 import com.bubllbub.exchangerates.objects.Rate
@@ -24,7 +25,7 @@ import java.util.*
 import javax.inject.Inject
 
 
-class ChartsViewModel @Inject constructor(): ViewModel() {
+class ChartsViewModel @Inject constructor() : ViewModel() {
 
     private val _currencies = MutableLiveData<List<Currency>>()
     val currencies: LiveData<List<Currency>>
@@ -39,6 +40,10 @@ class ChartsViewModel @Inject constructor(): ViewModel() {
     lateinit var currencyRepo: Repo<Currency>
     private val compositeDisposable = CompositeDisposable()
 
+    var currentId = 145
+    var currentAbbreviation = "USD"
+    var currentAmountMonths = 3
+
     init {
         DaggerAppComponent.builder()
             .appModule(AppModule(App.instance))
@@ -47,57 +52,66 @@ class ChartsViewModel @Inject constructor(): ViewModel() {
             .inject(this)
     }
 
-    fun refresh(currencyId: Int, currencyAbbreviation: String, startDate: Date, finishDate: Date) {
+    fun refresh() {
+        val finishDate = Date()
+        val startDate = Date()
+
+        val calendar = Calendar.getInstance()
+        calendar.time = finishDate
+        calendar.add(Calendar.MONTH, currentAmountMonths)
+        startDate.time = calendar.timeInMillis
+
+
         val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         isLoading.set(true)
-        compositeDisposable.add(
 
-            rateRepo.query()
-                .where(CUR_ID, currencyId.toString())
-                .where(CUR_ABBREVIATION, currencyAbbreviation)
-                .where(START_DATE, dateFormat.format(startDate))
-                .where(END_DATE, dateFormat.format(finishDate))
-                .findAll()
-                .firstOrError()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(object : DisposableSingleObserver<List<Rate>>() {
-                    override fun onSuccess(t: List<Rate>) {
-                        _rates.value = t
-                        isLoading.set(false)
-                        Log.d(ContentValues.TAG, "[onNext] $t")
-                    }
+        rateRepo.query()
+            .where(CUR_ID, currentId.toString())
+            .where(CUR_ABBREVIATION, currentAbbreviation)
+            .where(START_DATE, dateFormat.format(startDate))
+            .where(END_DATE, dateFormat.format(finishDate))
+            .findAll()
+            .firstOrError()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeWith(object : DisposableSingleObserver<List<Rate>>() {
+                override fun onSuccess(t: List<Rate>) {
+                    _rates.value = t
+                    isLoading.set(false)
+                    Log.d(ContentValues.TAG, "[onNext] $t")
+                }
 
-                    override fun onError(t: Throwable) {
-                        Log.d(ContentValues.TAG, "[onError] ")
-                        t.printStackTrace()
-                    }
-                })
-        )
+                override fun onError(t: Throwable) {
+                    Log.d(ContentValues.TAG, "[onError] ")
+                    t.printStackTrace()
+                }
+            })
+            .putInCompositeDisposible(compositeDisposable)
+
     }
 
     fun getActualList() {
-        compositeDisposable.add(
-            currencyRepo.getAll()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(object : DisposableSubscriber<List<Currency>>() {
-                    override fun onComplete() {
-                        Log.d(ContentValues.TAG, "[onCompleted] ")
-                    }
+        currencyRepo.getAll()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeWith(object : DisposableSubscriber<List<Currency>>() {
+                override fun onComplete() {
+                    Log.d(ContentValues.TAG, "[onCompleted] ")
+                }
 
-                    override fun onError(t: Throwable) {
-                        Log.d(ContentValues.TAG, "[onError] ")
-                        t.printStackTrace()
-                    }
+                override fun onError(t: Throwable) {
+                    Log.d(ContentValues.TAG, "[onError] ")
+                    t.printStackTrace()
+                }
 
-                    override fun onNext(m: List<Currency>) {
-                        _currencies.value = m.sortedBy { CurrencyRes.valueOf(it.curAbbreviation).ordinal }
-                        isLoading.set(false)
-                        Log.d(ContentValues.TAG, "[onNext] $m")
-                    }
-                })
-        )
+                override fun onNext(m: List<Currency>) {
+                    _currencies.value =
+                        m.sortedBy { CurrencyRes.valueOf(it.curAbbreviation).ordinal }
+                    isLoading.set(false)
+                    Log.d(ContentValues.TAG, "[onNext] $m")
+                }
+            })
+            .putInCompositeDisposible(compositeDisposable)
     }
 
     override fun onCleared() {

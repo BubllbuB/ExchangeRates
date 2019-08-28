@@ -15,6 +15,8 @@ import com.codetroopers.betterpickers.calendardatepicker.MonthAdapter
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.button.MaterialButtonToggleGroup
 import com.jaredrummler.materialspinner.MaterialSpinner
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 import java.util.*
 
 
@@ -130,6 +132,8 @@ fun Currency.titleForNotification(): String {
         else -> App.instance.getString(R.string.notificationTitle, this.curNameEng)
     }
 }
+
+fun Disposable.putInCompositeDisposible(compositeDisposable: CompositeDisposable) = compositeDisposable.add(this)
 
 
 fun initWithTodayMaxDate(): CalendarDatePickerDialogFragment {

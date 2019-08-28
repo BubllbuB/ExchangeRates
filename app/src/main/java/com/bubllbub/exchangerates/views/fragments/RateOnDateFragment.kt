@@ -35,7 +35,7 @@ class RateOnDateFragment : BackDropFragment() {
     ): View? {
         binding =
             DataBindingUtil.inflate(inflater, R.layout.er_fragment_rate_on_date, container, false)
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
         binding.rateOnDateViewModel = currentViewModel
         binding.executePendingBindings()
 
