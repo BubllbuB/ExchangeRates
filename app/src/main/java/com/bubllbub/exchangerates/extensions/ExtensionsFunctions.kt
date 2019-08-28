@@ -21,7 +21,7 @@ import java.util.*
 
 
 fun TextView.setCurrencyLeftIcon(abbreviation: String) {
-    val icon = CurrencyRes.valueOf(abbreviation).getSymbolRes()
+    val icon = CurrencyRes.valueOf(abbreviation).symbolRes
     val iconDraw = resources.getDrawable(icon, null)
     iconDraw.setBounds(0, 0, 100, 100)
 
@@ -134,23 +134,3 @@ fun Currency.titleForNotification(): String {
 }
 
 fun Disposable.putInCompositeDisposible(compositeDisposable: CompositeDisposable) = compositeDisposable.add(this)
-
-
-fun initWithTodayMaxDate(): CalendarDatePickerDialogFragment {
-    val calendar = Calendar.getInstance()
-    val maxDate = MonthAdapter.CalendarDay(
-        calendar.get(Calendar.YEAR),
-        calendar.get(Calendar.MONTH),
-        calendar.get(Calendar.DAY_OF_MONTH)
-    )
-
-    return CalendarDatePickerDialogFragment()
-        .setFirstDayOfWeek(Calendar.MONDAY)
-        .setPreselectedDate(
-            calendar.get(Calendar.YEAR),
-            calendar.get(Calendar.MONTH),
-            calendar.get(Calendar.DAY_OF_MONTH)
-        )
-        .setDateRange(null, maxDate)
-        .setThemeCustom(R.style.Widget_ExRates_DatePicker)
-}

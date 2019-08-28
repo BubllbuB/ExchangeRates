@@ -29,7 +29,7 @@ class CurrencyApiData @Inject constructor(private val jSONApi: JSONNbrbAPI) : Da
                         .flatMap { rate ->
                             curr.date = rate.date
                             curr.curOfficialRate = rate.curOfficialRate
-                            curr.symbol = CurrencyRes.valueOf(curr.curAbbreviation).getSymbolRes()
+                            curr.symbol = CurrencyRes.valueOf(curr.curAbbreviation).symbolRes
                             Observable.just(curr)
                         }
                     requests.add(ratesAPI.toFlowable(BackpressureStrategy.LATEST))
@@ -62,7 +62,7 @@ class CurrencyApiData @Inject constructor(private val jSONApi: JSONNbrbAPI) : Da
                                         curr.date = rate.date
                                         curr.curOfficialRate = rate.curOfficialRate
                                         curr.symbol =
-                                            CurrencyRes.valueOf(curr.curAbbreviation).getSymbolRes()
+                                            CurrencyRes.valueOf(curr.curAbbreviation).symbolRes
                                         curr.isConverter = true
                                         curr.isFavorite = true
                                         curr.favoritePos = ind + 1
@@ -93,7 +93,7 @@ class CurrencyApiData @Inject constructor(private val jSONApi: JSONNbrbAPI) : Da
                             .flatMap {
                                 it.date = rateCurr.date
                                 it.curOfficialRate = rateCurr.curOfficialRate
-                                it.symbol = CurrencyRes.valueOf(it.curAbbreviation).getSymbolRes()
+                                it.symbol = CurrencyRes.valueOf(it.curAbbreviation).symbolRes
                                 Observable.just(it)
                             }
                     }

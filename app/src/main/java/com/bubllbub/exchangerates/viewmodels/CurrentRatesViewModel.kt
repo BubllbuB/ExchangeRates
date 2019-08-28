@@ -44,31 +44,33 @@ class CurrentRatesViewModel @Inject constructor() : ViewModel() {
     }
 
     fun getFavorites() {
-        currencyRepo.query()
-            .where(CUR_FAVORITE, CUR_QUERY_TRUE)
-            .findAll()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeWith(object : DisposableSubscriber<List<Currency>>() {
-                override fun onComplete() {
-                    Log.d(TAG, "[onCompleted] ")
-                }
+        if (_currencies.value.isNullOrEmpty()) {
+            currencyRepo.query()
+                .where(CUR_FAVORITE, CUR_QUERY_TRUE)
+                .findAll()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(object : DisposableSubscriber<List<Currency>>() {
+                    override fun onComplete() {
+                        Log.d(TAG, "[onCompleted] ")
+                    }
 
-                override fun onError(t: Throwable) {
-                    Log.d(TAG, "[onError] ")
-                    t.printStackTrace()
-                }
+                    override fun onError(t: Throwable) {
+                        Log.d(TAG, "[onError] ")
+                        t.printStackTrace()
+                    }
 
-                override fun onNext(t: List<Currency>) {
-                    _currencies.value = t.sortedBy { it.favoritePos }
-                    val dateFormat = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
-                    updateString.set(dateFormat.format(t[0].date))
-                    isLoading.set(false)
+                    override fun onNext(t: List<Currency>) {
+                        _currencies.value = t.sortedBy { it.favoritePos }
+                        val dateFormat = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
+                        updateString.set(dateFormat.format(t[0].date))
+                        isLoading.set(false)
 
-                    Log.d(TAG, "[onSuccess] $t")
-                }
-            })
-            .putInCompositeDisposible(compositeDisposable)
+                        Log.d(TAG, "[onSuccess] $t")
+                    }
+                })
+                .putInCompositeDisposible(compositeDisposable)
+        }
     }
 
     fun deleteFavCurrency(currency: Currency) {

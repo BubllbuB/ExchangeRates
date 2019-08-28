@@ -1,0 +1,12 @@
+ext {
+    //MVVM
+    lifecycle_version = "1.1.1"
+    //Retrofit
+    retrofit_version = "2.6.0"
+    //Room
+    room_version = "2.1.0"
+    //Dagger
+    dagger_version = "2.24"
+    //Work manager
+    workmanager_version = "2.2.0"
+}

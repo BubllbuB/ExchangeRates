@@ -5,6 +5,8 @@ import android.view.*
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bubllbub.exchangerates.R
@@ -12,9 +14,9 @@ import com.bubllbub.exchangerates.adapters.CurrencyRecyclerAdapter
 import com.bubllbub.exchangerates.databinding.ErFragmentCurrentRatesBinding
 import com.bubllbub.exchangerates.dialogs.AddCurrencyDialog
 import com.bubllbub.exchangerates.dialogs.TAG_FAVORITES
-import com.bubllbub.exchangerates.ui.widgets.SmartDividerItemDecoration
 import com.bubllbub.exchangerates.objects.Currency
 import com.bubllbub.exchangerates.ui.recyclerview.SwipeDeleteHelper
+import com.bubllbub.exchangerates.ui.widgets.SmartDividerItemDecoration
 import com.bubllbub.exchangerates.viewmodels.CurrentRatesViewModel
 import kotlinx.android.synthetic.main.er_fragment_current_rates.view.*
 import javax.inject.Inject
@@ -22,8 +24,11 @@ import javax.inject.Inject
 class CurrentRatesFragment : BackDropFragment() {
     private lateinit var binding: ErFragmentCurrentRatesBinding
 
-    @Inject
     lateinit var currentViewModel: CurrentRatesViewModel
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
     @Inject
     lateinit var adapter: CurrencyRecyclerAdapter
 
@@ -34,6 +39,8 @@ class CurrentRatesFragment : BackDropFragment() {
 
         binding =
             DataBindingUtil.inflate(inflater, R.layout.er_fragment_current_rates, container, false)
+        currentViewModel =
+            ViewModelProviders.of(this, viewModelFactory)[CurrentRatesViewModel::class.java]
         binding.lifecycleOwner = viewLifecycleOwner
         binding.currentRatesViewModel = currentViewModel
         binding.executePendingBindings()

@@ -14,7 +14,7 @@ import javax.inject.Singleton
 
 @Singleton
 @Component(
-    modules = [AndroidSupportInjectionModule::class, ActivityModule::class, FragmentModule::class, AppModule::class, RetrofitModule::class, RoomModule::class, RepositoryModule::class, AdaptersModule::class]
+    modules = [AndroidSupportInjectionModule::class, ActivityModule::class, FragmentModule::class, AppModule::class, ViewModelModule::class, RetrofitModule::class, RoomModule::class, RepositoryModule::class, AdaptersModule::class]
 )
 interface AppComponent : AndroidInjector<App> {
     fun inject(viewModel: CurrentRatesViewModel)

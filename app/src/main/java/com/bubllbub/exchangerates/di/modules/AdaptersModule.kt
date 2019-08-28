@@ -1,6 +1,5 @@
 package com.bubllbub.exchangerates.di.modules
 
-import com.bubllbub.exchangerates.adapters.ConverterRecyclerAdapter
 import com.bubllbub.exchangerates.adapters.CurrencyRecyclerAdapter
 import com.bubllbub.exchangerates.adapters.DialogRecyclerAdapter
 import com.bubllbub.exchangerates.adapters.IngotsRecyclerAdapter
@@ -15,11 +14,10 @@ class AdaptersModule {
     )
 
     @Provides
-    fun provideIngotsRecyclerAdapter(): IngotsRecyclerAdapter = IngotsRecyclerAdapter(mutableListOf())
+    fun provideIngotsRecyclerAdapter(): IngotsRecyclerAdapter =
+        IngotsRecyclerAdapter(mutableListOf())
 
     @Provides
-    fun provideConverterRecyclerAdapter(): ConverterRecyclerAdapter = ConverterRecyclerAdapter(mutableListOf())
-
-    @Provides
-    fun provideDialogRecyclerAdapter(): DialogRecyclerAdapter = DialogRecyclerAdapter(mutableListOf())
+    fun provideDialogRecyclerAdapter(): DialogRecyclerAdapter =
+        DialogRecyclerAdapter(mutableListOf())
 }

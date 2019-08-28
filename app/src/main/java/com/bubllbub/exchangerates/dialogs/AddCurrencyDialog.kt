@@ -8,12 +8,14 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bubllbub.exchangerates.R
 import com.bubllbub.exchangerates.adapters.DialogRecyclerAdapter
 import com.bubllbub.exchangerates.databinding.DialogAddCurrencyBinding
-import com.bubllbub.exchangerates.ui.widgets.SmartDividerItemDecoration
 import com.bubllbub.exchangerates.objects.Currency
+import com.bubllbub.exchangerates.ui.widgets.SmartDividerItemDecoration
 import com.bubllbub.exchangerates.viewmodels.DialogAddCurrencyViewModel
 import dagger.android.support.DaggerDialogFragment
 import javax.inject.Inject
@@ -23,8 +25,9 @@ const val TAG_CONVERT = "dialogAddConvert"
 
 class AddCurrencyDialog : DaggerDialogFragment() {
     private lateinit var binding: DialogAddCurrencyBinding
-    @Inject
     lateinit var dialogViewModel: DialogAddCurrencyViewModel
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
     @Inject
     lateinit var adapter: DialogRecyclerAdapter
 
@@ -39,6 +42,8 @@ class AddCurrencyDialog : DaggerDialogFragment() {
             null,
             false
         )
+        dialogViewModel =
+            ViewModelProviders.of(this, viewModelFactory)[DialogAddCurrencyViewModel::class.java]
         binding.dialogAddViewModel = dialogViewModel
         binding.executePendingBindings()
 

@@ -40,33 +40,35 @@ class DialogAddCurrencyViewModel @Inject constructor() : ViewModel() {
     }
 
     fun refresh(tag: String?) {
-        currencyRepo.query()
-            .where(
-                if (tag == TAG_FAVORITES) CUR_FAVORITE else CUR_CONVERTER,
-                CUR_QUERY_FALSE
-            )
-            .where(DIALOG_CUR, DIALOG_CUR)
-            .findAll()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeWith(object : DisposableSubscriber<List<Currency>>() {
-                override fun onComplete() {
-                    Log.d(TAG, "[onCompleted] ")
-                }
+        if (_currencies.value.isNullOrEmpty()) {
+            currencyRepo.query()
+                .where(
+                    if (tag == TAG_FAVORITES) CUR_FAVORITE else CUR_CONVERTER,
+                    CUR_QUERY_FALSE
+                )
+                .where(DIALOG_CUR, DIALOG_CUR)
+                .findAll()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(object : DisposableSubscriber<List<Currency>>() {
+                    override fun onComplete() {
+                        Log.d(TAG, "[onCompleted] ")
+                    }
 
-                override fun onError(t: Throwable) {
-                    Log.d(TAG, "[onError] ")
-                    t.printStackTrace()
-                }
+                    override fun onError(t: Throwable) {
+                        Log.d(TAG, "[onError] ")
+                        t.printStackTrace()
+                    }
 
-                override fun onNext(m: List<Currency>) {
-                    _currencies.value =
-                        m.sortedBy { CurrencyRes.valueOf(it.curAbbreviation).ordinal }
-                    isLoading.set(false)
-                    Log.d(TAG, "[onNext] $m")
-                }
-            })
-            .putInCompositeDisposible(compositeDisposable)
+                    override fun onNext(m: List<Currency>) {
+                        _currencies.value =
+                            m.sortedBy { CurrencyRes.valueOf(it.curAbbreviation).ordinal }
+                        isLoading.set(false)
+                        Log.d(TAG, "[onNext] $m")
+                    }
+                })
+                .putInCompositeDisposible(compositeDisposable)
+        }
     }
 
     fun addFavoriteCurrency(curr: Currency) {

@@ -5,6 +5,8 @@ import android.view.*
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bubllbub.exchangerates.R
@@ -12,19 +14,24 @@ import com.bubllbub.exchangerates.adapters.ConverterRecyclerAdapter
 import com.bubllbub.exchangerates.databinding.ErFragmentConverterBinding
 import com.bubllbub.exchangerates.dialogs.AddCurrencyDialog
 import com.bubllbub.exchangerates.dialogs.TAG_CONVERT
-import com.bubllbub.exchangerates.ui.widgets.SmartDividerItemDecoration
 import com.bubllbub.exchangerates.objects.Currency
 import com.bubllbub.exchangerates.ui.recyclerview.SwipeDeleteHelper
+import com.bubllbub.exchangerates.ui.widgets.SmartDividerItemDecoration
 import com.bubllbub.exchangerates.viewmodels.ConverterViewModel
 import kotlinx.android.synthetic.main.er_fragment_converter.view.*
 import javax.inject.Inject
 
+const val RECYCLER_POSITION = "recyclerLayoutPosition"
+const val RECYCLER_EDITTEXT_SELECTION_POSITION_START = "recyclerEdittextPositionStart"
+const val RECYCLER_EDITTEXT_SELECTION_POSITION_END = "recyclerEdittextPositionEnd"
+
 class ConverterFragment : BackDropFragment() {
     private lateinit var binding: ErFragmentConverterBinding
-    @Inject
+
     lateinit var converterViewModel: ConverterViewModel
+
     @Inject
-    lateinit var adapter: ConverterRecyclerAdapter
+    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -33,11 +40,20 @@ class ConverterFragment : BackDropFragment() {
 
         binding =
             DataBindingUtil.inflate(inflater, R.layout.er_fragment_converter, container, false)
+        converterViewModel =
+            ViewModelProviders.of(this, viewModelFactory)[ConverterViewModel::class.java]
         binding.lifecycleOwner = viewLifecycleOwner
         binding.converterViewModel = converterViewModel
         binding.executePendingBindings()
 
         binding.rvConverter.layoutManager = LinearLayoutManager(requireContext())
+        val adapter = ConverterRecyclerAdapter(
+            mutableListOf(),
+            object : ConverterRecyclerAdapter.OnConverterCurrencyCalcListener {
+                override fun recalculateAmounts(amount: Double, activeCurr: Currency) {
+                    converterViewModel.recalculateAmount(amount, activeCurr)
+                }
+            })
         adapter.setHasStableIds(true)
         binding.rvConverter.adapter = adapter
         binding.rvConverter.addItemDecoration(
@@ -73,14 +89,27 @@ class ConverterFragment : BackDropFragment() {
 
         converterViewModel.currencies.observe(this,
             Observer<List<Currency>> {
-                it?.let { adapter.replaceData(it) }
+                it?.let {
+                    adapter.replaceData(it)
+                }
             }
         )
-
 
         val view = binding.root
         setBackDrop(view.app_bar_converter, view.scroll_view_fragment_converter)
         return view
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        (binding.rvConverter.adapter as ConverterRecyclerAdapter).savedFocusToInstanceState(outState)
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        (binding.rvConverter.adapter as ConverterRecyclerAdapter).restoreFocusFromInstanceState(
+            savedInstanceState
+        )
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

@@ -24,6 +24,10 @@ import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
+const val THREE_MONTHS_PERIOD = 3
+const val SIX_MONTHS_PERIOD = 6
+const val TWELVE_MONTHS_PERIOD = 12
+const val NEGATIVE_FOR_CALENDAR = -1
 
 class ChartsViewModel @Inject constructor() : ViewModel() {
 
@@ -42,7 +46,7 @@ class ChartsViewModel @Inject constructor() : ViewModel() {
 
     var currentId = 145
     var currentAbbreviation = "USD"
-    var currentAmountMonths = 3
+    var currentAmountMonths = MutableLiveData<Int>()
 
     init {
         DaggerAppComponent.builder()
@@ -50,6 +54,8 @@ class ChartsViewModel @Inject constructor() : ViewModel() {
             .repositoryModule(RepositoryModule())
             .build()
             .inject(this)
+
+        currentAmountMonths.value = THREE_MONTHS_PERIOD
     }
 
     fun refresh() {
@@ -58,7 +64,9 @@ class ChartsViewModel @Inject constructor() : ViewModel() {
 
         val calendar = Calendar.getInstance()
         calendar.time = finishDate
-        calendar.add(Calendar.MONTH, currentAmountMonths)
+        currentAmountMonths.value?.let {
+            calendar.add(Calendar.MONTH, it * NEGATIVE_FOR_CALENDAR)
+        }
         startDate.time = calendar.timeInMillis
 
 
@@ -107,7 +115,6 @@ class ChartsViewModel @Inject constructor() : ViewModel() {
                 override fun onNext(m: List<Currency>) {
                     _currencies.value =
                         m.sortedBy { CurrencyRes.valueOf(it.curAbbreviation).ordinal }
-                    isLoading.set(false)
                     Log.d(ContentValues.TAG, "[onNext] $m")
                 }
             })

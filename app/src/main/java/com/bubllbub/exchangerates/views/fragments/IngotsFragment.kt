@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bubllbub.exchangerates.R
 import com.bubllbub.exchangerates.adapters.IngotsRecyclerAdapter
@@ -17,8 +19,9 @@ import javax.inject.Inject
 
 class IngotsFragment : BackDropFragment() {
     private lateinit var binding: ErFragmentIngotsBinding
-    @Inject
     lateinit var ingotViewModel: IngotsViewModel
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
     @Inject
     lateinit var adapter: IngotsRecyclerAdapter
 
@@ -26,6 +29,7 @@ class IngotsFragment : BackDropFragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.er_fragment_ingots, container, false)
+        ingotViewModel = ViewModelProviders.of(this, viewModelFactory)[IngotsViewModel::class.java]
         binding.lifecycleOwner = viewLifecycleOwner
         binding.ingotsViewModel = ingotViewModel
         binding.executePendingBindings()
@@ -34,7 +38,7 @@ class IngotsFragment : BackDropFragment() {
         binding.rvIngots.adapter = adapter
 
         ingotViewModel.ingots.observe(this,
-            Observer<List<Ingot>> { it?.let{ adapter.replaceData(it)} })
+            Observer<List<Ingot>> { it?.let { adapter.replaceData(it) } })
 
 
         val view = binding.root

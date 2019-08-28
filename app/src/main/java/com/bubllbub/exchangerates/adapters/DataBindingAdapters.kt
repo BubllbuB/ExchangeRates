@@ -130,6 +130,7 @@ fun setLinesData(chart: LineChatGradient, data: List<Rate>?) {
     chart.setExtraOffsets(0f, 0f, 20f, 12f)
     chart.legend.isEnabled = false
     chart.description.isEnabled = false
+    chart.setScaleEnabled(false)
     if (data.size < 14) {
         chart.animateX(400, Easing.EaseInOutBack)
     } else {

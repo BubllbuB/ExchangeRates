@@ -2,16 +2,8 @@ package com.bubllbub.exchangerates.enums
 
 import com.bubllbub.exchangerates.R
 
-enum class IngotRes {
-    Gold {
-        override fun getSymbolRes(): Int = R.mipmap.ic_ingot_gold
-    },
-    Silver {
-        override fun getSymbolRes(): Int = R.mipmap.ic_ingot_silver
-    },
-    Platinum {
-        override fun getSymbolRes(): Int = R.mipmap.ic_ingot_platinum
-    };
-
-    abstract fun getSymbolRes(): Int
+enum class IngotRes(val symbolRes: Int) {
+    Gold(R.mipmap.ic_ingot_gold),
+    Silver(R.mipmap.ic_ingot_silver),
+    Platinum(R.mipmap.ic_ingot_platinum);
 }

@@ -37,26 +37,28 @@ class IngotsViewModel @Inject constructor() : ViewModel() {
     }
 
     fun refresh() {
-        ingotRepo.getAll()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeWith(object : DisposableSubscriber<List<Ingot>>() {
-                override fun onComplete() {
-                    Log.d(ContentValues.TAG, "[onCompleted] ")
-                }
+        if (_ingots.value.isNullOrEmpty()) {
+            ingotRepo.getAll()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(object : DisposableSubscriber<List<Ingot>>() {
+                    override fun onComplete() {
+                        Log.d(ContentValues.TAG, "[onCompleted] ")
+                    }
 
-                override fun onError(t: Throwable) {
-                    Log.d(ContentValues.TAG, "[onError] ")
-                    t.printStackTrace()
-                }
+                    override fun onError(t: Throwable) {
+                        Log.d(ContentValues.TAG, "[onError] ")
+                        t.printStackTrace()
+                    }
 
-                override fun onNext(m: List<Ingot>) {
-                    _ingots.value = m
-                    isLoading.set(false)
-                    Log.d(ContentValues.TAG, "[onNext] $m")
-                }
-            })
-            .putInCompositeDisposible(compositeDisposable)
+                    override fun onNext(m: List<Ingot>) {
+                        _ingots.value = m
+                        isLoading.set(false)
+                        Log.d(ContentValues.TAG, "[onNext] $m")
+                    }
+                })
+                .putInCompositeDisposible(compositeDisposable)
+        }
     }
 
     override fun onCleared() {

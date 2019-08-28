@@ -35,7 +35,7 @@ class IngotApiData @Inject constructor(private val jSONApi: JSONNbrbAPI) : DataS
                                 it.ingotName = metalElem.ingotName
                                 it.ingotNameBel = metalElem.ingotNameBel
                                 it.ingotNameEng = metalElem.ingotNameEng
-                                it.symbol = IngotRes.valueOf(it.ingotNameEng).getSymbolRes()
+                                it.symbol = IngotRes.valueOf(it.ingotNameEng).symbolRes
                                 it
                             }
 
@@ -45,7 +45,7 @@ class IngotApiData @Inject constructor(private val jSONApi: JSONNbrbAPI) : DataS
                         it.ingotName = metalElem.ingotName
                         it.ingotNameBel = metalElem.ingotNameBel
                         it.ingotNameEng = metalElem.ingotNameEng
-                        it.symbol = IngotRes.valueOf(it.ingotNameEng).getSymbolRes()
+                        it.symbol = IngotRes.valueOf(it.ingotNameEng).symbolRes
                         it.rates = ingotRates
 
                         expandableIngots.add(it)

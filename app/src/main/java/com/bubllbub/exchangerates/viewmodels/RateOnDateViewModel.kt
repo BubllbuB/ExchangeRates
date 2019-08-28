@@ -35,6 +35,7 @@ class RateOnDateViewModel @Inject constructor() : ViewModel() {
         get() = _currencies
     var date = ObservableField(DateTime().withTimeAtStartOfDay())
     private val compositeDisposable = CompositeDisposable()
+    var currentAbbreviation = "USD"
 
     @field:Inject
     lateinit var currencyRepo: Repo<Currency>
@@ -47,11 +48,11 @@ class RateOnDateViewModel @Inject constructor() : ViewModel() {
             .inject(this)
     }
 
-    fun refresh(currencyAbbreviation: String) {
+    fun refresh() {
         val dateFormat = DateTimeFormat.forPattern("yyyy-MM-dd")
 
         currencyRepo.query()
-            .where(CUR_ABBREVIATION, currencyAbbreviation)
+            .where(CUR_ABBREVIATION, currentAbbreviation)
             .where(CUR_DATE, dateFormat.print(date.get()))
             .where(DATE_IN_MILLI, date.get()!!.millis.toString())
             .findOne()
